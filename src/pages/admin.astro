@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import csv from "../data/prerequisites.csv?raw";
+import { EDGE_COUNT, topics } from "../lib/topics";
+
+const rowCount = csv.trim().split(/\r?\n/).length - 1;
+---
+
+<BaseLayout title="Path editor · SELENE" description="Edit SELENE prerequisite paths locally and export the CSV.">
+  <section class="page-head">
+    <h1>Edit the prerequisite paths</h1>
+    <p class="lead">
+      This editor is deliberately offline. Nothing is saved, nothing is sent, and no account exists — you edit the CSV
+      here, download it, and commit the file to publish the change.
+    </p>
+  </section>
+
+  <div class="readout">
+    <div><b>{rowCount}</b><span>rows in the file</span></div>
+    <div><b>{EDGE_COUNT}</b><span>links in use</span></div>
+    <div><b>{topics.length}</b><span>topics available as endpoints</span></div>
+  </div>
+
+  <div class="editor">
+    <div>
+      <label class="rule-label" for="csv">prerequisites.csv</label>
+      <p class="field-hint" id="csv-hint">
+        One directed link per line: <code>source,target,relationship</code>. The source has to be finished before the
+        target. Use topic IDs exactly as they appear in <code>src/data/topics.csv</code>. Long lines scroll sideways
+        rather than wrapping, so one record always stays one line.
+      </p>
+      <textarea id="csv" rows="10" wrap="off" spellcheck="false" aria-describedby="csv-hint">{csv}</textarea>
+      <div class="actions">
+        <button class="button-primary" id="download" type="button">Download prerequisites.csv</button>
+        <p class="editor-status" id="editor-status" role="status"></p>
+      </div>
+    </div>
+
+    <aside class="editor-notes" aria-labelledby="workflow-heading">
+      <p class="rule-label" id="workflow-heading">The round trip</p>
+      <ol>
+        <li>Add or remove lines above. Only the textarea changes; the published map is untouched.</li>
+        <li>Download the file. It replaces <code>src/data/prerequisites.csv</code> in the repository.</li>
+        <li>Commit it. Topics and every dependency view read from that file on the next build.</li>
+      </ol>
+      <p class="field-hint">
+        A link only appears in the diagrams once the topic's <code>prerequisites</code> column in
+        <code>topics.csv</code> agrees with it, which is why most of the corpus still shows no path.
+      </p>
+    </aside>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const field = document.querySelector("#csv");
+      const status = document.querySelector("#editor-status");
+
+      document.querySelector("#download")?.addEventListener("click", () => {
+        const text = field.value;
+        const rows = text.trim().split(/\r?\n/).length - 1;
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(new Blob([text], { type: "text/csv" }));
+        link.download = "prerequisites.csv";
+        link.click();
+        URL.revokeObjectURL(link.href);
+        status.textContent = `Exported ${rows} link${rows === 1 ? "" : "s"}.`;
+      });
+    })();
+  </script>
+</BaseLayout>

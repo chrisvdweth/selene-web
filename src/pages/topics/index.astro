@@ -1,0 +1,149 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { SearchIcon } from "../../components/Icon";
+import { CATEGORIES, categoryKey, topics, unlockedBy } from "../../lib/topics";
+
+const groups = CATEGORIES.map((category) => ({
+  category,
+  key: categoryKey(category),
+  items: topics.filter((t) => t.category === category).sort((a, b) => a.title.localeCompare(b.title)),
+}));
+
+/* Levels in teaching order, not alphabetical. */
+const LEVELS = ["Beginner", "Intermediate", "Advanced"].filter((level) => topics.some((t) => t.difficulty === level));
+
+/* A notebook is "on a path" if a prerequisite links it to anything, either way. */
+const mapped = (id: string) => (topics.find((t) => t.id === id)?.prerequisites.length ?? 0) > 0 || unlockedBy(id).length > 0;
+
+/* `all` is the unfiltered option's wording, which doubles as the closed
+   dropdown's label — so it has to name the facet, not just say "All". */
+const filters: { name: string; label: string; all: string; options: string[] }[] = [
+  { name: "category", label: "Limit to a category", all: "All categories", options: CATEGORIES },
+  { name: "level", label: "Limit to a level", all: "All levels", options: LEVELS },
+  { name: "path", label: "Limit by path", all: "Mapped and unmapped", options: ["On a path", "Not yet mapped"] },
+];
+---
+
+<BaseLayout title="Notebooks · SELENE" description="Every indexed SELENE notebook, grouped by category.">
+  <section class="page-head">
+    <h1>Every notebook on the shelf</h1>
+  </section>
+
+  <div class="index-bar">
+    <label class="field">
+      <SearchIcon />
+      <span class="sr-only">Search notebooks by name, subject or level</span>
+      <input
+        type="search"
+        id="index-filter"
+        placeholder="Search notebooks"
+        autocomplete="off"
+        aria-describedby="index-count"
+      />
+    </label>
+    <p class="data" id="index-count" role="status">{topics.length} of {topics.length} shown</p>
+    {
+      filters.map((filter) => (
+        <label class="select">
+          <span class="sr-only">{filter.label}</span>
+          <select data-filter={filter.name}>
+            <option value="">{filter.all}</option>
+            {filter.options.map((option) => (
+              <option value={option}>{option}</option>
+            ))}
+          </select>
+        </label>
+      ))
+    }
+  </div>
+
+  {
+    groups.map((group) => (
+      <section class="index-section" data-group>
+        <h2>
+          <span class={`cat-swatch cat-${group.key}`} aria-hidden="true"></span>
+          {group.category}
+          <span class="data" data-group-count>
+            {group.items.length}
+          </span>
+        </h2>
+        <ul class="index-table">
+          {group.items.map((topic) => (
+            <li
+              data-row
+              data-search={`${topic.title} ${topic.subtopic} ${topic.difficulty} ${topic.notebook}`.toLowerCase()}
+              data-category={topic.category}
+              data-level={topic.difficulty}
+              data-path={mapped(topic.id) ? "On a path" : "Not yet mapped"}
+            >
+              <a class="index-row" href={`/topics/${topic.id}`}>
+                <span>
+                  <strong>{topic.title}</strong>
+                  <span class="row-sub">{topic.subtopic}</span>
+                </span>
+                <span class="row-sub">{topic.difficulty}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+
+  <section class="index-empty" id="index-empty" hidden>
+    <h2>No notebook matches that</h2>
+    <p>Try a shorter word, or widen the filters above.</p>
+    <div class="actions">
+      <button class="button-ghost" id="index-reset" type="button">Clear search and filters</button>
+    </div>
+  </section>
+
+  <script is:inline>
+    (() => {
+      const input = document.querySelector("#index-filter");
+      const count = document.querySelector("#index-count");
+      const empty = document.querySelector("#index-empty");
+      const reset = document.querySelector("#index-reset");
+      const sections = [...document.querySelectorAll("[data-group]")];
+      const rows = [...document.querySelectorAll("[data-row]")];
+      const selects = [...document.querySelectorAll("select[data-filter]")];
+      const total = rows.length;
+
+      const apply = () => {
+        const needle = input.value.trim().toLowerCase();
+        let shown = 0;
+
+        for (const row of rows) {
+          const hit =
+            (!needle || row.dataset.search.includes(needle)) &&
+            /* An empty value is the facet's "all" option. */
+            selects.every((select) => !select.value || row.dataset[select.dataset.filter] === select.value);
+          row.hidden = !hit;
+          if (hit) shown += 1;
+        }
+
+        for (const section of sections) {
+          const visible = [...section.querySelectorAll("[data-row]")].filter((row) => !row.hidden).length;
+          section.hidden = visible === 0;
+          const label = section.querySelector("[data-group-count]");
+          if (label) label.textContent = String(visible);
+        }
+
+        count.textContent = `${shown} of ${total} shown`;
+        empty.hidden = shown !== 0;
+      };
+
+      for (const select of selects) select.addEventListener("change", apply);
+
+      reset?.addEventListener("click", () => {
+        input.value = "";
+        for (const select of selects) select.value = "";
+        apply();
+        input.focus();
+      });
+
+      input.addEventListener("input", apply);
+      apply();
+    })();
+  </script>
+</BaseLayout>

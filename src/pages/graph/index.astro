@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import DependencyDiagram, { type Tier } from "../../components/DependencyDiagram";
+import MapGraph from "../../components/MapGraph";
+import { CATEGORIES, topics, unlockedBy, type Topic } from "../../lib/topics";
+
+/* The whole map at once: every notebook that a prerequisite touches, laid out
+   in levels by the longest path that reaches it, so a level is a set of
+   notebooks that can be started once the level above is done. Everything
+   the map does not reach yet is shown underneath by category, so the page
+   still accounts for all of the corpus. */
+
+const isMapped = (t: Topic) => t.prerequisites.length > 0 || unlockedBy(t.id).length > 0;
+const mapped = topics.filter(isMapped);
+const unmapped = topics.filter((t) => !isMapped(t));
+
+/* One framed group per category, no wires: these are shelved by type, not
+   ordered by anything. */
+const unmappedTiers: Tier[] = CATEGORIES.map((category) => ({
+  label: category,
+  items: unmapped.filter((t) => t.category === category).sort((a, b) => a.title.localeCompare(b.title)),
+  kind: "nearby" as const,
+})).filter((tier) => tier.items.length > 0);
+---
+
+<BaseLayout
+  title="Learning paths · SELENE"
+  description="Every prerequisite link in SELENE on one map, with the notebooks not yet on a path listed beneath it."
+>
+  <section class="page-head">
+    <h1>The whole map</h1>
+  </section>
+
+  <section class="map-region" aria-labelledby="map-heading">
+    <p class="rule-label" id="map-heading">
+      Notebooks in learning paths
+      <span class="data">{mapped.length}</span>
+    </p>
+    {
+      mapped.length > 0 ? (
+        <MapGraph topics={mapped} client:load />
+      ) : (
+        <div class="diagram-note">
+          <h3>No path is mapped yet</h3>
+          <p>Prerequisite links are written by hand. Once the first one lands, the map starts here.</p>
+        </div>
+      )
+    }
+  </section>
+
+  <section class="map-region" aria-labelledby="unmapped-heading">
+    <p class="rule-label" id="unmapped-heading">
+      Not yet on the map
+      <span class="data">{unmapped.length}</span>
+    </p>
+    <div class="actions map-actions">
+      <a class="button-ghost" href="/admin">Propose a path</a>
+    </div>
+
+    {
+      unmapped.length > 0 && (
+        <DependencyDiagram
+          tiers={unmappedTiers}
+          idPrefix="unmapped"
+          caption="Notebooks not yet linked to the map, grouped by category"
+          grouped
+          client:load
+        />
+      )
+    }
+  </section>
+</BaseLayout>

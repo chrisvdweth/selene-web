@@ -1,0 +1,822 @@
+[
+  {
+    "id": "adagrad-optimizer",
+    "title": "Adagrad Optimizer",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Intermediate",
+    "intro": "The AdaGrad Optimizer Training modern machine learning models often comes down to solving large-scale optimization problems, where we aim to minimize a loss function with respect to many parameters. The most fundamental…",
+    "notebook": "adagrad_optimizer.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "adam-optimizer",
+    "title": "Adam Optimizer",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Intermediate",
+    "intro": "The Adam Optimizer Training modern neural networks requires optimization algorithms that can efficiently navigate high-dimensional, noisy, and often ill-conditioned loss landscapes. While basic gradient descent provides…",
+    "notebook": "adam_optimizer.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "ann-from-scratch-numpy-only",
+    "title": "Ann From Scratch Numpy Only",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Advanced",
+    "intro": "Implementing an ANN from Scratch (NumPy only) This notebook walks through the implementation of a simple artificial neural network (ANN) for handwritten digit classification on the MNIST dataset, built entirely from…",
+    "notebook": "ann_from_scratch_numpy_only.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "apriori-algorithm-arm",
+    "title": "Apriori Algorithm Arm",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "Apriori Algorithm (Association Rule Mining) Association Rule Mining (ARM) is a fundamental data mining technique for discovering relationships among items that frequently occur together in transactional data. One of the…",
+    "notebook": "apriori_algorithm_arm.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "artificial-neural-networks-basics",
+    "title": "Artificial Neural Networks Basics",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Beginner",
+    "intro": "Artificial Neural Networks (Basic Architecture) Artificial Neural Networks (ANNs) are a key technology in Artificial Intelligence (AI) inspired by the way the human brain works. Just like the brain uses neurons to…",
+    "notebook": "artificial_neural_networks_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "association-rule-mining-overview",
+    "title": "Association Rule Mining Overview",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Association Rule Mining Association Rule Mining (ARM) is a fundamental data mining technique for discovering meaningful relationships, correlations, and co-occurrence patterns within large datasets. Given a collection…",
+    "notebook": "association_rule_mining_overview.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "attention-mha-basics",
+    "title": "Attention Mha Basics",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Beginner",
+    "intro": "Attention & Multi-Head Attention In the Transformer architecture, the attention mechanism is the core component that enables the model to process sequences without relying on recurrence or convolution. Self-attention…",
+    "notebook": "attention_mha_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "backpropagation-basic-examples",
+    "title": "Backpropagation Basic Examples",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Intermediate",
+    "intro": "Backpropagation Backpropagation, short for \"backward propagation of errors,\" is a foundational algorithm in the field of machine learning and artificial intelligence. At its core, it is a method used to train artificial…",
+    "notebook": "backpropagation_basic_examples.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "backpropagation-generalization",
+    "title": "Backpropagation Generalization",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Intermediate",
+    "intro": "Backpropagation (Generalization) Backpropagation is a cornerstone algorithm in training neural networks, enabling them to learn from data by adjusting their parameters based on the gradient of a loss function. While the…",
+    "notebook": "backpropagation_generalization.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "backpropagation-through-time-basics",
+    "title": "Backpropagation Through Time Basics",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Beginner",
+    "intro": "Backpropagation Through Time (BPTT) Backpropagation Through Time (BPTT) is the fundamental algorithm used to train Recurrent Neural Networks (RNNs) on sequential data. While many neural network architectures process…",
+    "notebook": "backpropagation_through_time_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "batch-processing-sequence-tasks",
+    "title": "Batch Processing Sequence Tasks",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "Working with Batches for Sequence Tasks When working with sequential data in neural networks, such as recurrent neural networks (RNNs) and convolutional neural networks (CNNs), one major problem arises when processing…",
+    "notebook": "batch_processing_sequence_tasks.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "bias-variance-ml-basics",
+    "title": "Bias Variance Ml Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Bias & Variance (Machine Learning) In machine learning, understanding the concepts of model bias and model variance is essential for building models that generalize well to new, unseen data. These two sources of error…",
+    "notebook": "bias_variance_ml_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "bias-variance-ml-decomposition",
+    "title": "Bias Variance Ml Decomposition",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "Bias-Variance Decomposition The bias-variance decomposition is a fundamental concept in machine learning that helps explain the sources of error in a predictive model. When building a model, the goal is not only to…",
+    "notebook": "bias_variance_ml_decomposition.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "boosting-machine-learning-overview",
+    "title": "Boosting Machine Learning Overview",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Boosting in Machine Learning — Overview Boosting is one of the most influential and successful ensemble learning paradigms in modern machine learning. The central idea is to combine a sequence of relatively simple…",
+    "notebook": "boosting_machine_learning_overview.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "byte-pair-encoding-tokenization",
+    "title": "Byte Pair Encoding Tokenization",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "Byte-Pair Encoding Tokenization Byte-Pair Encoding (BPE) is a widely used method for subword tokenization in natural language processing (NLP). Subword tokenization refers to breaking text into smaller units, such as…",
+    "notebook": "byte_pair_encoding_tokenization.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "clustering-agnes-basics",
+    "title": "Clustering Agnes Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "AGNES (Agglomerative Nesting) Clustering is one of the most fundamental tasks in unsupervised machine learning, aiming to discover meaningful groups of similar data points without relying on predefined class labels…",
+    "notebook": "clustering_agnes_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "clustering-dbscan-basics",
+    "title": "Clustering Dbscan Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "DBSCAN Density-Based Spatial Clustering of Applications with Noise (DBSCAN) is one of the most influential and widely used clustering algorithms in unsupervised machine learning. Unlike partitioning algorithms such as…",
+    "notebook": "clustering_dbscan_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "clustering-kmeans-basics",
+    "title": "Clustering Kmeans Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "K-Means K-Means is one of the most widely used clustering algorithms in machine learning and data analysis. It is designed to find structure in unlabeled data by grouping similar data points together into clusters…",
+    "notebook": "clustering_kmeans_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "curse-of-dimensionality",
+    "title": "Curse Of Dimensionality",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "Curse of Dimensionality The curse of dimensionality refers to a set of challenges that arise when working with data in high-dimensional spaces. As the number of dimensions (features or variables) increases, the volume…",
+    "notebook": "curse_of_dimensionality.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "data-normalization-overview",
+    "title": "Data Normalization Overview",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Data Normalization — Motivation & Overview Data normalization is one of the most fundamental but also often underestimated steps in data analysis and machine learning. In theory, many algorithms are presented as clean…",
+    "notebook": "data_normalization_overview.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "decision-trees-basics",
+    "title": "Decision Trees Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Decision Trees Decision Trees are one of the most intuitive and widely used machine learning algorithms for both classification and regression tasks. At their core, decision trees represent a flowchart-like structure…",
+    "notebook": "decision_trees_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "decision-trees-cart",
+    "title": "Decision Trees Cart",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "Decision Trees — CART (Classification and Regression Trees) The Classification and Regression Trees (CART) algorithm was introduced by Breiman, Friedman, Olshen, and Stone in 1984, and it is one of the most influential…",
+    "notebook": "decision_trees_cart.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "decision-trees-from-scratch",
+    "title": "Decision Trees From Scratch",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Advanced",
+    "intro": "Decision Trees — Implementation from Scratch Decision Trees are among the most intuitive and widely used machine learning models. Their appeal comes from the fact that they mimic a sequence of human-like decisions: at…",
+    "notebook": "decision_trees_from_scratch.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "dimensionality-reduction-techniques-overview",
+    "title": "Dimensionality Reduction Techniques Overview",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Dimensionality Reduction Techniques — An Overview Modern datasets often contain a very large number of features, ranging from hundreds of variables in tabular datasets to millions of pixels in images or tokens in text…",
+    "notebook": "dimensionality_reduction_techniques_overview.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "gradient-descent-basics",
+    "title": "Gradient Descent Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Gradient Descent — The (Very) Basics Gradient Descent is an iterative optimization algorithm used to find the minimum of a function by repeatedly taking steps in the direction of the steepest decrease of that function…",
+    "notebook": "gradient_descent_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "gradient-descent-momentum",
+    "title": "Gradient Descent Momentum",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "Gradient Descent with Momentum Gradient Descent is the foundational optimization algorithm used to train neural networks. It works by iteratively updating model parameters in the direction of the negative gradient of…",
+    "notebook": "gradient_descent_momentum.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "handwritten-digit-recognition-ann",
+    "title": "Handwritten Digit Recognition Ann",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "Handwritten Digit Recognition with Artificial Neural Networks (ANNs) Handwritten digit recognition is a classic task in machine learning where the goal is to develop algorithms that can accurately interpret and classify…",
+    "notebook": "handwritten_digit_recognition_ann.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "knowledge-distillation-logit-distillation",
+    "title": "Knowledge Distillation Logit Distillation",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "Logit Distillation Logit distillation is a form of transfer learning in which a smaller or simpler student model learns to imitate a larger and more capable teacher model by training directly on the teacher's logits…",
+    "notebook": "knowledge_distillation_logit_distillation.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "language-models-basics",
+    "title": "Language Models Basics",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Beginner",
+    "intro": "Language Models In natural language processing (NLP), a language model is a core concept that enables machines to understand, generate, and predict human language. A language model assigns probabilities to sequences of…",
+    "notebook": "language_models_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "linear-discriminant-analysis-basics",
+    "title": "Linear Discriminant Analysis Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Linear Discriminant Analysis (LDA) Linear Discriminant Analysis (LDA) is a classical machine learning technique that serves two closely related purposes: dimensionality reduction and classification. Originally developed…",
+    "notebook": "linear_discriminant_analysis_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "linear-regression-assumptions-caveats",
+    "title": "Linear Regression Assumptions Caveats",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "Linear Regression — Assumptions & Caveats From a purely algorithmic point of view, a Linear Regression can be trained on any data representing a supervised regression task. However, the introductory notebook also…",
+    "notebook": "linear_regression_assumptions_caveats.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "linear-regression-basics",
+    "title": "Linear Regression Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Linear Regression Linear Regression is a fundamental statistical and machine learning model used to understand and predict relationships between variables. At its core, Linear Regression models the relationship between…",
+    "notebook": "linear_regression_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "linear-regression-math",
+    "title": "Linear Regression Math",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "The Math Behind Linear Regression As a quick recap, Linear Regression is a fundamental statistical and machine learning model used to understand and predict relationships between variables. It models the relationship…",
+    "notebook": "linear_regression_math.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "llm-building-gptstyle-llm-from-scratch",
+    "title": "Llm Building Gptstyle Llm From Scratch",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Advanced",
+    "intro": "Building a GPT-Style LLM from Scratch This notebook demonstrates how to train a GPT-style language model from scratch using the Transformer implementation provided by PyTorch. The model is trained on a toy dataset of…",
+    "notebook": "llm_building_gptstyle_llm_from_scratch.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "llm-local-inference-pretrained-models",
+    "title": "Llm Local Inference Pretrained Models",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "Using Pretrained LLMs Locally — A Starter Guide Pretrained large language models (LLMs) are no longer confined to cloud-based APIs or powerful research clusters. With advances in model compression, quantization, and…",
+    "notebook": "llm_local_inference_pretrained_models.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "llm-model-fine-tuning-overview",
+    "title": "Llm Model Fine Tuning Overview",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Beginner",
+    "intro": "Model Fine-Tuning for LLMs — An Overview Fine-tuning has become a cornerstone of modern machine learning and natural language processing (NLP), particularly in the era of large-scale pretrained models. It is a form of…",
+    "notebook": "llm_model_fine_tuning_overview.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "llm-model-finetuning-lora-hf-kidsqa",
+    "title": "Llm Model Finetuning Lora Hf Kidsqa",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "LoRA Fine-Tuning — A Basic Example Fine-tuning large language models (LLMs) has become a key technique for adapting powerful pretrained models to specific tasks and domains. While models like GPT, LLaMA, and TinyLlama…",
+    "notebook": "llm_model_finetuning_lora_hf_kidsqa.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "llm-openai-api-basics",
+    "title": "Llm Openai Api Basics",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Beginner",
+    "intro": "Working with the OpenAI API — An Introduction The main benefit of accessing LLMs through provided APIs is that developers and organizations can leverage powerful, state-of-the-art models without needing to train or…",
+    "notebook": "llm_openai_api_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "llm-resource-efficiency-overview",
+    "title": "Llm Resource Efficiency Overview",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Beginner",
+    "intro": "Resource-Efficient LLMs — An Overview The rise of large language models (LLMs) has shown their enormous potential in natural language understanding, reasoning, and generation. However, this progress has come with…",
+    "notebook": "llm_resource_efficiency_overview.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "llm-training-data-preparation-basics",
+    "title": "Llm Training Data Preparation Basics",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Beginner",
+    "intro": "Data Preparation for Training LLMs — An Overview Data preparation is a foundational step in training large language models (LLMs), playing a critical role in determining the quality, safety, and performance of the…",
+    "notebook": "llm_training_data_preparation_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "llm-training-data-preparation-batching",
+    "title": "Llm Training Data Preparation Batching",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "Data Batching for Training LLMs Training Large Language Models (LLMs) involves processing vast amounts of textual data, often structured as continuous streams of documents. The way this data is segmented and organized…",
+    "notebook": "llm_training_data_preparation_batching.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "logistic-regression-basics",
+    "title": "Logistic Regression Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Logistic Regression — Basics Logistic Regression is one of the foundational techniques in the field of machine learning and statistics, commonly used for solving classification problems. Unlike linear regression, which…",
+    "notebook": "logistic_regression_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "logistic-regression-math",
+    "title": "Logistic Regression Math",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "Logistic Regression: The Math Understanding the mathematics behind a logistic regression model is crucial because it provides insight into how the model makes predictions, how it optimizes its parameters, and how…",
+    "notebook": "logistic_regression_math.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "machine-translation-transformers",
+    "title": "Machine Translation Transformers",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "Machine Translation with Transformers In this notebook, we will build and train a machine translation model using the Transformer architecture entirely from scratch, using only PyTorch and Python's standard libraries…",
+    "notebook": "machine_translation_transformers.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "masking-sequence-models",
+    "title": "Masking Sequence Models",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "Masking in Sequence Models Masking is a vital technique in sequence models like Recurrent Neural Networks (RNNs) and Transformers, where the input data often comes in the form of ordered sequences such as text, audio…",
+    "notebook": "masking_sequence_models.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "mixture-of-experts-basics",
+    "title": "Mixture Of Experts Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Mixture of Experts (MoE) In deep learning, the Mixture of Experts (MoE) model is a powerful architectural technique that enhances model efficiency by dynamically selecting specialized sub-networks — or \"experts\" — for…",
+    "notebook": "mixture_of_experts_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "mlp-language-model",
+    "title": "Mlp Language Model",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "MLP-based Language Models This notebook introduces a simple multilayer perceptron (MLP) as a first step toward understanding neural language models. Before diving into complex architectures, it is useful to see how far…",
+    "notebook": "mlp_language_model.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "multinomial-naive-bayes-basics",
+    "title": "Multinomial Naive Bayes Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Multinomial Naive Bayes (Basics) Multinomial Naive Bayes (MNB) is a specialized variant of the Naive Bayes algorithm, primarily designed for classification tasks involving discrete data, such as text and document…",
+    "notebook": "multinomial_naive_bayes_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "ngram-language-models",
+    "title": "Ngram Language Models",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "N-Gram Language Models Language models are at the heart of many natural language processing (NLP) applications, from machine translation and speech recognition to modern conversational AI systems. Before the rise of…",
+    "notebook": "ngram_language_models.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "nn-activation-functions-basics",
+    "title": "Nn Activation Functions Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Activation Functions Activation functions are a central building block of neural networks, yet their role is often easier to appreciate through motivation than through formal definitions alone. The key idea behind…",
+    "notebook": "nn_activation_functions_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "nn-dropout",
+    "title": "Nn Dropout",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Intermediate",
+    "intro": "Dropout As neural networks grow larger and more expressive, they become increasingly prone to overfitting: memorizing patterns in the training data rather than learning representations that generalize well to unseen…",
+    "notebook": "nn_dropout.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "nn-layer-normalization",
+    "title": "Nn Layer Normalization",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "Layer Normalization Training deep neural networks is often challenging because the distribution of activations inside the network can change throughout training. As parameters are updated, the inputs to intermediate…",
+    "notebook": "nn_layer_normalization.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "nn-linear-layer",
+    "title": "Nn Linear Layer",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "The Linear Layer The linear layer, often referred to as a fully connected or affine layer, is one of the most fundamental components in neural networks. At its core, a linear layer applies a simple mathematical…",
+    "notebook": "nn_linear_layer.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "nn-residual-connections",
+    "title": "Nn Residual Connections",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "Residual Connections Deep neural networks have achieved remarkable success across a wide range of tasks, including computer vision, natural language processing, and speech recognition. However, as neural networks become…",
+    "notebook": "nn_residual_connections.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "nn-softmax",
+    "title": "Nn Softmax",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "The Softmax Function The softmax function is a fundamental building block in modern neural networks, particularly in models designed for multi-class classification. Given a vector of real-valued scores (often called…",
+    "notebook": "nn_softmax.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "numpy-basic-tutorial",
+    "title": "Numpy Basic Tutorial",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "NumPy — Basic Tutorial This notebook provides a basic tutorial on NumPy, one of the most essential libraries in the Python data science and machine learning ecosystem. NumPy (short for Numerical Python) provides…",
+    "notebook": "numpy_basic_tutorial.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "part-of-speech-tagging-basics",
+    "title": "Part Of Speech Tagging Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Part-of-Speech (POS) Tagging (Basics) Introduction Part-of-Speech (POS) Tags A part-of-speech (POS) tag is a label assigned to a word in a sentence to indicate its grammatical category and syntactic function. It…",
+    "notebook": "part_of_speech_tagging_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "porter-stemmer",
+    "title": "Porter Stemmer",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "Porter Stemmer The Porter Stemmer is a popular algorithm used in natural language processing (NLP) and information retrieval to reduce words to their base or root form. It was developed by Martin Porter in 1980 and is…",
+    "notebook": "porter_stemmer.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "positional-encodings-original-transformer",
+    "title": "Positional Encodings Original Transformer",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "Sinusoidal Positional Encodings (Original Transformer) The Transformer architecture, introduced in the original Transformer paper , requires positional encodings because it lacks the sequential structure inherent to…",
+    "notebook": "positional_encodings_original_transformer.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "positional-encodings-overview",
+    "title": "Positional Encodings Overview",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Beginner",
+    "intro": "Positional Encodings — Overview Positional encodings (also positional embeddings) are a crucial component of the Transformer architecture, designed to inject information about the relative or absolute position of words…",
+    "notebook": "positional_encodings_overview.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "positional-encodings-rope-basics",
+    "title": "Positional Encodings Rope Basics",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Beginner",
+    "intro": "Rotary Position Embeddings (RoPE) Rotary Positional Embeddings (RoPE) are a modern positional encoding technique designed to enhance how Transformer models understand the order of tokens in a sequence. In Transformer…",
+    "notebook": "positional_encodings_rope_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "principal-component-analysis-basics",
+    "title": "Principal Component Analysis Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Principal Component Analysis (PCA) In many real-world applications, datasets contain a large number of variables or features. For example, image datasets may contain thousands of pixel values, biological datasets may…",
+    "notebook": "principal_component_analysis_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "random-forests-basics",
+    "title": "Random Forests Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Random Forests Random Forests are among the most widely used machine learning algorithms for both classification and regression tasks. They belong to a family of methods known as ensemble learning techniques, where…",
+    "notebook": "random_forests_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "recurrent-neural-networks-basics",
+    "title": "Recurrent Neural Networks Basics",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Beginner",
+    "intro": "Recurrent Neural Networks — An Introduction Recurrent Neural Networks (RNNs) are a class of artificial neural networks designed for sequential data processing. Unlike traditional feedforward neural networks, RNNs have…",
+    "notebook": "recurrent_neural_networks_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "recurrent-neural-networks-language-model",
+    "title": "Recurrent Neural Networks Language Model",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "RNN-based Language Models Recurrent Neural Networks (RNNs) were once the dominant architecture for natural-language generation and sequence modeling, playing a crucial role in the evolution of modern deep learning…",
+    "notebook": "recurrent_neural_networks_language_model.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "retrieval-augmented-generation-rag-basic-example",
+    "title": "Retrieval Augmented Generation Rag Basic Example",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "Retrieval-Augmented Generation (RAG) — A (Very) Basic Example Retrieval-Augmented Generation (RAG) is a powerful technique that enhances the capabilities of language models by grounding their responses in external…",
+    "notebook": "retrieval_augmented_generation_rag_basic_example.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "retrieval-augmented-generation-rag-basics",
+    "title": "Retrieval Augmented Generation Rag Basics",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Beginner",
+    "intro": "Retrieval-Augmented Generation (RAG) — Basics Retrieval-Augmented Generation (RAG) is an AI framework that enhances the output of Large Language Models (LLMs) by giving them access to external, up-to-date, and…",
+    "notebook": "retrieval_augmented_generation_rag_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "rmsprop-optimizer",
+    "title": "Rmsprop Optimizer",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Intermediate",
+    "intro": "The RMSProp Optimizer Training neural networks is fundamentally an optimization problem, where the goal is to efficiently minimize a loss function over a high-dimensional and often ill-conditioned parameter space. While…",
+    "notebook": "rmsprop_optimizer.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "stemming-lemmatization-basics",
+    "title": "Stemming Lemmatization Basics",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Beginner",
+    "intro": "Stemming & Lemmatization Consider the following to sentences: \"Dogs make the best friends.\" \"A dog makes a good friend.\" Semantically, both sentences are essentially conveying the same message, but syntactically they…",
+    "notebook": "stemming_lemmatization_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "text-classification-rnn",
+    "title": "Text Classification Rnn",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "Text Classification with Recurrent Neural Networks (RNNs) Text classification is a fundamental task in natural language processing (NLP) that involves assigning predefined categories to text data. One effective approach…",
+    "notebook": "text_classification_rnn.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "text-normalization-basics",
+    "title": "Text Normalization Basics",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Beginner",
+    "intro": "Text Normalization Motivation Natural language is inherently expressive and exhibits significant variation due to its role as a primary medium for human communication. It allows individuals to convey not just factual…",
+    "notebook": "text_normalization_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "text-token-indexing",
+    "title": "Text Token Indexing",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "Token Indexing with Vocabularies Token indexing using vocabularies in the context of machine learning for text is the process of mapping words, subwords, or characters in a text to unique numerical identifiers based on…",
+    "notebook": "text_token_indexing.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "text-tokenization-basics",
+    "title": "Text Tokenization Basics",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Beginner",
+    "intro": "Text Tokenization Tokenization is the process of breaking down text into smaller parts called tokens. These tokens can be words, sentences, or even smaller units like characters, depending on the application. For…",
+    "notebook": "text_tokenization_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "time-series-analysis-overview",
+    "title": "Time Series Analysis Overview",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Time Series Analysis — An Overview Time series analysis is concerned with the study of data that are observed sequentially over time. Unlike cross-sectional data, where observations are typically assumed to be…",
+    "notebook": "time_series_analysis_overview.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "transformers-basic-architecture",
+    "title": "Transformers Basic Architecture",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "Transformers — Basic Architecture The Transformer architecture, introduced in the groundbreaking paper in 2017, marked a fundamental shift in the design of deep learning models for sequence data. Unlike traditional…",
+    "notebook": "transformers_basic_architecture.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "tsa-autoregressive-model-basics",
+    "title": "Tsa Autoregressive Model Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Autoregressive (AR) Models for Time Series Analysis Autoregressive (AR) models are among the most fundamental statistical models for analyzing and forecasting time series. Their central idea is simple: the current value…",
+    "notebook": "tsa_autoregressive_model_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "vector-space-model-basics",
+    "title": "Vector Space Model Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "Vector Space Model Many methods, algorithms, and models in Natural Language Processing (NLP) and Text Mining require or at least benefit from inputs that are of both numerical and of a fixed length/size. However, text…",
+    "notebook": "vector_space_model_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "word2vec-basics",
+    "title": "Word2vec Basics",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Beginner",
+    "intro": "Word2Vec In natural language processing, most algorithms require numerical representations of text, yet raw words carry no inherent meaning for a computer. Early approaches relied on sparse, high-dimensional…",
+    "notebook": "word2vec_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "word2vec-training-from-scratch",
+    "title": "Word2vec Training From Scratch",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Advanced",
+    "intro": "Training Word2Vec from Scratch Word embeddings are a foundational concept in natural language processing (NLP), representing words as dense, continuous vectors that capture their semantic relationships. Instead of…",
+    "notebook": "word2vec_training_from_scratch.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "word-text-embeddings-overview",
+    "title": "Word Text Embeddings Overview",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Beginner",
+    "intro": "Word & Text Embeddings — An Overview Word and text embeddings are numerical vector representations of linguistic units such as words, sentences, or entire documents, that are designed to capture semantic and syntactic…",
+    "notebook": "word_text_embeddings_overview.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "word-tokenizer-implementation",
+    "title": "Word Tokenizer Implementation",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Advanced",
+    "intro": "Building a Word Tokenizer from Scratch Motivation Word tokenization is a foundational process in natural language processing (NLP) that involves breaking down a text into smaller units, typically words or subwords. This…",
+    "notebook": "word_tokenizer_implementation.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "wordpiece-tokenization",
+    "title": "Wordpiece Tokenization",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "Subword Tokenization (WordPiece) The WordPiece algorithm is a widely used method for subword tokenization, particularly in natural language processing (NLP) tasks. Originally introduced for speech recognition, WordPiece…",
+    "notebook": "wordpiece_tokenization.ipynb",
+    "prerequisites": []
+  }
+]

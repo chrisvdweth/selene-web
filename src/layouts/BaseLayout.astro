@@ -1,0 +1,147 @@
+---
+import "../styles/global.css";
+import { SITE } from "../config/site";
+import { MenuIcon, ThemeIcon } from "../components/Icon";
+
+const { title = SITE.name, description = SITE.description } = Astro.props;
+const path = Astro.url.pathname;
+
+const routes = [
+  { href: "/", label: "Topics", match: (p: string) => p === "/" },
+  { href: "/topics", label: "Notebooks", match: (p: string) => p.startsWith("/topics") },
+  { href: "/graph", label: "Learning paths", match: (p: string) => p.startsWith("/graph") },
+  { href: "/admin", label: "Path editor", match: (p: string) => p.startsWith("/admin") },
+  { href: "/about", label: "Feedback", match: (p: string) => p.startsWith("/about") },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(path, SITE.url)} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: SITE.name,
+        url: SITE.url,
+      })}
+    />
+    <title>{title}</title>
+  </head>
+
+  <body>
+    <a class="skip" href="#content">Skip to content</a>
+
+    <header class="app-header">
+      <div class="header-inner shell">
+        <a class="brand" href="/">SELENE <span>lunar lab</span></a>
+
+        <button
+          class="icon-button nav-toggle"
+          id="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-menu"
+          aria-label="Show navigation"
+        >
+          <MenuIcon />
+        </button>
+
+        <nav class="site-menu" id="site-menu" aria-label="Main">
+          {
+            routes.map((route) => (
+              <a href={route.href} aria-current={route.match(path) ? "page" : undefined}>
+                {route.label}
+              </a>
+            ))
+          }
+        </nav>
+
+        <button class="icon-button" id="theme" type="button" aria-pressed="false" aria-label="Use dark theme">
+          <ThemeIcon />
+        </button>
+      </div>
+    </header>
+
+    <main id="content">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <span>SELENE Lunar Lab — {SITE.description}</span>
+        <a href="/about#feedback">About and feedback</a>
+      </div>
+    </footer>
+
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const themeButton = document.querySelector("#theme");
+        const navToggle = document.querySelector("#nav-toggle");
+        const menu = document.querySelector("#site-menu");
+
+        const applyTheme = (dark) => {
+          root.classList.toggle("dark", dark);
+          themeButton?.setAttribute("aria-pressed", String(dark));
+          themeButton?.setAttribute("aria-label", dark ? "Use light theme" : "Use dark theme");
+          /* The rendered notebook is a same-origin document of its own. It
+             follows the system scheme by itself; this hands it the override so
+             the dossier never frames a white sheet on a dark page. */
+          document.querySelectorAll("iframe.notebook-frame").forEach((frame) => {
+            try {
+              const inner = frame.contentDocument?.documentElement;
+              if (inner) inner.dataset.theme = dark ? "dark" : "light";
+            } catch {}
+            frame.dataset.theme = dark ? "dark" : "light";
+          });
+        };
+
+        const stored = localStorage.getItem("selene-theme");
+        applyTheme(stored === "dark" || (!stored && matchMedia("(prefers-color-scheme: dark)").matches));
+
+        /* The frame is lazy, so it can arrive after the theme was settled. */
+        document.querySelectorAll("iframe.notebook-frame").forEach((frame) => {
+          frame.addEventListener("load", () => {
+            try {
+              const inner = frame.contentDocument?.documentElement;
+              if (inner) inner.dataset.theme = root.classList.contains("dark") ? "dark" : "light";
+            } catch {}
+          });
+        });
+
+        themeButton?.addEventListener("click", () => {
+          const dark = !root.classList.contains("dark");
+          applyTheme(dark);
+          localStorage.setItem("selene-theme", dark ? "dark" : "light");
+        });
+
+        const setMenu = (open) => {
+          menu?.setAttribute("data-open", String(open));
+          navToggle?.setAttribute("aria-expanded", String(open));
+          navToggle?.setAttribute("aria-label", open ? "Hide navigation" : "Show navigation");
+        };
+
+        navToggle?.addEventListener("click", () => {
+          setMenu(navToggle.getAttribute("aria-expanded") !== "true");
+        });
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && navToggle?.getAttribute("aria-expanded") === "true") {
+            setMenu(false);
+            navToggle.focus();
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

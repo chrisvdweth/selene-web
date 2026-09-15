@@ -1,0 +1,1 @@
+import type { APIRoute } from "astro"; export const GET: APIRoute=()=>new Response('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#4f8cff"/></svg>',{headers:{"Content-Type":"image/svg+xml"}});

@@ -1,0 +1,16 @@
+{
+  "name": "selene-design",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run generate:notebooks && astro dev",
+    "generate:notebooks": "node scripts/render-notebooks.mjs",
+    "import:sheets": "node scripts/import-sheets-csv.mjs",
+    "build": "npm run generate:notebooks && astro build",
+    "check": "astro check && tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {"@astrojs/react":"^4.3.0","astro":"^5.7.0","d3-force":"^3.0.0","d3-selection":"^3.0.0","d3-zoom":"^3.0.0","react":"^19.1.0","react-dom":"^19.1.0"},
+  "devDependencies": {"@astrojs/check":"^0.9.4","@types/d3-force":"^3.0.10","@types/d3-selection":"^3.0.11","@types/d3-zoom":"^3.0.8","@types/node":"^22.15.0","@types/react":"^19.1.2","@types/react-dom":"^19.1.2","typescript":"^5.8.3","vitest":"^3.1.3"}
+}

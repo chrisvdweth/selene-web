@@ -1,0 +1,130 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LocalDependencies from "../../components/LocalDependencies";
+import { ArrowIcon, DownloadIcon, ExternalIcon } from "../../components/Icon";
+import {
+  categoryKey,
+  curatedIds,
+  readableIntro,
+  requiredBy,
+  topics,
+  unlockedBy,
+  type Topic,
+} from "../../lib/topics";
+
+export function getStaticPaths() {
+  return topics.map((t) => ({ params: { id: t.id }, props: { topic: t } }));
+}
+
+const { topic } = Astro.props as { topic: Topic };
+
+const renderedUrl = `/notebooks/${topic.notebook.replace(".ipynb", ".html")}`;
+const sourceUrl = `/notebooks/${topic.notebook}`;
+const colabUrl = `https://colab.research.google.com/github/chrisvdweth/selene/blob/main/notebooks/${topic.notebook}`;
+
+const required = requiredBy(topic.id);
+const unlocked = unlockedBy(topic.id);
+const curated = curatedIds.has(topic.id);
+const nearby = topics.filter((t) => t.category === topic.category && t.id !== topic.id).slice(0, 4);
+---
+
+<BaseLayout title={`${topic.title} · SELENE`} description={readableIntro(topic.intro)}>
+  <article class="dossier">
+    <header class="dossier-head">
+      <h1>{topic.title}</h1>
+      <div class="dossier-meta">
+        <span class={`cat cat-${categoryKey(topic.category)}`}>{topic.category}</span>
+        <span class="data">{topic.subtopic} · {topic.difficulty}</span>
+      </div>
+      <p class="lead">
+        {readableIntro(topic.intro)}
+        {
+          !curated && (
+            <span
+              class="data excerpt-tag"
+              tabindex="0"
+              role="note"
+              aria-label="Opening lines quoted from the notebook itself. A written summary for this notebook is still outstanding."
+              data-tip="Opening lines quoted from the notebook itself. A written summary for this notebook is still outstanding."
+            >
+              excerpt
+            </span>
+          )
+        }
+      </p>
+
+      <!-- Reading happens in the frame below; these are the two ways to run it. -->
+      <div class="actions">
+        <a class="button-primary button-hero" href={colabUrl} target="_blank" rel="noreferrer">
+          Run in Colab
+          <ArrowIcon />
+        </a>
+      </div>
+    </header>
+
+    <div class="dossier-body">
+      <div class="dossier-main">
+        <section aria-labelledby="reader-heading">
+          <p class="rule-label" id="reader-heading">
+            The notebook
+            <span class="rule-links">
+              <a class="link-control" href={renderedUrl}>
+                <ExternalIcon />
+                Open on its own page
+              </a>
+              <a class="link-control" href={sourceUrl} download>
+                <DownloadIcon />
+                Download .ipynb
+              </a>
+            </span>
+          </p>
+          <iframe class="notebook-frame" src={renderedUrl} title={`${topic.title} notebook`} loading="lazy"></iframe>
+        </section>
+      </div>
+
+      <aside class="dossier-aside" aria-labelledby="deps-heading">
+        <section class="diagram-region">
+          <p class="rule-label" id="deps-heading">
+            Local dependencies
+            {
+              required.length + unlocked.length > 0 && (
+                <span class="rule-links">
+                  <a class="link-control" href={`/graph?focus=${topic.id}`}>
+                    <ArrowIcon />
+                    Show on the map
+                  </a>
+                </span>
+              )
+            }
+          </p>
+          {
+            required.length + unlocked.length > 0 ? (
+              <LocalDependencies subject={topic} idPrefix="dossier" client:load />
+            ) : (
+              <div class="diagram-note">
+                <h3>Not on a mapped path</h3>
+                <div class="actions">
+                  <a class="button-ghost" href="/admin">Propose a path</a>
+                </div>
+              </div>
+            )
+          }
+        </section>
+
+        <section class="wire-list">
+          <h3>Nearby in {topic.category}</h3>
+          <ul>
+            {nearby.map((item) => (
+              <li>
+                <a href={`/topics/${item.id}`}>
+                  <ArrowIcon />
+                  {item.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

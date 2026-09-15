@@ -1,0 +1,85 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { CATEGORIES, EDGE_COUNT, curatedIds, topics } from "../lib/topics";
+---
+
+<BaseLayout title="About · SELENE" description="What SELENE is, how the map is maintained, and how to send feedback.">
+  <section class="page-head">
+    <h1>A calmer way to learn complex systems</h1>
+    <p class="lead">
+      SELENE is an open, self-paced way to learn AI from notebooks that actually run. It makes prerequisites visible
+      without pretending learning is linear.
+    </p>
+  </section>
+
+  <div class="prose-layout">
+    <article class="prose">
+      <h2>What is here</h2>
+      <p>
+        The notebooks are the material; this site is an index and a set of paths through them. Every entry links the
+        rendered version you can read now, the source file you can download, and a Colab link that runs it without a
+        local install.
+      </p>
+
+      <h2>What is unfinished</h2>
+      <p>
+        Two things are written by hand and are therefore incomplete: the summaries and the prerequisite links. Where a
+        summary has not been written, the notebook's own opening lines stand in and are labelled as such. Where no path
+        has been mapped, the topic says so rather than inventing a connection.
+      </p>
+      <p>
+        That is the reason the dependency views are small. A local view of what a topic needs is useful; a diagram of
+        every notebook at once is a picture of the corpus, not of your next step.
+      </p>
+
+      <h2 id="feedback">Feedback</h2>
+      <p>
+        Found a broken path, a mislabelled category, or a topic that should exist? Two routes: raise it on the project's
+        issue tracker, or edit the map yourself in the path editor and propose the exported CSV.
+      </p>
+      <div class="actions">
+        <a class="button-ghost" href="/admin">Open the path editor</a>
+        <a class="button-ghost" href="/topics">Browse every notebook</a>
+      </div>
+
+      <h2>Reading settings</h2>
+      <dl>
+        <dt>Light and dark</dt>
+        <dd>
+          The control in the header follows your system preference until you override it, and the choice is remembered
+          in this browser only.
+        </dd>
+        <dt>Motion</dt>
+        <dd>If your system asks for reduced motion, transitions here are switched off rather than shortened.</dd>
+        <dt>Keyboard</dt>
+        <dd>
+          Every dependency diagram is a list of links. Tab moves between nodes, Enter opens one, and the same
+          relationships are written out underneath the diagram.
+        </dd>
+      </dl>
+    </article>
+
+    <aside class="prose-aside" aria-labelledby="figures">
+      <h2 class="rule-label" id="figures">The corpus in figures</h2>
+      <dl>
+        <div>
+          <dt>Notebooks indexed</dt>
+          <dd>{topics.length}</dd>
+        </div>
+        <div>
+          <dt>Categories</dt>
+          <dd>{CATEGORIES.length}</dd>
+        </div>
+        <div>
+          <dt>Summaries written by hand</dt>
+          <dd>{curatedIds.size}</dd>
+        </div>
+        <div>
+          <dt>Prerequisite links mapped</dt>
+          <dd>{EDGE_COUNT}</dd>
+        </div>
+      </dl>
+      <p>Counted at build time from topics.csv and prerequisites.csv.</p>
+    </aside>
+  </div>
+</BaseLayout>

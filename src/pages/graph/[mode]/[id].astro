@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Workbench, { SCOPES } from "../../../components/Workbench";
+import { byId, topics } from "../../../lib/topics";
+
+export function getStaticPaths() {
+  return topics.flatMap((t) => SCOPES.map((s) => ({ params: { mode: s.route, id: t.id } })));
+}
+
+const { mode, id } = Astro.params;
+
+const view = SCOPES.find((s) => s.route === mode) ?? SCOPES[0];
+const subject = byId[id as string];
+---
+
+<BaseLayout
+  title={`${view.title} · ${subject?.title ?? "SELENE"}`}
+  description={view.lead}
+>
+  <Workbench client:load initialId={id} scope={view.id} withHead />
+</BaseLayout>

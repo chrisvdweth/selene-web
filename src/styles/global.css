@@ -1,0 +1,1834 @@
+/* ============================================================================
+   SELENE — Lunar Lab
+   A focused topic browser, not a billboard. Thin rules, measured type, one accent, no décor.
+
+   Contents
+   1.  Fonts
+   2.  Tokens
+   3.  Reset and browser surfaces
+   4.  App shell (header, mobile menu, footer)
+   5.  Type roles and page heads
+   6.  Controls (buttons, fields, segmented filter)
+   7.  Rule labels — motif 1: the measure bracket
+   8.  Topic browser (index, selected topic, spec list)
+   9.  The dependency diagram — motif 2: orthogonal wiring
+   10. Topic dossier
+   11. Notebook index (/topics)
+   12. Path editor (/admin)
+   13. Prose pages (/about)
+   14. Responsive structure
+   15. Reduced motion
+   ========================================================================== */
+
+/* 1. Fonts ---------------------------------------------------------------- */
+/* Self-hosted, same-origin. This used to be
+   `@import url("https://fonts.googleapis.com/css2?...")`, which is the one thing
+   a stylesheet must never do: an @import of a third-party sheet blocks the
+   render, then serialises a second round trip to another host for the files
+   themselves, so nothing paints until two strangers have answered. It also sent
+   every visitor's IP to Google from a site that makes no other external request.
+   fonts.css is a local sheet, so the bundler folds it into this one — no extra
+   request in the build — and each face carries font-display: swap and a
+   unicode-range, so text paints immediately in the fallback and the extended
+   slices are only fetched if an extended glyph actually appears.
+   Regenerate with `node scripts/fetch-fonts.mjs`. Licence in fonts/OFL.txt. */
+@import "./fonts/fonts.css";
+
+/* 2. Tokens --------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+
+  /* Surfaces and ink */
+  --canvas: #f6f7fb;
+  --surface: #ffffff;
+  --inset: #f1f3f9;
+  --ink: #151925;
+  --muted: #647086;
+  --rule: #dce1ea;
+  --rule-strong: #c3cbd9;
+
+  /* Brand marks (pinned by BRAND-KIT.md) */
+  --blue: #315bff;
+  --mint: #00a98f;
+  --amber: #e58a00;
+
+  /* Text-safe siblings of the marks: AA on --surface and --canvas */
+  --blue-ink: #2748d9;
+  --mint-ink: #00806d;
+  --amber-ink: #a35f00;
+
+  /* Category identity — always paired with its written name */
+  --cat-foundations: #2f55d4;
+  --cat-deep-learning: #6b3fd4;
+  --cat-language-ai: #9a5a00;
+
+  --focus: #315bff;
+  --shadow: 0 10px 28px -16px rgba(21, 25, 37, 0.34);
+
+  /* Type */
+  --f-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --f-ui: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --t-hero: 3.25rem;
+  --t-display: 2.5rem;
+  --t-title: 1.5rem;
+  --t-lead: 1.125rem;
+  --t-body: 1rem;
+  --t-ui: 0.875rem;
+  --t-meta: 0.8125rem;
+  --t-data: 0.75rem;
+
+  /* Space — 4px base */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 20px;
+  --s6: 24px;
+  --s8: 32px;
+  --s10: 40px;
+  --s12: 48px;
+  --s16: 64px;
+
+  /* Geometry: 12px containers, 8px controls, 6px inline marks */
+  --r-card: 12px;
+  --r-control: 8px;
+  --r-mark: 6px;
+
+  --measure: 68ch;
+  --shell: 1240px;
+
+  font-family: var(--f-ui);
+  font-size: 100%;
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+:root.dark {
+  color-scheme: dark;
+
+  --canvas: #0c1020;
+  --surface: #141a2e;
+  --inset: #1a2138;
+  --ink: #f4f6fc;
+  --muted: #a7b1c7;
+  --rule: #2b3652;
+  --rule-strong: #3d4a69;
+
+  --blue: #8da8ff;
+  --mint: #5ce0c7;
+  --amber: #ffb74d;
+
+  --blue-ink: #8da8ff;
+  --mint-ink: #5ce0c7;
+  --amber-ink: #ffb74d;
+
+  --cat-foundations: #8da8ff;
+  --cat-deep-learning: #b99bff;
+  --cat-language-ai: #ffc172;
+
+  --focus: #8da8ff;
+  --shadow: 0 12px 32px -18px rgba(0, 0, 0, 0.75);
+}
+
+/* 3. Reset and browser surfaces ------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-color: var(--rule-strong) transparent;
+  scrollbar-width: thin;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--canvas);
+  color: var(--ink);
+  font-size: var(--t-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--blue) 24%, transparent);
+  color: var(--ink);
+}
+
+input,
+textarea {
+  caret-color: var(--blue);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--r-mark);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--rule-strong);
+  border-radius: 10px;
+  border: 3px solid var(--canvas);
+}
+
+/* The thumb's inset border has to match the surface it scrolls over, or it
+   reads as a ring rather than a slim thumb. */
+.index-scroll::-webkit-scrollbar-thumb {
+  border-color: var(--inset);
+}
+
+.editor textarea::-webkit-scrollbar-thumb,
+.notebook-frame::-webkit-scrollbar-thumb {
+  border-color: var(--surface);
+}
+
+code {
+  font-family: var(--f-mono);
+  font-size: var(--t-data);
+  font-weight: 500;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+/* Data is set in mono with tabular figures: IDs, counts, filenames, levels. */
+.data {
+  font-family: var(--f-mono);
+  font-size: var(--t-data);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.measure {
+  max-width: var(--measure);
+}
+
+.note {
+  margin-top: var(--s3);
+  max-width: var(--measure);
+  font-size: var(--t-meta);
+  color: var(--muted);
+}
+
+.skip {
+  position: absolute;
+  left: var(--s4);
+  top: -5rem;
+  z-index: 99;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--s4);
+  background: var(--ink);
+  color: var(--canvas);
+  font-size: var(--t-ui);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--r-control);
+}
+
+.skip:focus {
+  top: var(--s3);
+}
+
+.shell,
+main,
+.footer-inner {
+  width: min(var(--shell), 100% - 48px);
+  margin-inline: auto;
+}
+
+/* 4. App shell ----------------------------------------------------------- */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--rule);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  height: 64px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s2);
+  /* Every control in the header is the same 44px target, the brand included. */
+  min-height: 44px;
+  padding-block: 11px;
+  text-decoration: none;
+  font-family: var(--f-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.brand span {
+  font-family: var(--f-mono);
+  font-size: var(--t-data);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.site-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  margin-left: auto;
+}
+
+.site-menu a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--s3);
+  border-radius: var(--r-control);
+  font-size: var(--t-ui);
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 140ms ease-out, background-color 140ms ease-out;
+}
+
+.site-menu a:hover {
+  color: var(--ink);
+  background: var(--inset);
+}
+
+.site-menu a[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: inset 0 -1px 0 var(--ink);
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 140ms ease-out;
+}
+
+.icon-button:hover {
+  border-color: var(--rule-strong);
+}
+
+.icon-button.nav-toggle {
+  display: none;
+}
+
+.site-footer {
+  margin-top: var(--s16);
+  border-top: 1px solid var(--rule);
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--s4);
+  padding: var(--s5) 0;
+  font-size: var(--t-meta);
+  color: var(--muted);
+}
+
+.footer-inner a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: none;
+  box-shadow: inset 0 -1px 0 var(--rule-strong);
+}
+
+.footer-inner a:hover {
+  color: var(--ink);
+  box-shadow: inset 0 -1px 0 var(--ink);
+}
+
+/* 5. Type roles and page heads ------------------------------------------- */
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+h1 {
+  font-family: var(--f-display);
+  font-size: var(--t-display);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  font-family: var(--f-display);
+  font-size: var(--t-title);
+  line-height: 1.22;
+  letter-spacing: -0.018em;
+}
+
+h3 {
+  font-family: var(--f-ui);
+  font-size: var(--t-body);
+  line-height: 1.4;
+}
+
+p {
+  margin: 0;
+}
+
+.page-head {
+  padding: var(--s12) 0 var(--s6);
+}
+
+.page-head.hero h1 {
+  font-size: var(--t-hero);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  max-width: 22ch;
+}
+
+.lead {
+  margin-top: var(--s4);
+  max-width: 60ch;
+  font-size: var(--t-lead);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* The corpus readout: measured facts on a rule, not a notice box. */
+.readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s5);
+  align-items: baseline;
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.readout div {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+}
+
+.readout b {
+  font-family: var(--f-mono);
+  font-size: var(--t-ui);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.readout span {
+  font-size: var(--t-meta);
+  color: var(--muted);
+}
+
+/* Category identity. The swatch never carries meaning alone. */
+.cat {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  font-family: var(--f-ui);
+  font-size: var(--t-meta);
+  font-weight: 600;
+  color: var(--cat, var(--blue-ink));
+}
+
+.cat::before,
+.cat-swatch {
+  content: "";
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+/* Standalone swatch for headings, where the written name carries the meaning. */
+.cat-swatch {
+  display: inline-block;
+  color: var(--cat, var(--blue-ink));
+}
+
+.cat-foundations {
+  --cat: var(--cat-foundations);
+}
+
+.cat-deep-learning {
+  --cat: var(--cat-deep-learning);
+}
+
+.cat-language-ai {
+  --cat: var(--cat-language-ai);
+}
+
+/* 6. Controls ------------------------------------------------------------ */
+.button-primary,
+.button-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  min-height: 44px;
+  padding: 0 var(--s4);
+  border: 1px solid transparent;
+  border-radius: var(--r-control);
+  font-size: var(--t-ui);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 140ms ease-out, border-color 140ms ease-out;
+}
+
+.button-primary {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--canvas);
+}
+
+.button-primary:hover {
+  background: var(--blue-ink);
+  border-color: var(--blue-ink);
+  color: #fff;
+}
+
+.button-ghost {
+  background: var(--surface);
+  border-color: var(--rule);
+  color: var(--ink);
+}
+
+.button-ghost:hover {
+  border-color: var(--rule-strong);
+  background: var(--inset);
+}
+
+/* The one action a page is for. Taller, and the only place the accent is
+   used as a fill, so nothing else on the page competes with it. */
+.button-hero {
+  min-height: 52px;
+  padding: 0 var(--s5);
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+  font-size: var(--t-body);
+}
+
+.button-hero:hover {
+  background: var(--blue-ink);
+  border-color: var(--blue-ink);
+  color: #fff;
+}
+
+.button-hero svg {
+  width: 16px;
+  height: 16px;
+}
+
+.button-primary[aria-disabled="true"],
+.button-ghost[aria-disabled="true"],
+.button-primary:disabled,
+.button-ghost:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.link-control {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--t-meta);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: inset 0 -1px 0 var(--rule-strong);
+}
+
+.link-control:hover {
+  color: var(--blue-ink);
+  box-shadow: inset 0 -1px 0 var(--blue-ink);
+}
+
+.field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.field svg {
+  position: absolute;
+  left: var(--s3);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.field input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 var(--s3) 0 var(--s10);
+  appearance: none;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-control);
+  font-size: var(--t-ui);
+}
+
+.field input::placeholder {
+  color: var(--muted);
+}
+
+.field input:hover {
+  border-color: var(--rule-strong);
+}
+
+/* A native select dressed as the search field's sibling: same height, border
+   and radius, with the chevron drawn in the current text colour so it follows
+   both themes. */
+.select {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.select select {
+  min-height: 44px;
+  max-width: 100%;
+  padding: 0 var(--s8) 0 var(--s3);
+  appearance: none;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-control);
+  color: var(--ink);
+  font-size: var(--t-meta);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 140ms ease-out;
+}
+
+.select select:hover {
+  border-color: var(--rule-strong);
+}
+
+.select::after {
+  content: "";
+  position: absolute;
+  right: var(--s3);
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.seg {
+  display: flex;
+  gap: var(--s1);
+  flex-wrap: wrap;
+}
+
+.seg button {
+  min-height: 44px;
+  padding: 0 var(--s3);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: var(--t-meta);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 140ms ease-out, border-color 140ms ease-out;
+}
+
+.seg button:hover {
+  color: var(--ink);
+  border-color: var(--rule-strong);
+}
+
+.seg button[aria-pressed="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--canvas);
+}
+
+/* Scope controls double as real routes, so they work without JavaScript. */
+.scope {
+  display: flex;
+  gap: var(--s1);
+  flex-wrap: wrap;
+  margin-bottom: var(--s5);
+}
+
+.scope a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--s3);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: var(--t-meta);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.scope a:hover {
+  color: var(--ink);
+  border-color: var(--rule-strong);
+}
+
+.scope a[aria-current="page"] {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+/* 7. Rule labels --------------------------------------------------------- */
+.rule-label {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  margin: 0 0 var(--s4);
+  padding-top: var(--s2);
+  border-top: 1px solid var(--rule);
+  font-size: var(--t-meta);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.rule-label .data {
+  margin-left: auto;
+}
+
+/* 8. Topic browser ------------------------------------------------------- */
+.topic-browser {
+  margin-top: var(--s8);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-card);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.topic-browser-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  flex-wrap: wrap;
+  padding: var(--s3) var(--s4);
+  border-bottom: 1px solid var(--rule);
+  background: var(--inset);
+}
+
+.topic-browser-body {
+  display: grid;
+  grid-template-columns: 288px minmax(0, 1fr);
+}
+
+.topic-browser-index {
+  display: flex;
+  flex-direction: column;
+  padding: var(--s4);
+  border-right: 1px solid var(--rule);
+  background: var(--inset);
+}
+
+/* The index is a scroll region, not a page-length column. 82 rows laid out in
+   full would make the topic browser five screens tall and strand the schematic below
+   the fold. Basis 0 with a floor lets the list take exactly the height the
+   selected-topic column sets and scroll the rest, so the rail fills with rows
+   instead of leaving a void above its own footer. */
+.index-scroll {
+  flex: 1 1 0;
+  min-height: 220px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin: 0 calc(-1 * var(--s1)) var(--s4);
+  padding: 0 var(--s1);
+  scrollbar-gutter: stable;
+  /* A row cut in half at the edge looks like a rendering fault; the same row
+     fading out reads as "the list continues". The scroll padding keeps keyboard
+     focus out of the faded band. */
+  scroll-padding-block-end: var(--s6);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 20px), transparent);
+}
+
+/* Reading a grouped list of 82 needs the category to stay put while you scroll
+   inside it. */
+
+.index-list {
+  display: grid;
+  gap: var(--s1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.index-list button {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  min-height: 48px;
+  padding: var(--s2) var(--s3);
+  border: 1px solid transparent;
+  border-radius: var(--r-control);
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 140ms ease-out;
+}
+
+.index-list button:hover {
+  background: var(--surface);
+  border-color: var(--rule);
+}
+
+.index-list button[aria-pressed="true"] {
+  background: var(--surface);
+  border-color: var(--ink);
+}
+
+.index-list b {
+  font-size: var(--t-ui);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.index-group {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: var(--s4) 0 0;
+  padding: var(--s2) 0;
+  border-top: 1px solid var(--rule);
+  background: var(--inset);
+  font-family: var(--f-mono);
+  font-size: var(--t-data);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.index-group:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* Auto rows in a grid stretch by default, which pushed the schematic to the
+   foot of the column whenever the index was taller. Both blocks stay together
+   under the heading instead. */
+.topic-browser-main {
+  display: grid;
+  align-content: start;
+  gap: var(--s8);
+  padding: var(--s6);
+  min-width: 0;
+}
+
+.selected-topic h2 {
+  font-size: var(--t-title);
+  margin-bottom: var(--s2);
+}
+
+.selected-topic-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2) var(--s4);
+  margin-bottom: var(--s4);
+}
+
+.selected-topic-summary {
+  max-width: var(--measure);
+  color: var(--ink);
+}
+
+/* Action row sits between the title block and the summary, so the eye lands
+   on title → button before any prose. */
+.selected-topic .actions {
+  margin: var(--s5) 0 var(--s5);
+  gap: var(--s4);
+}
+
+/* 9. The dependency diagram — motif 2: orthogonal wiring ----------------- */
+.diagram-region {
+  min-width: 0;
+}
+
+/* A long chain scrolls inside its own window rather than pushing the wire
+   lists and the rest of the page several screens down. The cap is generous —
+   the local view and most chains never reach it. */
+.diagram-scroll {
+  /* Never shorter than a two-tier drawing, so a redraw cannot yank the page
+     scroll upward while the new picture is measured. */
+  min-height: 200px;
+  max-height: min(72vh, 760px);
+  overflow-y: auto;
+  /* Scroll chaining is left on deliberately: once the drawing hits its end,
+     the wheel carries on to the page rather than stopping dead. */
+  /* Room for the focus ring on the first and last rows, which the scroll
+     window would otherwise clip. */
+  padding-block: 4px;
+}
+
+.diagram-scroll::-webkit-scrollbar-thumb {
+  border-color: var(--surface);
+}
+
+.diagram {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.diagram .wire,
+.diagram-legend .wire {
+  fill: none;
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.diagram .wire-active,
+.diagram-legend .wire-active {
+  stroke: var(--blue);
+  stroke-width: 1.25;
+}
+
+.diagram .junction {
+  fill: var(--blue);
+}
+
+.diagram .arrow-head,
+.diagram-legend .arrow-head {
+  fill: var(--rule-strong);
+}
+
+.diagram .arrow-head-active,
+.diagram-legend .arrow-head-active {
+  fill: var(--blue);
+}
+
+.diagram .node-frame {
+  fill: var(--surface);
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+  rx: 8;
+  transition: stroke 140ms ease-out;
+}
+
+/* A tier drawn as one group: a quiet dashed frame that holds the nodes and
+   takes the single wire on the subject's behalf. */
+.diagram .group-frame {
+  fill: none;
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  rx: 12;
+}
+
+.diagram .node-subject .node-frame {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+.diagram .topic-node:hover .node-frame {
+  stroke: var(--ink);
+}
+
+/* With a node under the pointer, everything it is not wired to steps back, so
+   its direct links read off the picture even where the arrows are drawn
+   level to level. Nodes stay legible — this is emphasis, not hiding. */
+.diagram .topic-node {
+  transition: opacity 140ms ease-out;
+}
+
+.diagram .node-dim {
+  opacity: 0.35;
+}
+
+/* A 1px-to-2px stroke change is not a focus indicator you can find. The node
+   keeps the global ring and darkens its own frame underneath it. */
+.diagram .topic-node:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: var(--r-control);
+}
+
+.diagram .topic-node:focus-visible .node-frame {
+  stroke: var(--focus);
+  stroke-width: 2;
+}
+
+.diagram .node-title {
+  fill: var(--ink);
+  font-family: var(--f-ui);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.diagram .node-meta {
+  fill: var(--muted);
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.diagram .node-swatch {
+  rx: 2;
+}
+
+.diagram .tier-label {
+  fill: var(--muted);
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.diagram-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s5);
+  margin-top: var(--s4);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--rule);
+  font-size: var(--t-meta);
+  color: var(--muted);
+}
+
+.diagram-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+/* The state that most of this corpus is actually in. */
+.diagram-note {
+  margin-top: var(--s4);
+  padding: var(--s4);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-card);
+  background: var(--inset);
+}
+
+.diagram-note h3 {
+  margin-bottom: var(--s2);
+}
+
+.diagram-note p {
+  max-width: 58ch;
+  font-size: var(--t-meta);
+  color: var(--muted);
+}
+
+.diagram-note .actions {
+  margin-top: var(--s4);
+}
+
+/* A short list of related notebooks beside the diagram. */
+.wire-list h3 {
+  padding-bottom: var(--s2);
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--t-meta);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.wire-list ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wire-list a {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  min-height: 44px;
+  padding: var(--s2) 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--t-ui);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.wire-list a:hover {
+  color: var(--blue-ink);
+}
+
+.wire-list a svg {
+  flex: 0 0 auto;
+  color: var(--muted);
+}
+
+/* Empty state for a filter that matches nothing. */
+.empty {
+  padding: var(--s5) var(--s3);
+}
+
+.empty h3 {
+  margin-bottom: var(--s2);
+}
+
+.empty p {
+  font-size: var(--t-meta);
+  color: var(--muted);
+}
+
+.empty ul {
+  margin: var(--s3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.empty button {
+  min-height: 44px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--blue-ink);
+  font-size: var(--t-ui);
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* 10. Topic dossier ------------------------------------------------------ */
+.dossier-head {
+  padding: var(--s10) 0 var(--s6);
+  border-bottom: 1px solid var(--rule);
+}
+
+.dossier-head h1 {
+  max-width: 26ch;
+}
+
+.dossier-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2) var(--s4);
+  margin-top: var(--s3);
+}
+
+/* An intro quoted from the notebook rather than written for it is marked, not
+   explained: one small word after the sentence, with the detail on hover. */
+.excerpt-tag {
+  position: relative;
+  margin-left: var(--s2);
+  padding: 1px var(--s2);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-mark);
+  font-size: var(--t-meta);
+  color: var(--muted);
+  vertical-align: middle;
+  cursor: help;
+}
+
+/* The tooltip is the tag's own ::after, so it needs no script and no library:
+   instant on hover or focus, drawn in the site's surface and type. */
+.excerpt-tag::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: 0;
+  top: calc(100% + var(--s2));
+  z-index: 5;
+  width: max-content;
+  max-width: 34ch;
+  padding: var(--s2) var(--s3);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--ink) 14%, transparent);
+  font-family: var(--f-ui);
+  font-size: var(--t-meta);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--ink);
+  text-align: left;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 140ms ease-out, transform 140ms ease-out, visibility 0s linear 140ms;
+  pointer-events: none;
+}
+
+.excerpt-tag:hover::after,
+.excerpt-tag:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.dossier-head .lead {
+  font-size: var(--t-lead);
+  max-width: var(--measure);
+}
+
+.dossier-head .actions {
+  margin-top: var(--s6);
+}
+
+.dossier-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: var(--s10);
+  padding-top: var(--s8);
+  align-items: start;
+}
+
+.dossier-main {
+  min-width: 0;
+  display: grid;
+  gap: var(--s10);
+}
+
+.notebook-frame {
+  width: 100%;
+  height: 820px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-card);
+  background: #fff;
+}
+
+/* Secondary actions ride in the heading row of the section they act on, as
+   quiet links, so the one primary button on the page has nothing beside it. */
+.rule-label .rule-links {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s4);
+  margin-left: auto;
+}
+
+/* Legible as a control at rest: an icon in the accent, ink text, and a faint
+   underline. Hover only strengthens what is already there. */
+.rule-label .rule-links .link-control {
+  gap: var(--s1);
+  min-height: 0;
+  font-weight: 500;
+  /* Softer than the heading it sits beside; the icon carries the accent. */
+  color: color-mix(in srgb, var(--ink) 72%, var(--muted));
+  box-shadow: inset 0 -1px 0 var(--rule-strong);
+}
+
+.rule-label .rule-links .link-control svg {
+  flex: 0 0 auto;
+  color: var(--blue-ink);
+}
+
+.rule-label .rule-links .link-control:hover {
+  color: var(--blue-ink);
+  box-shadow: inset 0 -1px 0 var(--blue-ink);
+}
+
+.dossier-aside {
+  position: sticky;
+  top: 84px;
+  display: grid;
+  gap: var(--s6);
+  min-width: 0;
+}
+
+/* 11. Notebook index (/topics) ------------------------------------------- */
+.index-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  flex-wrap: wrap;
+  padding: var(--s3) 0 var(--s4);
+}
+
+.index-bar .field {
+  flex: 1 1 260px;
+  max-width: 420px;
+}
+
+/* The count sits between the search box and the facet dropdowns, so the
+   sentence reads "search … 82 of 82 shown … narrowed by". */
+.index-bar .data {
+  margin: 0 var(--s2);
+  white-space: nowrap;
+}
+
+.index-table {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule);
+}
+
+.index-table li {
+  border-bottom: 1px solid var(--rule);
+}
+
+.index-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 130px;
+  align-items: center;
+  gap: var(--s4);
+  min-height: 56px;
+  padding: var(--s3) var(--s2);
+  text-decoration: none;
+  transition: background-color 140ms ease-out;
+}
+
+.index-row:hover {
+  background: var(--surface);
+}
+
+.index-row > span:first-child {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.index-row strong {
+  font-size: var(--t-ui);
+  font-weight: 600;
+}
+
+.index-row .row-sub {
+  font-size: var(--t-meta);
+  color: var(--muted);
+}
+
+/* 11b. The whole map (/graph) -------------------------------------------- */
+.map-region {
+  margin-top: var(--s10);
+}
+
+.map-region .map-actions {
+  margin-bottom: var(--s4);
+}
+
+/* The pannable canvas. A framed window with a fixed height: the map inside
+   can be any size, and the page keeps its own scroll. */
+.map-canvas .map-svg {
+  display: block;
+  width: 100%;
+  /* The shared .diagram rule lets wires overhang; this one is a window and
+     clips whatever is panned or zoomed past its edge. */
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-card);
+  background: var(--inset);
+  cursor: grab;
+  touch-action: none;
+}
+
+.map-canvas .map-svg:active {
+  cursor: grabbing;
+}
+
+/* The pinned-path banner: a status line, not a notice box. */
+.map-focus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s4);
+  margin: 0 0 var(--s3);
+  font-size: var(--t-meta);
+  color: var(--muted);
+}
+
+.map-focus .button-primary {
+  font-size: var(--t-meta);
+}
+
+.map-focus b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.map-tools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  margin-bottom: var(--s3);
+}
+
+.map-tools .button-ghost {
+  min-width: 44px;
+}
+
+.map-tools .data {
+  margin-left: auto;
+  color: var(--muted);
+}
+
+/* One faint rule per level, across every tree: the alignment is the point. */
+.map-svg .level-rule {
+  stroke: var(--rule);
+  stroke-width: 1;
+  stroke-dasharray: 2 6;
+}
+
+.map-svg .wire {
+  transition: opacity 140ms ease-out;
+}
+
+.map-svg .wire-dim {
+  opacity: 0.25;
+}
+
+.index-section > h2 {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  margin: var(--s10) 0 var(--s3);
+  font-size: var(--t-title);
+}
+
+.index-empty {
+  padding: var(--s10) 0;
+  border-top: 1px solid var(--rule);
+}
+
+.index-empty p {
+  margin-top: var(--s2);
+  max-width: 52ch;
+  color: var(--muted);
+}
+
+/* 12. Path editor (/admin) ---------------------------------------------- */
+.editor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: var(--s10);
+  align-items: start;
+  padding-bottom: var(--s8);
+}
+
+.editor label {
+  display: block;
+  font-size: var(--t-ui);
+  font-weight: 600;
+}
+
+.field-hint {
+  margin-top: var(--s1);
+  max-width: 60ch;
+  font-size: var(--t-meta);
+  color: var(--muted);
+}
+
+/* One record per visual line. Soft wrapping split ids across lines on hyphens,
+   which contradicts the field's own rule of one directed link per line, so the
+   field scrolls sideways instead. */
+.editor textarea {
+  width: 100%;
+  font-weight: 500;
+  max-width: 100%;
+  min-height: 240px;
+  margin-top: var(--s3);
+  padding: var(--s4);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-card);
+  background: var(--surface);
+  font-family: var(--f-mono);
+  font-size: var(--t-data);
+  line-height: 1.9;
+  white-space: pre;
+  overflow-x: auto;
+  resize: vertical;
+  tab-size: 2;
+}
+
+.editor .actions {
+  margin-top: var(--s4);
+  align-items: center;
+}
+
+.editor-status {
+  font-size: var(--t-meta);
+  color: var(--mint-ink);
+}
+
+.editor-notes {
+  min-width: 0;
+}
+
+.editor-notes ol {
+  margin: var(--s4) 0 0;
+  padding-left: var(--s5);
+  font-size: var(--t-meta);
+  color: var(--muted);
+}
+
+.editor-notes li + li {
+  margin-top: var(--s3);
+}
+
+/* A caveat, not a fourth step. Without its own rule it reads as a continuation
+   of step three. */
+.editor-notes > .field-hint {
+  margin-top: var(--s5);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--rule);
+}
+
+.editor-notes code {
+  font-family: var(--f-mono);
+  font-size: var(--t-data);
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+/* 13. Prose pages -------------------------------------------------------- */
+.prose-layout {
+  display: grid;
+  grid-template-columns: minmax(0, var(--measure)) 240px;
+  gap: var(--s16);
+  align-items: start;
+  padding-bottom: var(--s8);
+}
+
+.prose {
+  max-width: var(--measure);
+}
+
+/* A ruled figures table, not a row of hero metrics: the label carries the
+   meaning and the number is set in tabular mono at reading size beside it. The
+   heading takes the site's own section-label motif rather than inventing a
+   second one for the same role. */
+.prose-aside {
+  position: sticky;
+  top: 84px;
+  display: grid;
+  gap: var(--s3);
+}
+
+.prose-aside > .rule-label {
+  margin-bottom: 0;
+}
+
+.prose-aside dl {
+  display: grid;
+  margin: 0;
+}
+
+.prose-aside dl > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s3);
+  padding: var(--s2) 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.prose-aside dt {
+  margin: 0;
+  font-size: var(--t-meta);
+  color: var(--muted);
+}
+
+.prose-aside dd {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: var(--t-ui);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.prose-aside p {
+  margin: 0;
+  font-size: var(--t-meta);
+  color: var(--muted);
+}
+
+.prose h2 {
+  margin-top: var(--s10);
+}
+
+/* The aside's rule is optically tied to the first section heading, so the two
+   columns start on the same line rather than a hand's width apart. */
+.prose > :first-child {
+  margin-top: 0;
+}
+
+.prose p {
+  margin-top: var(--s4);
+  color: var(--muted);
+}
+
+.prose .lead {
+  color: var(--ink);
+}
+
+.prose dl {
+  margin: var(--s5) 0 0;
+  padding-top: var(--s4);
+  border-top: 1px solid var(--rule);
+}
+
+.prose dt {
+  font-size: var(--t-ui);
+  font-weight: 600;
+}
+
+.prose dd {
+  margin: var(--s1) 0 var(--s4);
+  font-size: var(--t-meta);
+  color: var(--muted);
+}
+
+/* 14. Responsive structure ---------------------------------------------- */
+@media (max-width: 1080px) {
+  .topic-browser-body {
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+
+  .prose-layout {
+    grid-template-columns: 1fr;
+    gap: var(--s8);
+  }
+
+  .prose-aside {
+    position: static;
+    max-width: 360px;
+  }
+
+  .dossier-body {
+    grid-template-columns: 1fr;
+    gap: var(--s8);
+  }
+
+  .dossier-aside {
+    position: static;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
+  .editor {
+    grid-template-columns: 1fr;
+    gap: var(--s8);
+  }
+}
+
+@media (max-width: 860px) {
+  .index-row {
+    grid-template-columns: minmax(0, 1fr) 130px;
+  }
+
+  .index-row .row-notebook {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .shell,
+  main,
+  .footer-inner {
+    width: min(var(--shell), 100% - 32px);
+  }
+
+  :root {
+    --t-hero: 2.125rem;
+    --t-display: 1.75rem;
+    --t-title: 1.25rem;
+    --t-lead: 1rem;
+  }
+
+  .header-inner {
+    height: 60px;
+    gap: var(--s2);
+  }
+
+  .brand {
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .brand span {
+    display: none;
+  }
+
+  .icon-button.nav-toggle {
+    display: inline-flex;
+    margin-left: auto;
+    width: 44px;
+    height: 44px;
+  }
+
+  .icon-button {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* The collapsed panel keeps its box inside the viewport and is hidden with
+     visibility, so it is out of the tab order and the a11y tree without the
+     header ever laying out controls it cannot show. */
+  .site-menu {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    display: grid;
+    gap: var(--s1);
+    margin: 0;
+    padding: var(--s2) max(16px, calc(50% - var(--shell) / 2)) var(--s4);
+    background: var(--surface);
+    border-bottom: 1px solid var(--rule);
+    box-shadow: var(--shadow);
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 160ms ease-out, transform 160ms ease-out, visibility 160ms;
+  }
+
+  .site-menu[data-open="true"] {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+  }
+
+  .site-menu a {
+    min-height: 48px;
+    padding: 0 var(--s3);
+    font-size: var(--t-body);
+  }
+
+  .site-menu a[aria-current="page"] {
+    background: var(--inset);
+    box-shadow: none;
+  }
+
+  .page-head {
+    padding: var(--s8) 0 var(--s5);
+  }
+
+  .topic-browser-body {
+    grid-template-columns: 1fr;
+  }
+
+  .topic-browser-index {
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* Stacked, the rail has no column to take its height from, so the scroll
+     window is stated outright. */
+  .index-scroll {
+    flex: 0 0 320px;
+    min-height: 0;
+  }
+
+  .topic-browser-main {
+    padding: var(--s5) var(--s4);
+    gap: var(--s6);
+  }
+
+  .index-row {
+    grid-template-columns: 1fr;
+    gap: var(--s1);
+    padding: var(--s3) 0;
+  }
+
+  .index-section > h2 {
+    margin-top: var(--s8);
+  }
+
+  .notebook-frame {
+    height: 600px;
+  }
+
+  .footer-inner {
+    display: grid;
+    justify-items: start;
+    gap: 0;
+    padding: var(--s4) 0;
+  }
+
+  .dossier-head {
+    padding-top: var(--s6);
+  }
+}
+
+/* 15. Reduced motion ---------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+  }
+}

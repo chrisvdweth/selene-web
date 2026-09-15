@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Workbench from "../components/Workbench";
+import { topics, unlockedBy } from "../lib/topics";
+
+/* Open on a mapped topic so the topic browser demonstrates a path rather than an
+   empty state on first load. */
+const opening = topics.find((t) => t.prerequisites.length > 0 || unlockedBy(t.id).length > 0)?.id;
+---
+
+<BaseLayout title="SELENE Lunar Lab · Learn AI by running it">
+  <section class="page-head hero">
+    <h1>Select a topic.</h1>
+    <br>
+    <h2>Get into the learning path.</h2>
+    <h2>Get started with the notebook.</h2>
+  </section>
+
+  <Workbench client:load initialId={opening} />
+</BaseLayout>

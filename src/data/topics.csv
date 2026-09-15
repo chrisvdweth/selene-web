@@ -1,0 +1,24 @@
+id,title,category,subtopic,difficulty,intro,notebook,prerequisites
+linear-regression,Linear Regression,Foundations,Supervised learning,Beginner,Model a continuous outcome with an interpretable baseline.,linear_regression_math.ipynb,
+gradient-descent,Gradient Descent,Foundations,Optimization,Beginner,Learn the iterative engine behind many learning systems.,gradient_descent_basics.ipynb,linear-regression
+neural-networks,Neural Networks,Deep Learning,Architectures,Intermediate,Build intuition for layers activations and representation learning.,artificial_neural_networks_basics.ipynb,linear-regression|gradient-descent
+principal-components,Principal Component Analysis,Foundations,Representation,Intermediate,Compress high-dimensional observations while retaining meaningful variation.,principal_component_analysis_basics.ipynb,linear-regression
+transformer-attention,Transformer Attention,Language AI,Architecture,Advanced,Understand how attention lets language models relate tokens across context.,attention_mha_basics.ipynb,neural-networks
+retrieval-augmented-generation,Retrieval Augmented Generation,Language AI,Applications,Advanced,Ground generated answers in searchable external knowledge.,retrieval_augmented_generation_rag_basics.ipynb,transformer-attention
+logistic-regression,Logistic Regression,Foundations,Supervised learning,Beginner,Turn a linear score into a probability and a class decision.,logistic_regression_basics.ipynb,linear-regression
+backpropagation,Backpropagation,Deep Learning,Training,Intermediate,Follow the gradient backwards through a network one layer at a time.,backpropagation_basic_examples.ipynb,neural-networks
+adam-optimizer,Adam Optimizer,Deep Learning,Optimization,Intermediate,Adapt the step size per parameter using running moments of the gradient.,adam_optimizer.ipynb,gradient-descent
+recurrent-neural-networks,Recurrent Neural Networks,Deep Learning,Architectures,Beginner,Carry state across a sequence so the network can read in order.,recurrent_neural_networks_basics.ipynb,neural-networks
+positional-encodings,Positional Encodings,Language AI,Architecture,Beginner,Give an order-blind attention layer a sense of where each token sits.,positional_encodings_overview.ipynb,
+transformer-architecture,Transformer Architecture,Language AI,Architecture,Intermediate,Assemble attention and position information into the full encoder-decoder stack.,transformers_basic_architecture.ipynb,transformer-attention|positional-encodings
+machine-translation,Machine Translation with Transformers,Language AI,Applications,Intermediate,Train a transformer to map a sentence in one language onto another.,machine_translation_transformers.ipynb,transformer-architecture
+text-normalization,Text Normalization,Language AI,Text processing,Beginner,Clean raw text so that the same word always looks the same.,text_normalization_basics.ipynb,
+text-tokenization,Text Tokenization,Language AI,Text processing,Beginner,Cut text into the units a model will actually see.,text_tokenization_basics.ipynb,text-normalization
+stemming-lemmatization,Stemming and Lemmatization,Language AI,Text processing,Beginner,Reduce word forms to a shared root so inflections count as one.,stemming_lemmatization_basics.ipynb,text-normalization
+byte-pair-encoding,Byte Pair Encoding,Language AI,Text processing,Intermediate,Learn a subword vocabulary by merging the most frequent character pairs.,byte_pair_encoding_tokenization.ipynb,text-tokenization
+ngram-language-models,N-gram Language Models,Language AI,Language models,Intermediate,Predict the next token from counts of the tokens just before it.,ngram_language_models.ipynb,text-tokenization
+word-embeddings,Word Embeddings,Language AI,Representation,Beginner,Place words in a vector space where distance reflects meaning.,word_text_embeddings_overview.ipynb,text-tokenization
+word2vec,Word2vec,Language AI,Representation,Beginner,Learn embeddings by predicting the words that appear around a word.,word2vec_basics.ipynb,word-embeddings
+decision-trees,Decision Trees,Foundations,Supervised learning,Beginner,Split the data one question at a time until the answer is clear.,decision_trees_basics.ipynb,
+random-forests,Random Forests,Foundations,Ensembles,Beginner,Average many decorrelated trees to cut the variance of one.,random_forests_basics.ipynb,decision-trees
+boosting,Boosting,Foundations,Ensembles,Beginner,Fit trees in sequence so each one corrects the last.,boosting_machine_learning_overview.ipynb,decision-trees
