@@ -2,6 +2,16 @@
 
 This directory is the canonical source of truth for agent behavior in this repository.
 
+## SELENE production context
+
+SELENE is a production-ready, static learning application. Its published
+notebook catalogue is generated from the pinned upstream
+`chrisvdweth/selene` repository snapshot; original notebooks are for
+provenance, standalone notebooks are the only local-download and Colab
+targets. Changes must retain deterministic content validation, safe static
+deployment, accessible mobile and desktop behaviour, and documented recovery
+paths for upstream sync failures.
+
 ## Why this exists
 
 The system follows the core rule from `Plan.md`: generation speed is useful only when deterministic feedback loops are stronger than the generation loop. These files make that rule executable.

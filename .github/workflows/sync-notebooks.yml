@@ -1,0 +1,44 @@
+name: Synchronize notebooks
+
+on:
+  schedule:
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: notebook-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: https://selene-web.pages.dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run notebooks:sync
+      - run: npm run validate:content
+      - run: npm run test:links
+      - run: npm test
+      - run: npm run build
+      - run: npm run verify:release
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/notebook-sync
+          delete-branch: true
+          title: "chore(content): synchronize SELENE notebooks"
+          commit-message: "chore(content): synchronize SELENE notebooks"
+          body: "Automated pinned upstream notebook snapshot update. Review provenance and rendered artifacts before merging."
+          add-paths: |
+            public/notebooks
+            src/data/generated-topics.json
+            src/data/notebook-provenance.json

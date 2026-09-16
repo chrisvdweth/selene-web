@@ -52,7 +52,7 @@ The rendered notebook HTML is a separate document, so it repeats the `@font-face
 block with the URLs repointed at copies the renderer places beside the pages
 (`/notebooks/fonts/`). A topic page therefore fetches the latin faces twice —
 once hashed for the shell, once unhashed for the frame, about 76KB, cached from
-then on across all 82 dossiers. That duplication is the price of keeping the
+then on across every dossier in the current upstream snapshot. That duplication is the price of keeping the
 committed faces in `src/` where the bundler can hash them; it is bounded,
 same-origin, non-blocking, and strictly cheaper than the two third-party round
 trips it replaced.

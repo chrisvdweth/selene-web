@@ -7,6 +7,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      SITE_URL: https://selene-web.pages.dev
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -16,6 +18,5 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm test
-      # This invokes generate:notebooks before Astro builds, exercising the
-      # no-external-source fallback used by npm run dev.
       - run: npm run build
+      - run: npm run verify:release

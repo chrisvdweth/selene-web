@@ -38,7 +38,7 @@ const unmappedTiers: Tier[] = CATEGORIES.map((category) => ({
     </p>
     {
       mapped.length > 0 ? (
-        <MapGraph topics={mapped} client:load />
+        <MapGraph topics={mapped} client:visible />
       ) : (
         <div class="diagram-note">
           <h3>No path is mapped yet</h3>
@@ -64,7 +64,7 @@ const unmappedTiers: Tier[] = CATEGORIES.map((category) => ({
           idPrefix="unmapped"
           caption="Notebooks not yet linked to the map, grouped by category"
           grouped
-          client:load
+          client:visible
         />
       )
     }

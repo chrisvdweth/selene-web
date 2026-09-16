@@ -1,7 +1,8 @@
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
+const site = process.env.SITE_URL || process.env.CF_PAGES_URL || "http://localhost:4321";
 export default defineConfig({
-  site: "https://selene.example.org",
+  site,
   integrations: [react()],
   vite: {
     /* The d3 modules are only imported by one island. Left to be discovered

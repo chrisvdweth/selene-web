@@ -1,1 +1,1 @@
-export const SITE = { name: "SELENE", description: "A visual learning atlas for open, hands-on AI education.", url: "https://selene.example.org" };
+export const SITE = { name: "SELENE", description: "A visual learning atlas for open, hands-on AI education.", url: import.meta.env.SITE_URL || import.meta.env.CF_PAGES_URL || "http://localhost:4321" };
