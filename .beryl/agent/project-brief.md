@@ -1,36 +1,47 @@
-# Project Brief
+# SELENE Production Brief
 
-SELENE Design is the shared Astro/React base for an open, self-paced AI learning atlas. Learners discover topics through an interactive visual graph, read concise topic context, and move into source Jupyter notebooks locally, as static HTML, or in Colab. Content is repository-owned CSV plus an external configurable notebook source; no backend is required for the base.
+SELENE is a production, static-first learning application for independent AI learners. It turns the upstream [SELENE notebook corpus](https://github.com/chrisvdweth/selene/tree/master/notebooks) into an accessible catalogue of concepts, prerequisite paths, rendered reading material, standalone local downloads, and Google Colab launches.
 
-Primary users: independent learners and maintainers curating connected AI learning material. Success means a learner can find a topic, understand prerequisites, and open a usable learning artifact on mobile or desktop.
+The application is deployed on Cloudflare Pages. It has no accounts and no server-side notebook execution: learner progress and notebook execution stay outside the site. Maintainers review source and learning-path updates through Git pull requests.
 
 ## Product Goal
 
-Build **[application]** for **[primary users]** so they can **[core outcome]**.
+Help learners find a topic, understand what to study first, read it quickly on any device, and open a runnable standalone notebook without encountering stale or broken material.
 
 ## Primary Workflows
 
-1. **[Workflow name]**: [user goal and success condition]
-2. **[Workflow name]**: [user goal and success condition]
-3. **[Workflow name]**: [user goal and success condition]
+1. **Discover and choose**: search or browse the catalogue, inspect a topic and its prerequisites, and open the next learning artifact.
+2. **Read and run**: read a safely rendered notebook, download its standalone version for local use, or launch that standalone version in Colab.
+3. **Maintain content**: synchronize a reviewed upstream snapshot, curate topics and learning paths, and publish a reproducible static release.
 
 ## Non-Goals
 
-- [Explicitly out of scope now]
-- [Explicitly out of scope now]
+- User accounts, saved progress, social features, or learner analytics that identify people.
+- Executing arbitrary notebooks, code, or uploads on SELENE infrastructure.
+- Automatically publishing unreviewed upstream content changes.
 
 ## External Systems
 
 | System | Why it exists | Interface owner | Failure fallback |
 | --- | --- | --- | --- |
-| [Service/API/DB] | [Need] | [Context/adapter] | [Behavior on failure] |
+| `chrisvdweth/selene` | Canonical notebook source and standalone runnable notebooks | Notebook source adapter | Preserve the last verified snapshot; fail the sync rather than publish partial content. |
+| GitHub API/raw content | Resolve immutable upstream commits and retrieve notebook files | Notebook source adapter | Retry within bounded limits; require a token only in CI when unauthenticated limits are reached. |
+| githubtocolab.com / Google Colab | Launch standalone notebooks in Colab | Notebook link builder | Hide the Colab action when validation finds no standalone target. |
+| Cloudflare Pages | Static hosting, TLS, CDN, cache headers, previews | Release workflow | Keep the previous production deployment available for rollback. |
+
+## Production Constraints
+
+- Production builds must be reproducible from a committed provenance manifest; they must not fetch a mutable upstream branch.
+- Every published topic needs a rendered artifact and validated source/download/Colab actions.
+- The 75th percentile Core Web Vitals targets are LCP <= 2.5s, INP <= 200ms, and CLS <= 0.1, measured separately on mobile and desktop.
+- All primary workflows must work with keyboard navigation, reduced motion, current mobile browsers, and current desktop browsers.
 
 ## Definition Of Done
 
-A feature is complete only when it has all of the following:
+A change is complete only when it has all of the following:
 
-1. A small design artifact update (`design-tree.md` and/or ADR) when design changes.
-2. Clear boundary types/interfaces (where language supports this).
-3. Behavior tests plus at least one edge case test.
-4. Deterministic checks run (`./.beryl/scripts/check.sh` and relevant project checks).
-5. No new illegal boundary crossings.
+1. A documented owner, boundary, and failure behavior when it touches an external system.
+2. Schema/behavior tests plus an edge case test.
+3. Generated-output verification for static pages, assets, sitemap, robots, redirects, and headers affected by the change.
+4. The relevant release, accessibility, link, and performance checks pass.
+5. An ADR for durable changes to data ownership, sync, security, or deployment.

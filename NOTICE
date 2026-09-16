@@ -1,12 +1,6 @@
-Beryl
-Copyright 2026 Beryl contributors
+SELENE Web
+Copyright 2026 SELENE Web contributors
 
-This product is licensed under the Apache License, Version 2.0. The complete
-license text is in LICENSE.
-
-The Apache License, Version 2.0 does not grant permission to use the Beryl
-name or logos except as needed to describe the origin of this work or reproduce
-this NOTICE file. See TRADEMARKS.md for project trademark-use guidance.
-
-If you redistribute Beryl or derivative works, retain the applicable notices
-from this file as required by the Apache License, Version 2.0.
+This web application is licensed under the Apache License, Version 2.0.
+Upstream SELENE notebook code is MIT and its text and figures are CC BY 4.0.
+Generated reading artifacts link to their upstream source and retain applicable attribution.
