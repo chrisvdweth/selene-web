@@ -7,11 +7,11 @@ const { title = SITE.name, description = SITE.description } = Astro.props;
 const path = Astro.url.pathname;
 
 const routes = [
-  { href: "/", label: "Topics", match: (p: string) => p === "/" },
-  { href: "/topics", label: "Notebooks", match: (p: string) => p.startsWith("/topics") },
+  { href: "/", label: "Topic browser", match: (p: string) => p === "/" },
+  { href: "/topics", label: "Notebook library", match: (p: string) => p.startsWith("/topics") },
   { href: "/graph", label: "Learning paths", match: (p: string) => p.startsWith("/graph") },
-  { href: "/admin", label: "Path editor", match: (p: string) => p.startsWith("/admin") },
-  { href: "/about", label: "Feedback", match: (p: string) => p.startsWith("/about") },
+  { href: "/admin", label: "Admin", match: (p: string) => p.startsWith("/admin") },
+  { href: "/about", label: "About", match: (p: string) => p.startsWith("/about") },
 ];
 ---
 
