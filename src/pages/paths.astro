@@ -1,0 +1,12 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import paths from "../data/learning-paths.json";
+import { byId } from "../lib/topics";
+---
+
+<BaseLayout title="Learner paths · SELENE" description="Three guided routes through SELENE notebooks.">
+  <section class="page-head"><h1>Choose a learner path</h1><p class="lead">Each path is divided into stages. Complete a lesson on this device to see your progress in the topic browser.</p></section>
+  <div class="path-list">
+    {paths.map((path) => <section class="learning-path" aria-labelledby={`${path.id}-title`}><header><h2 id={`${path.id}-title`}>{path.title}</h2><p>{path.description}</p></header><ol>{path.stages.map((stage, index) => <li><div><span class="data">Stage {index + 1}</span><h3>{stage.title}</h3><p>{stage.description}</p></div><ul>{stage.lessons.map((id) => byId[id] && <li><a href={`/topics/${id}`}>{byId[id].title}<span class="data">{byId[id].difficulty}</span></a></li>)}</ul></li>)}</ol></section>)}
+  </div>
+</BaseLayout>

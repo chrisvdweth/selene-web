@@ -1550,6 +1550,22 @@ p {
 }
 
 /* 13. Prose pages -------------------------------------------------------- */
+
+/* Learner paths ---------------------------------------------------------- */
+.path-list { display: grid; gap: var(--s8); }
+.learning-path { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r-card); overflow: hidden; }
+.learning-path > header { padding: var(--s6); border-bottom: 1px solid var(--rule); }
+.learning-path > header h2, .learning-path h3 { margin: 0; }
+.learning-path > header p, .learning-path h3 + p { margin: var(--s2) 0 0; color: var(--muted); }
+.learning-path > ol { margin: 0; padding: 0; list-style: none; }
+.learning-path > ol > li { display: grid; grid-template-columns: minmax(12rem, .8fr) minmax(16rem, 1.2fr); gap: var(--s6); padding: var(--s6); border-top: 1px solid var(--rule); }
+.learning-path > ol > li:first-child { border-top: 0; }
+.learning-path ul { margin: 0; padding: 0; list-style: none; display: grid; align-content: start; }
+.learning-path ul li { border-bottom: 1px solid var(--rule); }
+.learning-path ul li:last-child { border-bottom: 0; }
+.learning-path ul a { display: flex; justify-content: space-between; gap: var(--s3); padding: var(--s3) 0; text-decoration: none; font-weight: 600; }
+.learning-path ul a:hover { color: var(--blue-ink); }
+@media (max-width: 700px) { .learning-path > ol > li { grid-template-columns: 1fr; gap: var(--s4); } }
 .prose-layout {
   display: grid;
   grid-template-columns: minmax(0, var(--measure)) 240px;

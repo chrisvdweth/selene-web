@@ -420,8 +420,8 @@ export default function Workbench({
                 <h3>{scope === "nearby" ? `Nothing else in ${selected.category} yet` : "Not on a path yet"}</h3>
                 {scope !== "nearby" && (
                   <div className="actions">
-                    <a className="button-ghost" href="/admin">
-                      Propose a path
+                    <a className="button-ghost" href="/paths">
+                      View learner paths
                     </a>
                   </div>
                 )}
