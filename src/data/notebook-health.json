@@ -1,0 +1,692 @@
+{
+  "repository": "chrisvdweth/selene",
+  "commit": "05997b8504e8bd82de95e1ab1acafabd659568ce",
+  "files": [
+    {
+      "notebook": "adagrad_optimizer.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "90f70fbf0be4625a77e45a6dc44f658939e17884dfd286e7a0512a29752a5abb",
+      "reused": true
+    },
+    {
+      "notebook": "adam_optimizer.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "63904d1a23b819a99d28858a5d74aa649999db39b5549a03a475a9f8a765cc98",
+      "reused": true
+    },
+    {
+      "notebook": "ann_from_scratch_numpy_only.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "7e646f7ce248463ccb8c08e7163e763c0358a7c6bd403fb0f9350c9d3652ddf7",
+      "reused": true
+    },
+    {
+      "notebook": "apriori_algorithm_arm.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "620ff086daf5004ad57a771fc5126e4cdd0624396a3bc07e52139450b710f2d8",
+      "reused": true
+    },
+    {
+      "notebook": "artificial_neural_networks_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "1b16d114cec3657aec1735f8ad6cd27d1657a840c08501be862662528d0c1079",
+      "reused": true
+    },
+    {
+      "notebook": "association_rule_mining_overview.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "062d593a03b6950d624fddb9fc3e00373d7fe47a7529f6a44aa533775e187cbf",
+      "reused": true
+    },
+    {
+      "notebook": "attention_kv_caching.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "771f905b989f1d60ee1ce885418e059394c6d59ca66e816f07004350d700f294",
+      "reused": true
+    },
+    {
+      "notebook": "attention_mha_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "b5ae71973cea186a607d12aafb9734f47f7158d98a224838a379e866c18b9e51",
+      "reused": true
+    },
+    {
+      "notebook": "backpropagation_basic_examples.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "09e9cadd3ead719fd78e7e2e142f2a3af3b4a790a83cb9d2891bba021ad62a48",
+      "reused": true
+    },
+    {
+      "notebook": "backpropagation_generalization.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "63d98eef0d45953b24ea7f4eac19850b9a1d44600b09f40e95d838531c62438f",
+      "reused": true
+    },
+    {
+      "notebook": "backpropagation_through_time_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "f350dd6b7f506d3fa0091fc1df9e7eee382e6d5575c9b35db4bb5d1dd61c1f9b",
+      "reused": true
+    },
+    {
+      "notebook": "batch_processing_sequence_tasks.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "c52ee2a7eed4fbdad40850350ae970f701b4fbfa1dfcc4779a5484265eb4f571",
+      "reused": true
+    },
+    {
+      "notebook": "bias_variance_ml_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "d91c0974699e7d0b313433546e92377d2998b4e69dc0cce79567edde6540485d",
+      "reused": true
+    },
+    {
+      "notebook": "bias_variance_ml_decomposition.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "09bf333cb329a0451efa24254c689d84a64380bd2bc90270e596a330cd2d44a8",
+      "reused": true
+    },
+    {
+      "notebook": "boosting_machine_learning_overview.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "1e34659bf095de9ffb207beddc90eacd2e95011797ce10088bc23db9a6e91ba5",
+      "reused": true
+    },
+    {
+      "notebook": "byte_pair_encoding_tokenization.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "4b9a6f1ad54a03d7875defc0f6767dcb1a9e5da4be93e89d59e2fcbbad2ff64c",
+      "reused": true
+    },
+    {
+      "notebook": "clustering_agnes_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "6a8c1f35635680565315e15afe0bb14b48b4fd263e180804d2063bbb1c7e6e5d",
+      "reused": true
+    },
+    {
+      "notebook": "clustering_dbscan_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "c0d84686e8c23a9cb448c8ef72e6c3fef9d099dbdae3e6e64a4fdae7632ef4cc",
+      "reused": true
+    },
+    {
+      "notebook": "clustering_kmeans_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "33faaa7ad9bea77ed2d3d761c4dd50b869bd88c9f6349fe7dc683506517747d2",
+      "reused": true
+    },
+    {
+      "notebook": "curse_of_dimensionality.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "446287e9a070b4b45bc9c1b2e9afa61e6b842f0c9dbd478104b161d11dfe42a2",
+      "reused": true
+    },
+    {
+      "notebook": "data_normalization_overview.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "764c4e5c8845265b369cd373aab1776078ff72e20dfb6ab6b74fcd1d7a95e9ab",
+      "reused": true
+    },
+    {
+      "notebook": "decision_trees_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "6feebdce57e88736c07b9531c80a7dbac8c5162480369ca791e1fa69f046f7a7",
+      "reused": true
+    },
+    {
+      "notebook": "decision_trees_cart.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "56c5aa7310c4a3697db57d5bf0ca45b714397d1492ec40133a9af4abbd66f584",
+      "reused": true
+    },
+    {
+      "notebook": "decision_trees_from_scratch.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "a9c9c33ab5e31a0ca0f9230e0266dc456ae2bc876e1bcb852d9de2f32d597c6a",
+      "reused": true
+    },
+    {
+      "notebook": "dimensionality_reduction_techniques_overview.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "f700e07445e8ab0bc98f84d2d574f048ef3a3c8f6a7bc858402dbba35e33bd8b",
+      "reused": true
+    },
+    {
+      "notebook": "gradient_descent_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "e27abaf3aba5d90173d4a50f3130c664502472bfb337321189d86725ef8e5f51",
+      "reused": true
+    },
+    {
+      "notebook": "gradient_descent_momentum.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "d38dd58494e51bb275fe5ee1ac7c5b45204cce650fe23470578b061a3b8ba4c8",
+      "reused": true
+    },
+    {
+      "notebook": "handwritten_digit_recognition_ann.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "6e53518b0ec73a281ec9253b8e9b226ada2b4d5c92148ccb02d5d3e186304d01",
+      "reused": true
+    },
+    {
+      "notebook": "knowledge_distillation_logit_distillation.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "eaae5216d1715c218edbe58746a044136fe6a76c629950668ebf6426127e5b69",
+      "reused": true
+    },
+    {
+      "notebook": "language_models_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "bcdabc02e90e719915160bb5bed19569213ae66b2a977639749901d775cea072",
+      "reused": true
+    },
+    {
+      "notebook": "linear_discriminant_analysis_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "71e5816db6e441ea8f85b5489ea0fd8d094af69e836515f43aab4efc602d9784",
+      "reused": true
+    },
+    {
+      "notebook": "linear_regression_assumptions_caveats.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "262e7c36a6ddd87596cdcbe4d02257d50d045afe189921f355b1bd280389a0e3",
+      "reused": true
+    },
+    {
+      "notebook": "linear_regression_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "7ad94eb3638c01433fb17a235302362e4266e3e72c45358011c206918bac8e64",
+      "reused": true
+    },
+    {
+      "notebook": "linear_regression_math.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "0fce727b90e38ea3bc5c75006e0ec32b1d74fb9c3500c8a47367449d7e52bb78",
+      "reused": true
+    },
+    {
+      "notebook": "llm_building_gptstyle_llm_from_scratch.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "14193d1c944e46db3c01843bea689432b4dc3ee595fe8320b65efa9357f48d11",
+      "reused": true
+    },
+    {
+      "notebook": "llm_local_inference_pretrained_models.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "48e147b8207dc6a3f3e4937f14fbc8853a2f2d843174e7d7c6432e587e9355ab",
+      "reused": true
+    },
+    {
+      "notebook": "llm_model_fine_tuning_overview.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "54bb2662d0f6508ce1310a16139462fa9dd06f3d4dab469953450a3f59fd3deb",
+      "reused": true
+    },
+    {
+      "notebook": "llm_model_finetuning_lora_hf_kidsqa.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "adbaf985a7f44227cd37e8b9e03797e8f584d4df03b3b2bbef9e10c6b4b4b54e",
+      "reused": true
+    },
+    {
+      "notebook": "llm_openai_api_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "5098fae942d38d8c30594a4aa367ddf249768f78e128a41080dc77158a169678",
+      "reused": true
+    },
+    {
+      "notebook": "llm_resource_efficiency_overview.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "aca3df36aec9a03929c1f48a369e3e81e0705b16571bf2e056cfe7468c72d94c",
+      "reused": true
+    },
+    {
+      "notebook": "llm_training_data_preparation_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "b117840758890ab1d786b7a29603346e6d9050a591779d67cc35b00417f08cac",
+      "reused": true
+    },
+    {
+      "notebook": "llm_training_data_preparation_batching.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "eb9a9c2ff87e7dc6cb8d22df1c0e811b8389a842bfa82841e99ca95dafe8e83d",
+      "reused": true
+    },
+    {
+      "notebook": "logistic_regression_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "3013afad19073ad85fae44c0d5f5ea9e48509d486664abcdc753d3888ce7255f",
+      "reused": true
+    },
+    {
+      "notebook": "logistic_regression_math.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "26539ab34c0295e7a48dfa42ce7805b76d982c4f70254f597f1ead58e8df88dc",
+      "reused": true
+    },
+    {
+      "notebook": "machine_translation_transformers.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "afab8aa5d17d1f0dcacac59d36ea83827125a679225e177e4ac63f24b6bc03e8",
+      "reused": true
+    },
+    {
+      "notebook": "masking_sequence_models.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "af9afe1daeec07883da12604ca65ee74aae1ee322aaa98ea9c4f197b4f89b710",
+      "reused": true
+    },
+    {
+      "notebook": "mixture_of_experts_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "f8620e0f304666381a0fecefe7aec660ebaa6969878968989123cbaf22540425",
+      "reused": true
+    },
+    {
+      "notebook": "mlp_language_model.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "9577a47480f7d1bf8c8d3ee26e3c0b986ac4bf33e8b45127f44810cc887dc0c0",
+      "reused": true
+    },
+    {
+      "notebook": "multinomial_naive_bayes_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "83fdc42968cb95c4dbae9253b0d790a9148aaefe3ff97735ec135dd62711784e",
+      "reused": true
+    },
+    {
+      "notebook": "neural_network_quantization_overview.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "0de665e56b45a5f993e3f50bf7144c011d47659beb6f1121ba2a5c2efe6fa026",
+      "reused": true
+    },
+    {
+      "notebook": "ngram_language_models.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "da5d3b886efb44b994c3edd19027e50546f2ad49b733b3e7236917c68c8ec3a4",
+      "reused": true
+    },
+    {
+      "notebook": "nn_activation_functions_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "9556bf97fd0838533198cf292e0989bc58b966d706914f7f1be9999189bdc00a",
+      "reused": true
+    },
+    {
+      "notebook": "nn_dropout.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "f4cfff5ae042c4de1ee3e51295329d8cd5f7baf498f86d78b8dcf9adbdf45fe1",
+      "reused": true
+    },
+    {
+      "notebook": "nn_layer_normalization.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "05dade135e7c3c9c912b348c9183ec440c0ac6b10ae797c93cc990cad253707b",
+      "reused": true
+    },
+    {
+      "notebook": "nn_linear_layer.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "d5b1fad7f751cb38fc05b31946d10c9283209c635b2b4274c6330e1465f40fba",
+      "reused": true
+    },
+    {
+      "notebook": "nn_residual_connections.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "66aa7d49944448f8348b16cd153d282c8e5ba747050b8ccf000fd2a91e5ee905",
+      "reused": true
+    },
+    {
+      "notebook": "nn_softmax.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "0e77f63fc3eefcb509dbb99cad58227e9f68e048960bd03a3bc1f30e55cce581",
+      "reused": true
+    },
+    {
+      "notebook": "numpy_basic_tutorial.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "948de3f53df1d868dfccd6131d651c8f3925dd5d165c92f2213fc3c2c8f41f53",
+      "reused": true
+    },
+    {
+      "notebook": "part_of_speech_tagging_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "474da33051e7754430206016da8b7a1b9bbda4ff0cf940619c0a15beae4899e7",
+      "reused": true
+    },
+    {
+      "notebook": "porter_stemmer.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "ffef65e79c9272ef24f99f7bad9dc6ae4afea0518487bfd8aec9c14eff5d0c72",
+      "reused": true
+    },
+    {
+      "notebook": "positional_encodings_original_transformer.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "c6e2fcb0971269cb0d2f063f26dc6eb309dfe5368db952d2274c845e31fe0ff9",
+      "reused": true
+    },
+    {
+      "notebook": "positional_encodings_overview.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "813af915d990d902ea3fb2975a502105bdc35cdb05c1fec2f61bb90f229c89d4",
+      "reused": true
+    },
+    {
+      "notebook": "positional_encodings_rope_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "2c864799202f231935cc7bd853c47f0b5e7a4de913d7772e59ac1552173dd2e6",
+      "reused": true
+    },
+    {
+      "notebook": "principal_component_analysis_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "6f22f2f1e48cf2b31ead69f7356a085bd631d47c921916812ae7c057933142e6",
+      "reused": true
+    },
+    {
+      "notebook": "random_forests_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "a696b3a3654b5504e7dba4759a2d1a06102fec58e8efbcc6d604d27c3d1021cf",
+      "reused": true
+    },
+    {
+      "notebook": "recurrent_neural_networks_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "dfe1759d80e409649a0b7dce6db30a45802e1939bc37affdf66f8061be8be7a1",
+      "reused": true
+    },
+    {
+      "notebook": "recurrent_neural_networks_language_model.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "23d1645e88608fbaaf0e021593c7c258b5174926e69313b4cdeff2e9d1d6dff4",
+      "reused": true
+    },
+    {
+      "notebook": "retrieval_augmented_generation_rag_basic_example.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "0a8f8b63c8c48021914a334437539792d543be97e8c8b60183dce2d8a2d1610c",
+      "reused": true
+    },
+    {
+      "notebook": "retrieval_augmented_generation_rag_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "c5ad1129b833e6e79e32f5508e5d1c02623c4f7a8c15c1f17bdd9b79039880ee",
+      "reused": true
+    },
+    {
+      "notebook": "rmsprop_optimizer.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "5a30dde53f05e938723ad40e2fa1f00786fa6ce68c9472197ae09442c0f1be88",
+      "reused": true
+    },
+    {
+      "notebook": "stemming_lemmatization_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "98f72a5aa5cfeb7027bd31ad94e134575e28bc03d0b4adcd8915cf7e61bd5c7e",
+      "reused": true
+    },
+    {
+      "notebook": "text_classification_rnn.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "4c34497fd48dd885a4fc90256067d4b944023154a2b2cb247e511d5309255a2d",
+      "reused": true
+    },
+    {
+      "notebook": "text_normalization_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "33b77694326e6b527890bd02c1fa65fdfb050d44a69bfe2d47d1886cd533b5c5",
+      "reused": true
+    },
+    {
+      "notebook": "text_token_indexing.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "1849d6cd63956e1398ffdea35d463e8ec88324c11a16411ffc44bdb7e0fbc31e",
+      "reused": true
+    },
+    {
+      "notebook": "text_tokenization_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "7b0adf27a573cfefe600d5a060be86be27e8e15980c6dd40f4324eb0d3b93f4c",
+      "reused": true
+    },
+    {
+      "notebook": "time_series_analysis_overview.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "9b972e8b11a3465764b69b7cf560a8e9e1e7385307f15bb4ee10844c6790df8c",
+      "reused": true
+    },
+    {
+      "notebook": "transformers_basic_architecture.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "82c1f795078ae2fbe82f91b6a422fc56842a4df50cdb0b84164e4270be6adff7",
+      "reused": true
+    },
+    {
+      "notebook": "tsa_autoregressive_models_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "be4490c3fb9312facb0cb0b0d1f791905843ec168a8cc0b51d15eee557318afd",
+      "reused": true
+    },
+    {
+      "notebook": "tsa_moving_average_models_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "fdc891a07b91221da1d4b48d26bd6934f300e975123db7ca88ec204886509eac",
+      "reused": true
+    },
+    {
+      "notebook": "vector_space_model_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "a5d8efb673c7102dd37401507bfb013a67a30d79e9d5d5613f8a560e05e0b824",
+      "reused": true
+    },
+    {
+      "notebook": "word2vec_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "ab5d43cc4a2d55beb8e0f1a3682435ed1a7cc3a71e85571d9ea630fcce73d663",
+      "reused": true
+    },
+    {
+      "notebook": "word2vec_training_from_scratch.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "629a4f79164b5e5bb5336807a1499006856da1023db6d1786c2c48ec6d216f51",
+      "reused": true
+    },
+    {
+      "notebook": "word_text_embeddings_overview.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "2ea5e39ada34c40bc0ded242b59f4152607e30decc08161e724eed52daae3425",
+      "reused": true
+    },
+    {
+      "notebook": "word_tokenizer_implementation.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "e3a7b4acc43102ffc63c8506ad987b51796e914788edd191fd41e8a454f40a1f",
+      "reused": true
+    },
+    {
+      "notebook": "wordpiece_tokenization.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "19e7d6c632384f2d311f60d30017ac30e0b32e545b12df2af3b2bf86935c140f",
+      "reused": true
+    }
+  ],
+  "summary": {
+    "passed": 85,
+    "warning": 0,
+    "failed": 0,
+    "reused": 85
+  }
+}

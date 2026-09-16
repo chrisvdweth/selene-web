@@ -24,11 +24,11 @@ const unmappedTiers: Tier[] = CATEGORIES.map((category) => ({
 ---
 
 <BaseLayout
-  title="Learning paths · SELENE"
+  title="Prerequisite map · SELENE"
   description="Every prerequisite link in SELENE on one map, with the notebooks not yet on a path listed beneath it."
 >
   <section class="page-head">
-    <h1>The whole map</h1>
+    <h1>All prerequisite links</h1>
   </section>
 
   <section class="map-region" aria-labelledby="map-heading">
@@ -54,7 +54,7 @@ const unmappedTiers: Tier[] = CATEGORIES.map((category) => ({
       <span class="data">{unmapped.length}</span>
     </p>
     <div class="actions map-actions">
-      <a class="button-ghost" href="/admin">Propose a path</a>
+      <a class="button-ghost" href="/paths">View learner paths</a>
     </div>
 
     {

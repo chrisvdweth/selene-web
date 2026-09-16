@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import LocalDependencies from "../../components/LocalDependencies";
+import ProgressToggle from "../../components/ProgressToggle";
 import { ArrowIcon, DownloadIcon, ExternalIcon } from "../../components/Icon";
 import {
   categoryKey,
@@ -61,6 +62,7 @@ const nearby = topics.filter((t) => t.category === topic.category && t.id !== to
           Run in Colab
           <ArrowIcon />
         </a> : <p class="note">A standalone version is not currently available, so this notebook cannot yet run in Colab.</p>}
+        <ProgressToggle topicId={topic.id} client:load />
       </div>
     </header>
 
@@ -107,7 +109,7 @@ const nearby = topics.filter((t) => t.category === topic.category && t.id !== to
               <div class="diagram-note">
                 <h3>Not on a mapped path</h3>
                 <div class="actions">
-                  <a class="button-ghost" href="/admin">Propose a path</a>
+                  <a class="button-ghost" href="/paths">View learner paths</a>
                 </div>
               </div>
             )
@@ -115,7 +117,7 @@ const nearby = topics.filter((t) => t.category === topic.category && t.id !== to
         </section>
 
         <section class="wire-list">
-          <h3>Nearby in {topic.category}</h3>
+          <h3>Other {topic.category} notebooks</h3>
           <ul>
             {nearby.map((item) => (
               <li>

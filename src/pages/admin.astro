@@ -1,18 +1,32 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import csv from "../data/prerequisites.csv?raw";
+import learningPaths from "../data/learning-paths.json?raw";
+import health from "../data/notebook-health.json";
 import { EDGE_COUNT, topics } from "../lib/topics";
 
 const rowCount = csv.trim().split(/\r?\n/).length - 1;
 ---
 
-<BaseLayout title="Path editor · SELENE" description="Edit SELENE prerequisite paths locally and export the CSV.">
+<BaseLayout title="Admin · SELENE" description="Review source health and export SELENE learning-path specifications.">
   <section class="page-head">
-    <h1>Edit the prerequisite paths</h1>
+    <h1>SELENE administration</h1>
     <p class="lead">
-      This editor is deliberately offline. Nothing is saved, nothing is sent, and no account exists — you edit the CSV
-      here, download it, and commit the file to publish the change.
+      Review the checked source snapshot and export edited specifications for review and publication.
     </p>
+  </section>
+
+  <section class="editor" aria-labelledby="health-heading">
+    <div>
+      <h2 id="health-heading">Source health</h2>
+      <p class="field-hint">Notebook structure and formatting checked at commit <code>{health.commit}</code>.</p>
+      <div class="readout">
+        <div><b>{health.summary.passed}</b><span>passed</span></div>
+        <div><b>{health.summary.warning}</b><span>with warnings</span></div>
+        <div><b>{health.summary.failed}</b><span>failed</span></div>
+      </div>
+      {health.summary.failed > 0 && <ul>{health.files.filter((file) => file.status === "failed").map((file) => <li><code>{file.notebook}</code>: {file.errors.join("; ")}</li>)}</ul>}
+    </div>
   </section>
 
   <div class="readout">
@@ -50,6 +64,15 @@ const rowCount = csv.trim().split(/\r?\n/).length - 1;
     </aside>
   </div>
 
+  <div class="editor">
+    <div>
+      <label class="rule-label" for="learning-paths">learning-paths.json</label>
+      <p class="field-hint" id="learning-paths-hint">Edit path titles, stages, and lesson IDs, then export the file for review.</p>
+      <textarea id="learning-paths" rows="16" wrap="off" spellcheck="false" aria-describedby="learning-paths-hint">{learningPaths}</textarea>
+      <div class="actions"><button class="button-primary" id="download-learning-paths" type="button">Download learning-paths.json</button><p class="editor-status" id="learning-paths-status" role="status"></p></div>
+    </div>
+  </div>
+
   <script is:inline>
     (() => {
       const field = document.querySelector("#csv");
@@ -64,6 +87,17 @@ const rowCount = csv.trim().split(/\r?\n/).length - 1;
         link.click();
         URL.revokeObjectURL(link.href);
         status.textContent = `Exported ${rows} link${rows === 1 ? "" : "s"}.`;
+      });
+      document.querySelector("#download-learning-paths")?.addEventListener("click", () => {
+        const field = document.querySelector("#learning-paths");
+        const status = document.querySelector("#learning-paths-status");
+        try { JSON.parse(field.value); } catch { status.textContent = "The learning path specification is not valid JSON."; return; }
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(new Blob([field.value], { type: "application/json" }));
+        link.download = "learning-paths.json";
+        link.click();
+        URL.revokeObjectURL(link.href);
+        status.textContent = "Exported learning-paths.json.";
       });
     })();
   </script>
