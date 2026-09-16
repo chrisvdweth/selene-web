@@ -1,5 +1,7 @@
 import rows from "../data/topics.csv?raw";
+import edgeRows from "../data/prerequisites.csv?raw";
 import discovered from "../data/generated-topics.json";
+import provenance from "../data/notebook-provenance.json";
 
 export type Topic = {
   id: string;
@@ -9,6 +11,7 @@ export type Topic = {
   difficulty: string;
   intro: string;
   notebook: string;
+  standalone: string | null;
   prerequisites: string[];
 };
 
@@ -29,18 +32,36 @@ export function categoryKey(category: string): string {
 }
 
 function csv(text: string) {
-  const [head, ...lines] = text.trim().split(/\r?\n/);
-  const keys = head.split(",");
-  return lines.map((line) => Object.fromEntries(keys.map((key, i) => [key, line.split(",")[i] ?? ""])));
+  const lines = text.trim().split(/\r?\n/);
+  const parse = (line: string) => {
+    const cells: string[] = []; let cell = ""; let quoted = false;
+    for (let i = 0; i < line.length; i += 1) { const char = line[i]; if (char === '"') { if (quoted && line[i + 1] === '"') { cell += '"'; i += 1; } else quoted = !quoted; } else if (char === "," && !quoted) { cells.push(cell); cell = ""; } else cell += char; }
+    if (quoted) throw new Error("Unclosed CSV quote"); cells.push(cell); return cells;
+  };
+  const keys = parse(lines.shift() || "");
+  return lines.filter(Boolean).map((line) => Object.fromEntries(keys.map((key, i) => [key, parse(line)[i] ?? ""])));
 }
 
 const curated = csv(rows) as any[];
 const curatedByNotebook = new Map(curated.map((row) => [row.notebook, row]));
+const edgeData = csv(edgeRows) as Array<{ source: string; target: string; relationship: string }>;
+const prerequisites = new Map<string, string[]>();
+for (const edge of edgeData) {
+  if (edge.relationship !== "prerequisite") throw new Error(`Unsupported relationship: ${edge.relationship}`);
+  prerequisites.set(edge.target, [...(prerequisites.get(edge.target) ?? []), edge.source]);
+}
+const provenanceByNotebook = new Map((provenance as { entries?: Array<{ notebook: string; standalone: string | null }> }).entries?.map((entry) => [entry.notebook, entry]) ?? []);
 
 const declared: Topic[] = (discovered as any[]).map((found: any) => {
   const row = curatedByNotebook.get(found.notebook) || {};
-  return { ...found, ...row, prerequisites: row.prerequisites ? row.prerequisites.split("|") : [] };
+  const source = provenanceByNotebook.get(found.notebook);
+  if (!source) throw new Error(`Notebook provenance missing for ${found.notebook}`);
+  const id = row.id || found.id;
+  return { ...found, ...row, id, standalone: source.standalone, prerequisites: prerequisites.get(id) ?? [] };
 });
+
+if (new Set(declared.map((topic) => topic.id)).size !== declared.length) throw new Error("Topic IDs must be unique");
+for (const edge of edgeData) if (!declared.some((topic) => topic.id === edge.source) || !declared.some((topic) => topic.id === edge.target) || edge.source === edge.target) throw new Error(`Invalid prerequisite edge ${edge.source} -> ${edge.target}`);
 
 /**
  * Transitive reduction. A prerequisite that is already reached through another
@@ -73,6 +94,10 @@ function reduce(all: Topic[]): Topic[] {
 }
 
 export const topics: Topic[] = reduce(declared);
+
+const visiting = new Set<string>(), visited = new Set<string>();
+const assertAcyclic = (id: string) => { if (visiting.has(id)) throw new Error(`Prerequisite cycle includes ${id}`); if (visited.has(id)) return; visiting.add(id); for (const prerequisite of prerequisites.get(id) ?? []) assertAcyclic(prerequisite); visiting.delete(id); visited.add(id); };
+for (const topic of declared) assertAcyclic(topic.id);
 
 export const byId = Object.fromEntries(topics.map((t) => [t.id, t]));
 

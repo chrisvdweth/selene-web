@@ -1,6 +1,8 @@
 node_modules/
 dist/
 .astro/
-public/notebooks/
+.cache/
+public/notebooks/*.ipynb
 .playwright-mcp/
 .beryl/agent/session-state.md
+.env

@@ -1,0 +1,7 @@
+{
+  "owner": "chrisvdweth",
+  "repository": "selene",
+  "branch": "master",
+  "notebooksPath": "notebooks",
+  "standalonePath": "notebooks/standalone"
+}

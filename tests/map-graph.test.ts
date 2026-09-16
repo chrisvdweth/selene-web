@@ -10,6 +10,7 @@ const topic = (id: string, prerequisites: string[] = []): Topic => ({
   difficulty: "Beginner",
   intro: "",
   notebook: `${id}.ipynb`,
+  standalone: `${id}_standalone.ipynb`,
   prerequisites,
 });
 

@@ -1,0 +1,12 @@
+import { readFile } from "node:fs/promises";
+const parse = (text) => { const [head, ...lines] = text.trim().split(/\r?\n/); const keys = head.split(","); return lines.filter(Boolean).map((line) => Object.fromEntries(keys.map((key, index) => [key, line.split(",")[index] || ""]))); };
+const [topics, edges, generated, provenance] = await Promise.all(["topics.csv", "prerequisites.csv"].map(async (name) => parse(await readFile(`src/data/${name}`, "utf8"))).concat([readFile("src/data/generated-topics.json", "utf8").then(JSON.parse), readFile("src/data/notebook-provenance.json", "utf8").then(JSON.parse)]));
+const curatedByNotebook = new Map(topics.map((topic) => [topic.notebook, topic]));
+const all = new Map(generated.map((topic) => [(curatedByNotebook.get(topic.notebook)?.id || topic.id), topic]));
+const notebooks = new Set(generated.map((topic) => topic.notebook));
+for (const topic of topics) if (!topic.id || !topic.notebook || !notebooks.has(topic.notebook)) throw new Error(`Invalid curated topic ${topic.id}`);
+for (const edge of edges) if (edge.relationship !== "prerequisite" || !all.has(edge.source) || !all.has(edge.target) || edge.source === edge.target) throw new Error(`Invalid edge ${edge.source} -> ${edge.target}`);
+if (all.size !== generated.length) throw new Error("Resolved topic IDs are not unique");
+if (new Set(edges.map((edge) => `${edge.source}->${edge.target}`)).size !== edges.length) throw new Error("Duplicate prerequisite edge");
+if (provenance.entries.length !== generated.length) throw new Error("Provenance does not match generated topics");
+console.log(`Validated ${generated.length} topics and ${edges.length} prerequisite edges.`);

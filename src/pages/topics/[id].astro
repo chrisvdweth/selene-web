@@ -11,6 +11,7 @@ import {
   unlockedBy,
   type Topic,
 } from "../../lib/topics";
+import { colabUrl, originalSourceUrl, standaloneDownloadUrl } from "../../lib/notebook-links";
 
 export function getStaticPaths() {
   return topics.map((t) => ({ params: { id: t.id }, props: { topic: t } }));
@@ -19,8 +20,9 @@ export function getStaticPaths() {
 const { topic } = Astro.props as { topic: Topic };
 
 const renderedUrl = `/notebooks/${topic.notebook.replace(".ipynb", ".html")}`;
-const sourceUrl = `/notebooks/${topic.notebook}`;
-const colabUrl = `https://colab.research.google.com/github/chrisvdweth/selene/blob/main/notebooks/${topic.notebook}`;
+const sourceUrl = originalSourceUrl(topic.notebook);
+const downloadUrl = topic.standalone ? standaloneDownloadUrl(topic.standalone) : null;
+const colab = topic.standalone ? colabUrl(topic.standalone) : null;
 
 const required = requiredBy(topic.id);
 const unlocked = unlockedBy(topic.id);
@@ -55,10 +57,10 @@ const nearby = topics.filter((t) => t.category === topic.category && t.id !== to
 
       <!-- Reading happens in the frame below; these are the two ways to run it. -->
       <div class="actions">
-        <a class="button-primary button-hero" href={colabUrl} target="_blank" rel="noreferrer">
+        {colab ? <a class="button-primary button-hero" href={colab} target="_blank" rel="noreferrer">
           Run in Colab
           <ArrowIcon />
-        </a>
+        </a> : <p class="note">A standalone version is not currently available, so this notebook cannot yet run in Colab.</p>}
       </div>
     </header>
 
@@ -72,10 +74,11 @@ const nearby = topics.filter((t) => t.category === topic.category && t.id !== to
                 <ExternalIcon />
                 Open on its own page
               </a>
-              <a class="link-control" href={sourceUrl} download>
+              <a class="link-control" href={sourceUrl} target="_blank" rel="noreferrer">
                 <DownloadIcon />
-                Download .ipynb
+                View source
               </a>
+              {downloadUrl && <a class="link-control" href={downloadUrl} download><DownloadIcon />Download standalone .ipynb</a>}
             </span>
           </p>
           <iframe class="notebook-frame" src={renderedUrl} title={`${topic.title} notebook`} loading="lazy"></iframe>
@@ -99,7 +102,7 @@ const nearby = topics.filter((t) => t.category === topic.category && t.id !== to
           </p>
           {
             required.length + unlocked.length > 0 ? (
-              <LocalDependencies subject={topic} idPrefix="dossier" client:load />
+              <LocalDependencies subject={topic} idPrefix="dossier" client:visible />
             ) : (
               <div class="diagram-note">
                 <h3>Not on a mapped path</h3>

@@ -1,17 +1,12 @@
-import { mkdir, readFile, writeFile, copyFile, readdir } from "node:fs/promises";
+import { mkdir, readFile, writeFile, copyFile, readdir, rm } from "node:fs/promises";
 import { resolve, basename } from "node:path";
-const source=process.env.SELENE_NOTEBOOK_SOURCE || "/tmp/selene-source/notebooks";
-const configuredSource=process.env.SELENE_NOTEBOOK_SOURCE;
+const current = JSON.parse(await readFile(".cache/notebooks/current.json", "utf8").catch(() => "null"));
+const source=process.env.SELENE_NOTEBOOK_SOURCE || current?.source;
+if (!source) throw new Error("No notebook snapshot is available. Run npm run notebooks:fetch first.");
 async function notebooks(dir, prefix=""){const entries=await readdir(dir,{withFileTypes:true});const nested=await Promise.all(entries.map(async e=>e.isDirectory()?notebooks(resolve(dir,e.name),`${prefix}${e.name}/`):e.name.endsWith(".ipynb")&&!`${prefix}${e.name}`.includes("standalone/")?[`${prefix}${e.name}`]:[]));return nested.flat().sort()}
-let sourceAvailable=true;
-try { await readdir(source); } catch (error) {
-  if (error.code!=="ENOENT" || configuredSource) throw error;
-  sourceAvailable=false;
-  console.warn(`Notebook source not found at ${source}; using the bundled rendered notebooks. Set SELENE_NOTEBOOK_SOURCE to regenerate them.`);
-}
-if (sourceAvailable) {
+await readdir(source);
 const fixtures=await notebooks(source);
-const out=resolve("public/notebooks"); await mkdir(out,{recursive:true});
+const out=resolve("public/notebooks"); await rm(out,{recursive:true,force:true}); await mkdir(out,{recursive:true});
 
 /* The render is a reading surface, not a raw dump. It borrows the site's three
    faces, holds prose to a ~70-character measure, and follows the system colour
@@ -102,6 +97,5 @@ const boilerplate=s=>/^(disclaimer|copyright|licen[cs]e)\b/i.test(s)||/\b(all ri
 
 const titleOf=f=>basename(f,".ipynb").replaceAll("_"," ").replace(/\b\w/g,c=>c.toUpperCase()); const slug=f=>basename(f,".ipynb").replace(/[^a-zA-Z0-9]+/g,"-").replace(/^-|-$/g,"").toLowerCase(); const text=c=>Array.isArray(c.source)?c.source.join(""):String(c.source||""); const plain=s=>decode(s.replace(/<[^>]*>/g," ").replace(/!\[[^\]]*\]\([^)]*\)/g," ").replace(/\[[^\]]+\]\([^)]*\)/g," ").replace(/[#*_`]/g,"")).replace(/\s+/g," ").trim(); const substantive=s=>{const p=plain(s);return p.length>40&&!/^(disclaimer|copyright|license|selene\b)/i.test(p)&&!/\b(disclaimer|all rights reserved)\b/i.test(p)};
 const manifest=[];
-for(const file of fixtures){try {const raw=await readFile(resolve(source,file),"utf8"), nb=JSON.parse(raw), cells=nb.cells||[];const first=cells.find(c=>c.cell_type==="markdown"&&substantive(text(c)));const title=titleOf(file), intro=first?trim(plain(text(first)),220):`A hands-on SELENE notebook about ${title.toLowerCase()}.`;const lower=file.toLowerCase();const category=/llm|token|word|text|language|transformer|attention|rag|pos|stemming/.test(lower)?"Language AI":/neural|backprop|optimizer|dropout|rnn|mlp/.test(lower)?"Deep Learning":"Foundations";const subtopic=category==="Language AI"?"Language systems":category==="Deep Learning"?"Neural systems":"Machine learning";const difficulty=/overview|basics|introduction/.test(lower)?"Beginner":/implementation|from_scratch|advanced/.test(lower)?"Advanced":"Intermediate";const body=cells.map(c=>{const src=text(c);if(c.cell_type==="markdown"){return src.split(/\n{2,}/).map(p=>{const t=plain(p);if(!t)return "";if(p.trimStart().startsWith("#"))return `<h2>${esc(t)}</h2>`;return boilerplate(t)?`<p class="fine">${esc(t)}</p>`:`<p>${esc(t)}</p>`}).join("")}const outputs=(c.outputs||[]).map(o=>o.text?`<pre class="output">${esc(Array.isArray(o.text)?o.text.join(""):o.text)}</pre>`:o.data?.["text/plain"]?`<pre class="output">${esc(Array.isArray(o.data["text/plain"])?o.data["text/plain"].join(""):o.data["text/plain"])}</pre>`:"").join("");return `<section class="cell code"><pre><code>${esc(src)}</code></pre>${outputs?`<p class="cell-label">Output</p>${outputs}`:""}</section>`}).join("\n");await writeFile(resolve(out,file.replace(".ipynb",".html")),page(title,first?"":intro,body));await copyFile(resolve(source,file),resolve(out,file));manifest.push({id:slug(file),title,category,subtopic,difficulty,intro,notebook:file,prerequisites:[]});}catch(error){console.warn(`Skipped ${file}: ${error.message}`)}}
+for(const file of fixtures){const raw=await readFile(resolve(source,file),"utf8"), nb=JSON.parse(raw), cells=nb.cells||[];const first=cells.find(c=>c.cell_type==="markdown"&&substantive(text(c)));const title=titleOf(file), intro=first?trim(plain(text(first)),220):`A hands-on SELENE notebook about ${title.toLowerCase()}.`;const lower=file.toLowerCase();const category=/llm|token|word|text|language|transformer|attention|rag|pos|stemming/.test(lower)?"Language AI":/neural|backprop|optimizer|dropout|rnn|mlp/.test(lower)?"Deep Learning":"Foundations";const subtopic=category==="Language AI"?"Language systems":category==="Deep Learning"?"Neural systems":"Machine learning";const difficulty=/overview|basics|introduction/.test(lower)?"Beginner":/implementation|from_scratch|advanced/.test(lower)?"Advanced":"Intermediate";const body=cells.map(c=>{const src=text(c);if(c.cell_type==="markdown"){return src.split(/\n{2,}/).map(p=>{const t=plain(p);if(!t)return "";if(p.trimStart().startsWith("#"))return `<h2>${esc(t)}</h2>`;return boilerplate(t)?`<p class="fine">${esc(t)}</p>`:`<p>${esc(t)}</p>`}).join("")}const outputs=(c.outputs||[]).map(o=>o.text?`<pre class="output">${esc(Array.isArray(o.text)?o.text.join(""):o.text)}</pre>`:o.data?.["text/plain"]?`<pre class="output">${esc(Array.isArray(o.data["text/plain"])?o.data["text/plain"].join(""):o.data["text/plain"])}</pre>`:"").join("");return `<section class="cell code"><pre><code>${esc(src)}</code></pre>${outputs?`<p class="cell-label">Output</p>${outputs}`:""}</section>`}).join("\n");await writeFile(resolve(out,file.replace(".ipynb",".html")),page(title,first?"":intro,body).replace(/[ \t]+$/gm,""));manifest.push({id:slug(file),title,category,subtopic,difficulty,intro,notebook:file,prerequisites:[]});}
 await writeFile("src/data/generated-topics.json",JSON.stringify(manifest,null,2)+"\n"); console.log(`Rendered ${manifest.length} notebooks.`);
-}

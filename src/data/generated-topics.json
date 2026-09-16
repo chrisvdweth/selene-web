@@ -60,6 +60,16 @@
     "prerequisites": []
   },
   {
+    "id": "attention-kv-caching",
+    "title": "Attention Kv Caching",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Intermediate",
+    "intro": "KV Caching Large Language Models (LLMs) have transformed artificial intelligence, but deploying them efficiently remains a major engineering challenge. During text generation — a process known as autoregressive decoding…",
+    "notebook": "attention_kv_caching.ipynb",
+    "prerequisites": []
+  },
+  {
     "id": "attention-mha-basics",
     "title": "Attention Mha Basics",
     "category": "Language AI",
@@ -480,6 +490,16 @@
     "prerequisites": []
   },
   {
+    "id": "neural-network-quantization-overview",
+    "title": "Neural Network Quantization Overview",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Beginner",
+    "intro": "Quantization for Neural Networks — Overview Large Language Models (LLMs) contain millions or even billions of parameters, making their memory footprint a major challenge during deployment. Storing and processing all…",
+    "notebook": "neural_network_quantization_overview.ipynb",
+    "prerequisites": []
+  },
+  {
     "id": "ngram-language-models",
     "title": "Ngram Language Models",
     "category": "Language AI",
@@ -750,13 +770,23 @@
     "prerequisites": []
   },
   {
-    "id": "tsa-autoregressive-model-basics",
-    "title": "Tsa Autoregressive Model Basics",
+    "id": "tsa-autoregressive-models-basics",
+    "title": "Tsa Autoregressive Models Basics",
     "category": "Foundations",
     "subtopic": "Machine learning",
     "difficulty": "Beginner",
     "intro": "Autoregressive (AR) Models for Time Series Analysis Autoregressive (AR) models are among the most fundamental statistical models for analyzing and forecasting time series. Their central idea is simple: the current value…",
-    "notebook": "tsa_autoregressive_model_basics.ipynb",
+    "notebook": "tsa_autoregressive_models_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "tsa-moving-average-models-basics",
+    "title": "Tsa Moving Average Models Basics",
+    "category": "Language AI",
+    "subtopic": "Language systems",
+    "difficulty": "Beginner",
+    "intro": "Moving Average (MA) Models for Time Series Analysis Moving Average (MA) models are one of the fundamental statistical approaches for modeling time series. Rather than explaining the current value of a series through…",
+    "notebook": "tsa_moving_average_models_basics.ipynb",
     "prerequisites": []
   },
   {
