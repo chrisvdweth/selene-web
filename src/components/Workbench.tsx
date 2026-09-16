@@ -72,11 +72,11 @@ export const SCOPES: {
   {
     id: "nearby",
     route: "nearby",
-    label: "Nearby",
-    panel: "Nearby in the same category",
+    label: "Same category",
+    panel: "Other notebooks in the same category",
     caption: (title) => `Notebooks in the same category as ${title}, not linked to it by a prerequisite`,
-    title: "Nearby in the same category",
-    lead: "Every other notebook in this category that is not wired to the topic. Company rather than dependency — somewhere to go next when you are not following a path.",
+    title: "Other notebooks in the same category",
+    lead: "Notebooks in this category that have no prerequisite relationship with the selected topic. Use these to explore related material outside a learner path.",
   },
 ];
 
