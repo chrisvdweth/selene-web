@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import LearningPaths from "../components/LearningPaths";
 import Workbench from "../components/Workbench";
 import { topics, unlockedBy } from "../lib/topics";
 
@@ -14,5 +15,6 @@ const opening = topics.find((t) => t.prerequisites.length > 0 || unlockedBy(t.id
     <p class="lead">Read the notebook, run the standalone version in Colab, and keep track of what you have completed on this device.</p>
   </section>
 
+  <LearningPaths overview client:load />
   <Workbench client:load initialId={opening} />
 </BaseLayout>

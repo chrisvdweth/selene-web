@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 const provenance = JSON.parse(await readFile("src/data/notebook-provenance.json", "utf8"));
 const previous = JSON.parse(await readFile("src/data/notebook-health.json", "utf8").catch(() => "{\"files\":[]}"));
 const previousByHash = new Map(previous.files?.map((file) => [file.sha256, file]) ?? []);
+const assetHealth = JSON.parse(await readFile(resolve(".cache/notebooks", provenance.commit, "asset-health.json"), "utf8").catch(() => "{\"assets\":[]}"));
 
 const allowedCells = new Set(["code", "markdown", "raw"]);
 const allowedOutputs = new Set(["execute_result", "display_data", "stream", "error"]);
@@ -50,7 +51,14 @@ const summary = files.reduce((total, file) => {
   total.reused += Number(file.reused);
   return total;
 }, { passed: 0, warning: 0, failed: 0, reused: 0 });
-const report = { repository: provenance.repository, commit: provenance.commit, files, summary };
+const missingAssets = (assetHealth.assets ?? []).filter((asset) => asset.status !== "available");
+const report = {
+  repository: provenance.repository,
+  commit: provenance.commit,
+  files,
+  summary,
+  assets: { available: (assetHealth.assets?.length ?? 0) - missingAssets.length, missing: missingAssets },
+};
 await writeFile("src/data/notebook-health.json", `${JSON.stringify(report, null, 2)}\n`);
 if (summary.failed) throw new Error(`${summary.failed} notebook health check${summary.failed === 1 ? "" : "s"} failed`);
 console.log(`Checked ${files.length - summary.reused} changed notebook${files.length - summary.reused === 1 ? "" : "s"}; reused ${summary.reused}.`);

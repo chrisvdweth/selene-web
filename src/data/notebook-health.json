@@ -1,6 +1,6 @@
 {
   "repository": "chrisvdweth/selene",
-  "commit": "05997b8504e8bd82de95e1ab1acafabd659568ce",
+  "commit": "2c159a22b66474fcc98ca4f114550aa7613acd1e",
   "files": [
     {
       "notebook": "adagrad_optimizer.ipynb",
@@ -119,7 +119,7 @@
       "status": "passed",
       "errors": [],
       "warnings": [],
-      "sha256": "1e34659bf095de9ffb207beddc90eacd2e95011797ce10088bc23db9a6e91ba5",
+      "sha256": "7dc3a2e83d0c3f31e7246f140de8648e699706bf309b21fa9408d70b133f085d",
       "reused": true
     },
     {
@@ -400,6 +400,14 @@
       "errors": [],
       "warnings": [],
       "sha256": "0de665e56b45a5f993e3f50bf7144c011d47659beb6f1121ba2a5c2efe6fa026",
+      "reused": true
+    },
+    {
+      "notebook": "neural_network_quantization_ptq.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "d215ee689af0a09a92389410dec874258691a20827cd8c474f304a33b49e1563",
       "reused": true
     },
     {
@@ -684,9 +692,13 @@
     }
   ],
   "summary": {
-    "passed": 85,
+    "passed": 86,
     "warning": 0,
     "failed": 0,
-    "reused": 85
+    "reused": 86
+  },
+  "assets": {
+    "available": 272,
+    "missing": []
   }
 }

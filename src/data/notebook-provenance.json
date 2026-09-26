@@ -1,7 +1,7 @@
 {
   "repository": "chrisvdweth/selene",
   "branch": "master",
-  "commit": "05997b8504e8bd82de95e1ab1acafabd659568ce",
+  "commit": "2c159a22b66474fcc98ca4f114550aa7613acd1e",
   "entries": [
     {
       "notebook": "adagrad_optimizer.ipynb",
@@ -76,7 +76,7 @@
     {
       "notebook": "boosting_machine_learning_overview.ipynb",
       "standalone": "boosting_machine_learning_overview_standalone.ipynb",
-      "sha256": "1e34659bf095de9ffb207beddc90eacd2e95011797ce10088bc23db9a6e91ba5"
+      "sha256": "7dc3a2e83d0c3f31e7246f140de8648e699706bf309b21fa9408d70b133f085d"
     },
     {
       "notebook": "byte_pair_encoding_tokenization.ipynb",
@@ -252,6 +252,11 @@
       "notebook": "neural_network_quantization_overview.ipynb",
       "standalone": "neural_network_quantization_overview_standalone.ipynb",
       "sha256": "0de665e56b45a5f993e3f50bf7144c011d47659beb6f1121ba2a5c2efe6fa026"
+    },
+    {
+      "notebook": "neural_network_quantization_ptq.ipynb",
+      "standalone": "neural_network_quantization_ptq_standalone.ipynb",
+      "sha256": "d215ee689af0a09a92389410dec874258691a20827cd8c474f304a33b49e1563"
     },
     {
       "notebook": "ngram_language_models.ipynb",

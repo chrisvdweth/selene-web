@@ -2,7 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import LocalDependencies from "../../components/LocalDependencies";
 import ProgressToggle from "../../components/ProgressToggle";
-import { ArrowIcon, DownloadIcon, ExternalIcon } from "../../components/Icon";
+import { ArrowIcon, DownloadIcon, ExternalIcon, SourceIcon } from "../../components/Icon";
 import {
   categoryKey,
   curatedIds,
@@ -77,7 +77,7 @@ const nearby = topics.filter((t) => t.category === topic.category && t.id !== to
                 Open on its own page
               </a>
               <a class="link-control" href={sourceUrl} target="_blank" rel="noreferrer">
-                <DownloadIcon />
+                <SourceIcon />
                 View source
               </a>
               {downloadUrl && <a class="link-control" href={downloadUrl} download><DownloadIcon />Download standalone .ipynb</a>}

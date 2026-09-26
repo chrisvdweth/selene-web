@@ -500,6 +500,16 @@
     "prerequisites": []
   },
   {
+    "id": "neural-network-quantization-ptq",
+    "title": "Neural Network Quantization Ptq",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Intermediate",
+    "intro": "Post-Training Quantization Quantization is an important technique for reducing the memory requirements and computational cost of neural networks, particularly when working with large pretrained models. Instead of…",
+    "notebook": "neural_network_quantization_ptq.ipynb",
+    "prerequisites": []
+  },
+  {
     "id": "ngram-language-models",
     "title": "Ngram Language Models",
     "category": "Language AI",

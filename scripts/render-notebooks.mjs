@@ -4,7 +4,6 @@ import { createHash } from "node:crypto";
 import katex from "katex";
 
 const current = JSON.parse(await readFile(".cache/notebooks/current.json", "utf8").catch(() => "null"));
-const provenance = JSON.parse(await readFile("src/data/notebook-provenance.json", "utf8"));
 const source = process.env.SELENE_NOTEBOOK_SOURCE || current?.source;
 if (!source) throw new Error("No notebook snapshot is available. Run npm run notebooks:fetch first.");
 
@@ -46,15 +45,12 @@ const page = (title, body) => `<!doctype html><html lang="en"><head><meta charse
 const upstreamAsset = new Map();
 async function imageSource(sourcePath, alt = "") {
   if (/^data:image\//i.test(sourcePath) || /^https:\/\//i.test(sourcePath)) return `<img src="${escapeAttribute(sourcePath)}" alt="${escapeAttribute(alt)}" loading="lazy">`;
-  const clean = sourcePath.replace(/^\.\//, "").replace(/^\//, "");
+  const clean = sourcePath.split(/[?#]/, 1)[0].replace(/^\.\//, "").replace(/^\//, "");
   if (!clean.startsWith("images/")) return `<span>${escapeHtml(alt || sourcePath)}</span>`;
   if (!upstreamAsset.has(clean)) {
     const extension = extname(clean).replace(/[^.a-z0-9]/gi, "") || ".bin";
     const name = `${createHash("sha256").update(clean).digest("hex")}${extension}`;
-    const url = `https://raw.githubusercontent.com/${provenance.repository}/${provenance.commit}/${clean.split("/").map(encodeURIComponent).join("/")}`;
-    upstreamAsset.set(clean, fetch(url).then(async (response) => {
-      if (!response.ok) throw new Error(`${url} returned ${response.status}`);
-      await writeFile(resolve(output, "assets", name), Buffer.from(await response.arrayBuffer()));
+    upstreamAsset.set(clean, copyFile(resolve(source, clean), resolve(output, "assets", name)).then(() => {
       return `/notebooks/assets/${name}`;
     }).catch(() => null));
   }

@@ -6,6 +6,7 @@ import health from "../data/notebook-health.json";
 import { EDGE_COUNT, topics } from "../lib/topics";
 
 const rowCount = csv.trim().split(/\r?\n/).length - 1;
+const missingAssets = (health.assets?.missing ?? []) as Array<{ asset: string; detail: string }>;
 ---
 
 <BaseLayout title="Admin · SELENE" description="Review source health and export SELENE learning-path specifications.">
@@ -24,8 +25,11 @@ const rowCount = csv.trim().split(/\r?\n/).length - 1;
         <div><b>{health.summary.passed}</b><span>passed</span></div>
         <div><b>{health.summary.warning}</b><span>with warnings</span></div>
         <div><b>{health.summary.failed}</b><span>failed</span></div>
+        <div><b>{health.assets?.available ?? 0}</b><span>image assets available</span></div>
+        <div><b>{health.assets?.missing?.length ?? 0}</b><span>image assets unavailable upstream</span></div>
       </div>
       {health.summary.failed > 0 && <ul>{health.files.filter((file) => file.status === "failed").map((file) => <li><code>{file.notebook}</code>: {file.errors.join("; ")}</li>)}</ul>}
+      {missingAssets.length > 0 && <ul>{missingAssets.map((asset) => <li><code>{asset.asset}</code>: {asset.detail}</li>)}</ul>}
     </div>
   </section>
 
