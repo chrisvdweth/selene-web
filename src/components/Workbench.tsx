@@ -13,6 +13,7 @@ import {
   requiredBy,
   type Topic,
 } from "../lib/topics";
+import { completedTopics, deviceId, setTopicCompleted } from "../lib/device-progress";
 
 /**
  * The topic browser: an index on the left, one selected topic in the middle,
@@ -71,11 +72,11 @@ export const SCOPES: {
   {
     id: "nearby",
     route: "nearby",
-    label: "Nearby",
-    panel: "Nearby in the same category",
+    label: "Same category",
+    panel: "Other notebooks in the same category",
     caption: (title) => `Notebooks in the same category as ${title}, not linked to it by a prerequisite`,
-    title: "Nearby in the same category",
-    lead: "Every other notebook in this category that is not wired to the topic. Company rather than dependency — somewhere to go next when you are not following a path.",
+    title: "Other notebooks in the same category",
+    lead: "Notebooks in this category that have no prerequisite relationship with the selected topic. Use these to explore related material outside a learner path.",
   },
 ];
 
@@ -168,8 +169,17 @@ export default function Workbench({
   const [selectedId, setSelectedId] = useState(
     initialId && byId[initialId] ? initialId : topics[0]?.id
   );
+  const [completed, setCompleted] = useState<Set<string>>(new Set());
 
   const selected = byId[selectedId] ?? topics[0];
+
+  useEffect(() => {
+    deviceId();
+    const sync = () => setCompleted(completedTopics());
+    sync();
+    window.addEventListener("selene-progress-change", sync);
+    return () => window.removeEventListener("selene-progress-change", sync);
+  }, []);
 
   /* Changing the subject or the scope is a change of state, not of page: the
      topic browser stays in place and the scroll position stays put. On the standalone
@@ -321,6 +331,7 @@ export default function Workbench({
         <div className="topic-browser-main">
           <article className="selected-topic">
             <p className="rule-label">Selected topic</p>
+            <p className="data">Progress on this device · {completed.size} of {topics.length} completed</p>
             <h2>{selected.title}</h2>
             <div className="selected-topic-meta">
               <span className={`cat cat-${categoryKey(selected.category)}`}>{selected.category}</span>
@@ -335,6 +346,12 @@ export default function Workbench({
                 Open the notebook
                 <ArrowIcon />
               </a>
+              <button className="button-ghost" type="button" aria-pressed={completed.has(selected.id)} onClick={() => {
+                setTopicCompleted(selected.id, !completed.has(selected.id));
+                setCompleted(completedTopics());
+              }}>
+                {completed.has(selected.id) ? "Mark as not completed" : "Mark as completed"}
+              </button>
             </div>
             <p className="selected-topic-summary">
               {readableIntro(selected.intro)}
@@ -403,8 +420,8 @@ export default function Workbench({
                 <h3>{scope === "nearby" ? `Nothing else in ${selected.category} yet` : "Not on a path yet"}</h3>
                 {scope !== "nearby" && (
                   <div className="actions">
-                    <a className="button-ghost" href="/admin">
-                      Propose a path
+                    <a className="button-ghost" href="/paths">
+                      View learner paths
                     </a>
                   </div>
                 )}

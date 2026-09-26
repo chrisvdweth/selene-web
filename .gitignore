@@ -6,3 +6,4 @@ public/notebooks/*.ipynb
 .playwright-mcp/
 .beryl/agent/session-state.md
 .env
+.dev.vars*

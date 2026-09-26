@@ -3,6 +3,7 @@ import { select } from "d3-selection";
 import { zoom, zoomIdentity, type ZoomBehavior } from "d3-zoom";
 import { META_ADVANCE, TITLE_ADVANCE, clip, orthPath } from "./DependencyDiagram";
 import { categoryKey, type Topic } from "../lib/topics";
+import { completedTopics, deviceId } from "../lib/device-progress";
 
 /**
  * The whole map on one pannable canvas.
@@ -135,6 +136,7 @@ export default function MapGraph({ topics, levelLabel = (l) => (l === 0 ? "Start
   const zoomRef = useRef<ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const [viewW, setViewW] = useState(0);
   const [hot, setHot] = useState<string | null>(null);
+  const [completed, setCompleted] = useState<Set<string>>(new Set());
 
   const graph = useMemo(() => layout(topics), [topics]);
 
@@ -146,6 +148,14 @@ export default function MapGraph({ topics, levelLabel = (l) => (l === 0 ? "Start
     const observer = new ResizeObserver(measure);
     observer.observe(svg);
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    deviceId();
+    const sync = () => setCompleted(completedTopics());
+    sync();
+    window.addEventListener("selene-progress-change", sync);
+    return () => window.removeEventListener("selene-progress-change", sync);
   }, []);
 
   /* A focused topic: the whole path through it — everything it rests on and
@@ -262,6 +272,7 @@ export default function MapGraph({ topics, levelLabel = (l) => (l === 0 ? "Start
         <button type="button" className="button-ghost" onClick={fit}>
           {focus ? "Fit to path" : "Fit to view"}
         </button>
+        <span className="data">{completed.size} completed on this device</span>
       </div>
 
       <svg
@@ -313,7 +324,7 @@ export default function MapGraph({ topics, levelLabel = (l) => (l === 0 ? "Start
             return (
               <a
                 key={node.topic.id}
-                className={`topic-node${dim ? " node-dim" : ""}${node.topic.id === focus ? " node-subject" : ""}`}
+                className={`topic-node${dim ? " node-dim" : ""}${node.topic.id === focus ? " node-subject" : ""}${completed.has(node.topic.id) ? " node-completed" : ""}`}
                 href={`/topics/${node.topic.id}`}
                 onMouseEnter={() => setHot(node.topic.id)}
                 onMouseLeave={() => setHot(null)}
@@ -336,6 +347,7 @@ export default function MapGraph({ topics, levelLabel = (l) => (l === 0 ? "Start
                 <text className="node-meta" x={node.x + 24} y={node.y + 41}>
                   {clip(line, metaBudget)}
                 </text>
+                {completed.has(node.topic.id) && <path className="node-complete-mark" d={`M${node.x + NODE_W - 22} ${node.y + 14}l3 3 5-6`} />}
               </a>
             );
           })}
