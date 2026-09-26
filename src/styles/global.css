@@ -1438,6 +1438,18 @@ p {
   stroke-dasharray: 2 6;
 }
 
+.map-svg .node-completed .node-frame {
+  stroke: var(--mint-ink);
+}
+
+.map-svg .node-complete-mark {
+  fill: none;
+  stroke: var(--mint-ink);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+}
+
 .map-svg .wire {
   transition: opacity 140ms ease-out;
 }
