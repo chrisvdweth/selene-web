@@ -190,6 +190,26 @@
     "prerequisites": []
   },
   {
+    "id": "convolutional-neural-networks-basics",
+    "title": "Convolutional Neural Networks Basics",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Beginner",
+    "intro": "Convolutional Neural Networks — An Introduction Images are an important source of information for many machine learning tasks, including image classification, object detection, and semantic segmentation. However, images…",
+    "notebook": "convolutional_neural_networks_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "convolutional-neural-networks-tutorial-cifar10",
+    "title": "Convolutional Neural Networks Tutorial Cifar10",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Intermediate",
+    "intro": "Tutorial: Training a CNN Image Classifier (CIFAR-10) Convolutional Neural Networks (CNNs) are widely used for image classification because they can learn useful patterns while taking the spatial structure of images into…",
+    "notebook": "convolutional_neural_networks_tutorial_cifar10.ipynb",
+    "prerequisites": []
+  },
+  {
     "id": "curse-of-dimensionality",
     "title": "Curse Of Dimensionality",
     "category": "Foundations",
@@ -497,6 +517,16 @@
     "difficulty": "Beginner",
     "intro": "Quantization for Neural Networks — Overview Large Language Models (LLMs) contain millions or even billions of parameters, making their memory footprint a major challenge during deployment. Storing and processing all…",
     "notebook": "neural_network_quantization_overview.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "neural-network-quantization-ptq",
+    "title": "Neural Network Quantization Ptq",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Intermediate",
+    "intro": "Post-Training Quantization Quantization is an important technique for reducing the memory requirements and computational cost of neural networks, particularly when working with large pretrained models. Instead of…",
+    "notebook": "neural_network_quantization_ptq.ipynb",
     "prerequisites": []
   },
   {

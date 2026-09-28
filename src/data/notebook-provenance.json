@@ -1,7 +1,7 @@
 {
   "repository": "chrisvdweth/selene",
   "branch": "master",
-  "commit": "05997b8504e8bd82de95e1ab1acafabd659568ce",
+  "commit": "b9ef7a24abfef51016035c9822fbc802d30e1fb8",
   "entries": [
     {
       "notebook": "adagrad_optimizer.ipynb",
@@ -76,7 +76,7 @@
     {
       "notebook": "boosting_machine_learning_overview.ipynb",
       "standalone": "boosting_machine_learning_overview_standalone.ipynb",
-      "sha256": "1e34659bf095de9ffb207beddc90eacd2e95011797ce10088bc23db9a6e91ba5"
+      "sha256": "7dc3a2e83d0c3f31e7246f140de8648e699706bf309b21fa9408d70b133f085d"
     },
     {
       "notebook": "byte_pair_encoding_tokenization.ipynb",
@@ -97,6 +97,16 @@
       "notebook": "clustering_kmeans_basics.ipynb",
       "standalone": "clustering_kmeans_basics_standalone.ipynb",
       "sha256": "33faaa7ad9bea77ed2d3d761c4dd50b869bd88c9f6349fe7dc683506517747d2"
+    },
+    {
+      "notebook": "convolutional_neural_networks_basics.ipynb",
+      "standalone": "convolutional_neural_networks_basics_standalone.ipynb",
+      "sha256": "aa77bc2ce91716ff409af7faa9197629c824c94f93cb23403052a5b1a37c38c6"
+    },
+    {
+      "notebook": "convolutional_neural_networks_tutorial_cifar10.ipynb",
+      "standalone": "convolutional_neural_networks_tutorial_cifar10_standalone.ipynb",
+      "sha256": "1d6e69c58f8f23648acae921ecc237d786be215d326e22ae5b3efc60c6f35e10"
     },
     {
       "notebook": "curse_of_dimensionality.ipynb",
@@ -252,6 +262,11 @@
       "notebook": "neural_network_quantization_overview.ipynb",
       "standalone": "neural_network_quantization_overview_standalone.ipynb",
       "sha256": "0de665e56b45a5f993e3f50bf7144c011d47659beb6f1121ba2a5c2efe6fa026"
+    },
+    {
+      "notebook": "neural_network_quantization_ptq.ipynb",
+      "standalone": "neural_network_quantization_ptq_standalone.ipynb",
+      "sha256": "d215ee689af0a09a92389410dec874258691a20827cd8c474f304a33b49e1563"
     },
     {
       "notebook": "ngram_language_models.ipynb",
