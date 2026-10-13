@@ -51,6 +51,8 @@ SITE_URL=https://your-domain.example npm run verify:release
 
 Connect this repository to Cloudflare Pages with build command `npm run build` and output directory `dist`. Set `SITE_URL` to the final HTTPS custom domain (or Pages URL). `_headers` provides security/cache headers and `_redirects` carries compatibility redirects. The weekly workflow opens a reviewable notebook-sync pull request.
 
+Set the shared admin password as the encrypted `ADMIN_PASSWORD` secret in Cloudflare Pages before using `/admin`. The Pages Function protects that route with HTTP Basic authentication. Keep local values in an ignored `.dev.vars` file.
+
 ## Operations and attribution
 
 Deploy only after provenance, content, link, and generated-output checks pass. Roll back bad material by reverting its sync PR or selecting the prior Cloudflare Pages deployment. The app is Apache-2.0; upstream notebook code is MIT and text/figures are CC BY 4.0.

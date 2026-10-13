@@ -71,6 +71,18 @@ export function ExternalIcon({ size = 14, className }: IconProps) {
   );
 }
 
+/** A branch of code: source is distinct from a downloaded notebook file. */
+export function SourceIcon({ size = 14, className }: IconProps) {
+  return (
+    <svg {...base(size)} className={className}>
+      <circle cx="4" cy="3.5" r="1.25" />
+      <circle cx="4" cy="12.5" r="1.25" />
+      <circle cx="12" cy="5.5" r="1.25" />
+      <path d="M4 4.75v6.5M5.25 4.25c1.5 0 1.75 1.25 3.5 1.25h2" />
+    </svg>
+  );
+}
+
 /** Direction of dependency, used in the wire lists next to a written label. */
 export function ArrowIcon({ size = 14, className }: IconProps) {
   return (

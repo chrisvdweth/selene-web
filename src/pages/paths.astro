@@ -1,0 +1,9 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LearningPaths from "../components/LearningPaths";
+---
+
+<BaseLayout title="Learner paths · SELENE" description="Three guided routes through SELENE notebooks.">
+  <section class="page-head"><h1>Choose a learner path</h1><p class="lead">Each path is divided into stages. Complete a lesson on this device to see your progress here and in the prerequisite map.</p></section>
+  <LearningPaths client:load />
+</BaseLayout>

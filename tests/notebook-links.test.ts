@@ -7,7 +7,7 @@ describe("notebook actions", () => {
     const mapped = provenance.entries.find((entry) => entry.standalone);
     expect(mapped).toBeTruthy();
     expect(originalSourceUrl(mapped!.notebook)).toContain("github.com/chrisvdweth/selene/blob/master/notebooks/");
-    expect(standaloneDownloadUrl(mapped!.standalone!)).toContain("raw.githubusercontent.com/chrisvdweth/selene/master/notebooks/standalone/");
+    expect(standaloneDownloadUrl(mapped!.standalone!)).toBe(`/download/${mapped!.standalone}`);
     expect(colabUrl(mapped!.standalone!)).toBe(`https://githubtocolab.com/chrisvdweth/selene/blob/master/notebooks/standalone/${mapped!.standalone}`);
   });
 
