@@ -1564,17 +1564,15 @@ p {
 /* 13. Prose pages -------------------------------------------------------- */
 
 /* Learner paths ---------------------------------------------------------- */
-.path-overview { margin: var(--s4) 0 var(--s10); padding: var(--s6) 0 0; border-top: 1px solid var(--rule); }
-.path-overview-heading { display: flex; align-items: end; justify-content: space-between; gap: var(--s4); margin-bottom: var(--s4); }
-.path-overview-heading p { margin-top: var(--s2); max-width: var(--measure); color: var(--muted); }
-.path-overview ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
-.path-overview li { border-bottom: 1px solid var(--rule); }
-.path-overview li a { display: flex; align-items: center; justify-content: space-between; gap: var(--s4); min-height: 72px; padding: var(--s3) 0; text-decoration: none; }
-.path-overview li a:hover b { color: var(--blue-ink); }
-.path-overview li a > span:first-child { display: grid; gap: 2px; min-width: 0; }
-.path-overview li b { font-size: var(--t-ui); font-weight: 600; }
-.path-overview li a > span:first-child span { font-size: var(--t-meta); color: var(--muted); }
-.path-overview li > a > .data { flex: 0 0 auto; }
+.path-switcher { margin-top: var(--s6); }
+.path-tabs { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s5); }
+.path-tabs button { flex: 1 1 13rem; min-height: 48px; padding: var(--s3) var(--s4); border: 1px solid var(--rule-strong); border-radius: var(--r-control); background: var(--surface); color: var(--ink); font: inherit; font-weight: 600; cursor: pointer; }
+.path-tabs button:hover { background: var(--inset); }
+.path-tabs button[aria-selected="true"] { background: var(--blue-ink); border-color: var(--blue-ink); color: var(--surface); }
+.path-switcher .learning-path[hidden] { display: none; }
+.path-switcher .learning-path + .learning-path:not([hidden]) { margin-top: var(--s6); }
+.path-switcher:has(.path-tabs) .learning-path { margin-top: 0; }
+.home-topic-browser { margin-top: var(--s12); padding-top: var(--s10); border-top: 1px solid var(--rule); }
 .path-list { display: grid; gap: var(--s8); }
 .learning-path { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r-card); overflow: hidden; }
 .learning-path > header { display: flex; align-items: start; justify-content: space-between; gap: var(--s4); padding: var(--s6); border-bottom: 1px solid var(--rule); }
@@ -1589,7 +1587,7 @@ p {
 .learning-path ul a { display: flex; justify-content: space-between; gap: var(--s3); padding: var(--s3) 0; text-decoration: none; font-weight: 600; }
 .learning-path ul a:hover { color: var(--blue-ink); }
 .learning-path > ol > li.is-complete { background: color-mix(in srgb, var(--mint) 8%, transparent); }
-@media (max-width: 700px) { .path-overview-heading { display: grid; align-items: start; } .path-overview li a { align-items: start; flex-direction: column; gap: var(--s2); padding: var(--s4) 0; } .learning-path > header { display: grid; } .learning-path > ol > li { grid-template-columns: 1fr; gap: var(--s4); } }
+@media (max-width: 700px) { .learning-path > header { display: grid; } .learning-path > ol > li { grid-template-columns: 1fr; gap: var(--s4); } }
 .prose-layout {
   display: grid;
   grid-template-columns: minmax(0, var(--measure)) 240px;

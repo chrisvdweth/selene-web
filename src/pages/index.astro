@@ -11,10 +11,16 @@ const opening = topics.find((t) => t.prerequisites.length > 0 || unlockedBy(t.id
 
 <BaseLayout title="SELENE · Learn AI from notebooks">
   <section class="page-head hero">
-    <h1>Choose a topic and work through its prerequisites.</h1>
+    <h1>Choose a learner path and build your knowledge.</h1>
     <p class="lead">Read the notebook, run the standalone version in Colab, and keep track of what you have completed on this device.</p>
   </section>
 
-  <LearningPaths overview client:load />
-  <Workbench client:load initialId={opening} />
+  <LearningPaths switcher client:load />
+  <section class="home-topic-browser" aria-labelledby="browse-topics-heading">
+    <div class="page-head">
+      <h2 id="browse-topics-heading">Explore individual topics</h2>
+      <p class="lead">Find a notebook and explore how its prerequisites connect.</p>
+    </div>
+    <Workbench client:load initialId={opening} />
+  </section>
 </BaseLayout>

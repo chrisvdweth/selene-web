@@ -1,14 +1,19 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import paths from "../data/learning-paths.json";
 import { byId } from "../lib/topics";
 import { completedTopics, deviceId } from "../lib/device-progress";
 
-type LearningPathsProps = { overview?: boolean };
+type LearningPathsProps = { switcher?: boolean };
 
-export default function LearningPaths({ overview = false }: LearningPathsProps) {
+export default function LearningPaths({ switcher = false }: LearningPathsProps) {
   const [completed, setCompleted] = useState<Set<string>>(new Set());
 
+  const [activePath, setActivePath] = useState(paths[0].id);
+  const [ready, setReady] = useState(false);
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+
   useEffect(() => {
+    setReady(true);
     deviceId();
     const sync = () => setCompleted(completedTopics());
     sync();
@@ -24,39 +29,38 @@ export default function LearningPaths({ overview = false }: LearningPathsProps) 
     [completed]
   );
 
-  if (overview) {
-    return (
-      <section className="path-overview" aria-labelledby="paths-heading">
-        <div className="path-overview-heading">
-          <div>
-            <h2 id="paths-heading">Start with a learner path</h2>
-            <p>Choose a structured route, then mark each notebook complete as you work.</p>
-          </div>
-          <a className="link-control" href="/paths">View all learner paths</a>
-        </div>
-        <ul>
-          {paths.map((path) => {
-            const state = progress.get(path.id)!;
-            return <li key={path.id}>
-              <a href={`/paths#${path.id}`}>
-                <span>
-                  <b>{path.title}</b>
-                  <span>{path.description}</span>
-                </span>
-                <span className="data">{state.completed} / {state.lessons.length} complete</span>
-              </a>
-            </li>;
-          })}
-        </ul>
-      </section>
-    );
-  }
-
   return (
-    <div className="path-list">
+    <div className={switcher ? "path-switcher" : "path-list"}>
+      {switcher && ready && <div className="path-tabs" role="tablist" aria-label="Learner paths">
+        {paths.map((path, index) => <button
+          key={path.id}
+          ref={(element) => { tabs.current[index] = element; }}
+          type="button"
+          role="tab"
+          id={`${path.id}-tab`}
+          aria-controls={path.id}
+          aria-selected={activePath === path.id}
+          tabIndex={activePath === path.id ? 0 : -1}
+          onClick={() => setActivePath(path.id)}
+          onKeyDown={(event) => {
+            let next = index;
+            if (event.key === "ArrowRight") next = (index + 1) % paths.length;
+            else if (event.key === "ArrowLeft") next = (index - 1 + paths.length) % paths.length;
+            else if (event.key === "Home") next = 0;
+            else if (event.key === "End") next = paths.length - 1;
+            else return;
+            event.preventDefault();
+            setActivePath(paths[next].id);
+            tabs.current[next]?.focus();
+          }}
+        >{path.title}</button>)}
+      </div>}
       {paths.map((path) => {
         const state = progress.get(path.id)!;
-        return <section className="learning-path" id={path.id} key={path.id} aria-labelledby={`${path.id}-title`}>
+        return <section className="learning-path" id={path.id} key={path.id} hidden={switcher && ready && activePath !== path.id}
+          role={switcher && ready ? "tabpanel" : undefined}
+          tabIndex={switcher && ready ? 0 : undefined}
+          aria-labelledby={switcher && ready ? `${path.id}-tab` : `${path.id}-title`}>
           <header>
             <div>
               <h2 id={`${path.id}-title`}>{path.title}</h2>
