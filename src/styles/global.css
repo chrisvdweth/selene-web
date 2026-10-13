@@ -1565,13 +1565,24 @@ p {
 
 /* Learner paths ---------------------------------------------------------- */
 .path-switcher { margin-top: var(--s6); }
-.path-tabs { display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s5); }
-.path-tabs button { flex: 1 1 13rem; min-height: 48px; padding: var(--s3) var(--s4); border: 1px solid var(--rule-strong); border-radius: var(--r-control); background: var(--surface); color: var(--ink); font: inherit; font-weight: 600; cursor: pointer; }
-.path-tabs button:hover { background: var(--inset); }
-.path-tabs button[aria-selected="true"] { background: var(--blue-ink); border-color: var(--blue-ink); color: var(--surface); }
+.path-controls { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s4); margin-bottom: var(--s5); }
+.path-picker { position: relative; flex: 0 1 32rem; min-width: 0; width: 100%; }
+.path-picker summary { display: flex; align-items: center; justify-content: space-between; gap: var(--s4); padding: var(--s3) var(--s4); min-height: 48px; list-style: none; cursor: pointer; border: 1px solid var(--rule-strong); border-radius: var(--r-control); background: var(--surface); }
+.path-picker summary::-webkit-details-marker { display: none; }
+.path-picker summary > span { display: grid; gap: var(--s1); }
+.path-picker summary svg { flex: none; }
+.path-picker[open] summary svg { transform: rotate(180deg); }
+.path-picker-label { font-size: var(--t-meta); color: var(--muted); }
+.path-options { position: absolute; z-index: 10; top: calc(100% + var(--s2)); left: 0; width: 100%; max-height: min(24rem, 60vh); overflow-y: auto; overscroll-behavior: contain; padding: var(--s2); border: 1px solid var(--rule-strong); border-radius: var(--r-control); background: var(--surface); }
+.path-options button { display: grid; gap: var(--s1); width: 100%; min-height: 48px; padding: var(--s3); border: 0; border-radius: var(--r-control); background: transparent; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.path-options button span { color: var(--muted); font-size: var(--t-meta); }
+.path-options button:hover { background: var(--inset); }
+.path-options button[aria-pressed="true"] { background: var(--inset); }
+.path-options button[aria-pressed="true"] strong { color: var(--blue-ink); }
+@media (max-width: 700px) { .path-options { position: static; margin-top: var(--s2); } }
 .path-switcher .learning-path[hidden] { display: none; }
 .path-switcher .learning-path + .learning-path:not([hidden]) { margin-top: var(--s6); }
-.path-switcher:has(.path-tabs) .learning-path { margin-top: 0; }
+.path-switcher:has(.path-controls) .learning-path { margin-top: 0; }
 .home-topic-browser { margin-top: var(--s12); padding-top: var(--s10); border-top: 1px solid var(--rule); }
 .path-list { display: grid; gap: var(--s8); }
 .learning-path { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r-card); overflow: hidden; }

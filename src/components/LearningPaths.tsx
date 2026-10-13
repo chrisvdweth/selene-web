@@ -10,7 +10,7 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
 
   const [activePath, setActivePath] = useState(paths[0].id);
   const [ready, setReady] = useState(false);
-  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const picker = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {
     setReady(true);
@@ -19,6 +19,16 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
     sync();
     window.addEventListener("selene-progress-change", sync);
     return () => window.removeEventListener("selene-progress-change", sync);
+  }, []);
+
+  useEffect(() => {
+    const dismiss = (event: PointerEvent) => {
+      if (event.target instanceof Node && !picker.current?.contains(event.target)) {
+        picker.current?.removeAttribute("open");
+      }
+    };
+    document.addEventListener("pointerdown", dismiss);
+    return () => document.removeEventListener("pointerdown", dismiss);
   }, []);
 
   const progress = useMemo(
@@ -31,36 +41,38 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
 
   return (
     <div className={switcher ? "path-switcher" : "path-list"}>
-      {switcher && ready && <div className="path-tabs" role="tablist" aria-label="Learner paths">
-        {paths.map((path, index) => <button
-          key={path.id}
-          ref={(element) => { tabs.current[index] = element; }}
-          type="button"
-          role="tab"
-          id={`${path.id}-tab`}
-          aria-controls={path.id}
-          aria-selected={activePath === path.id}
-          tabIndex={activePath === path.id ? 0 : -1}
-          onClick={() => setActivePath(path.id)}
-          onKeyDown={(event) => {
-            let next = index;
-            if (event.key === "ArrowRight") next = (index + 1) % paths.length;
-            else if (event.key === "ArrowLeft") next = (index - 1 + paths.length) % paths.length;
-            else if (event.key === "Home") next = 0;
-            else if (event.key === "End") next = paths.length - 1;
-            else return;
+      {switcher && ready && <div className="path-controls">
+        <details className="path-picker" ref={picker} onKeyDown={(event) => {
+          if (event.key === "Escape") {
             event.preventDefault();
-            setActivePath(paths[next].id);
-            tabs.current[next]?.focus();
-          }}
-        >{path.title}</button>)}
+            picker.current?.removeAttribute("open");
+            picker.current?.querySelector("summary")?.focus();
+          }
+        }}>
+          <summary>
+            <span><span className="path-picker-label">Choose a path</span><strong>{paths.find((path) => path.id === activePath)?.title}</strong></span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+          </summary>
+          <div className="path-options" aria-label="Available learner paths">
+            {paths.map((path) => <button type="button" key={path.id}
+              aria-pressed={activePath === path.id}
+              aria-controls={path.id}
+              onClick={() => {
+                setActivePath(path.id);
+                picker.current?.removeAttribute("open");
+                picker.current?.querySelector("summary")?.focus();
+              }}>
+              <strong>{path.title}</strong>
+              <span>{path.description}</span>
+            </button>)}
+          </div>
+        </details>
+        <a className="link-control" href="/paths">Compare all paths</a>
       </div>}
       {paths.map((path) => {
         const state = progress.get(path.id)!;
         return <section className="learning-path" id={path.id} key={path.id} hidden={switcher && ready && activePath !== path.id}
-          role={switcher && ready ? "tabpanel" : undefined}
-          tabIndex={switcher && ready ? 0 : undefined}
-          aria-labelledby={switcher && ready ? `${path.id}-tab` : `${path.id}-title`}>
+          aria-labelledby={`${path.id}-title`}>
           <header>
             <div>
               <h2 id={`${path.id}-title`}>{path.title}</h2>
