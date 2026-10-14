@@ -22,13 +22,13 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
   }, []);
 
   useEffect(() => {
-    const dismiss = (event: PointerEvent) => {
+    const dismiss = (event: MouseEvent) => {
       if (event.target instanceof Node && !picker.current?.contains(event.target)) {
         picker.current?.removeAttribute("open");
       }
     };
-    document.addEventListener("pointerdown", dismiss);
-    return () => document.removeEventListener("pointerdown", dismiss);
+    document.addEventListener("click", dismiss);
+    return () => document.removeEventListener("click", dismiss);
   }, []);
 
   const progress = useMemo(
@@ -67,7 +67,6 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
             </button>)}
           </div>
         </details>
-        <a className="link-control" href="/paths">Compare all paths</a>
       </div>}
       {paths.map((path) => {
         const state = progress.get(path.id)!;

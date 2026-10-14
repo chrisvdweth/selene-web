@@ -418,13 +418,6 @@ export default function Workbench({
             {neighbours === 0 && (scope === "nearby" || !onPath) && (
               <div className="diagram-note">
                 <h3>{scope === "nearby" ? `Nothing else in ${selected.category} yet` : "Not on a path yet"}</h3>
-                {scope !== "nearby" && (
-                  <div className="actions">
-                    <a className="button-ghost" href="/paths">
-                      View learner paths
-                    </a>
-                  </div>
-                )}
               </div>
             )}
           </section>
