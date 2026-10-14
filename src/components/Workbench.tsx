@@ -1,3 +1,4 @@
+import CompletionMark from "./CompletionMark";
 import { useCallback, useEffect, useMemo, useState, type MouseEvent } from "react";
 import DependencyDiagram, { type Tier } from "./DependencyDiagram";
 import { localTiers } from "./LocalDependencies";
@@ -291,7 +292,7 @@ export default function Workbench({
                           aria-pressed={topic.id === selected.id}
                           onClick={() => show(topic.id, scope)}
                         >
-                          <b>{topic.title}</b>
+                          <b>{topic.title}<CompletionMark completed={completed.has(topic.id)} /></b>
                           <span className="data">{topic.difficulty}</span>
                         </button>
                       </li>

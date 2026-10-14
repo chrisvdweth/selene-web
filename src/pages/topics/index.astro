@@ -1,4 +1,5 @@
 ---
+import CompletionMark from "../../components/CompletionMark";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { SearchIcon } from "../../components/Icon";
 import { CATEGORIES, categoryKey, topics, unlockedBy } from "../../lib/topics";
@@ -78,7 +79,7 @@ const filters: { name: string; label: string; all: string; options: string[] }[]
             >
               <a class="index-row" href={`/topics/${topic.id}`}>
                 <span>
-                  <strong>{topic.title}</strong>
+                  <strong>{topic.title}<CompletionMark topicId={topic.id} /></strong>
                   <span class="row-sub">{topic.subtopic}</span>
                 </span>
                 <span class="row-sub">{topic.difficulty}</span>
@@ -97,6 +98,20 @@ const filters: { name: string; label: string; all: string; options: string[] }[]
       <button class="button-ghost" id="index-reset" type="button">Clear search and filters</button>
     </div>
   </section>
+
+  <script>
+    import { completedTopics } from "../../lib/device-progress";
+    const syncCompletion = () => {
+      const completed = completedTopics();
+      document.querySelectorAll<HTMLElement>("[data-topic-completion]").forEach((mark) => {
+        mark.hidden = !completed.has(mark.dataset.topicCompletion!);
+      });
+    };
+    syncCompletion();
+    window.addEventListener("selene-progress-change", syncCompletion);
+    window.addEventListener("storage", syncCompletion);
+    window.addEventListener("pageshow", syncCompletion);
+  </script>
 
   <script is:inline>
     (() => {

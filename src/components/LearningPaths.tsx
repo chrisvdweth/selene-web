@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import CompletionMark from "./CompletionMark";
 import paths from "../data/learning-paths.json";
 import { byId } from "../lib/topics";
 import { completedTopics, deviceId } from "../lib/device-progress";
@@ -70,8 +71,8 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
                 <ul>
                   {stage.lessons.map((id) => byId[id] && <li key={id}>
                     <a href={`/topics/${id}`}>
-                      <span>{byId[id].title}</span>
-                      <span className="data">{completed.has(id) ? "Completed" : byId[id].difficulty}</span>
+                      <span className="lesson-title">{byId[id].title}<CompletionMark completed={completed.has(id)} /></span>
+                      <span className="data">{byId[id].difficulty}</span>
                     </a>
                   </li>)}
                 </ul>

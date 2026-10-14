@@ -2,7 +2,7 @@
 
 ## Purpose and composition
 
-The home page leads independent learners into a complete guided path through the notebook corpus. The hero introduces choosing a path, running standalone notebooks, and tracking completion on the current device. The full path appears next: title, description, completion count, ordered stages, and linked lessons with difficulty or completion labels. A horizontal rule and generous spacing then introduce “Explore individual topics” and the existing topic browser.
+The home page leads independent learners into a complete guided path through the notebook corpus. The hero introduces choosing a path, running standalone notebooks, and tracking completion on the current device. The full path appears next: title, description, completion count, ordered stages, and linked lessons with persistent difficulty labels and a tick beside each completed title. A horizontal rule and generous spacing then introduce “Explore individual topics” and the existing topic browser.
 
 ## Interaction and responsive behavior
 
@@ -12,8 +12,14 @@ Selector buttons have a minimum height of 64px. Above 700px the selector occupie
 
 ## Existing visual inheritance
 
-This surface preserves the Lunar Lab visual system and self-hosted typography: Space Grotesk headings, Inter interface text, and IBM Plex Mono data labels. The shared path container inherits `--surface`, `--rule`, and `--r-card`; its sidebar uses `--inset`. Selector buttons inherit `--r-control`, `--ink`, and the global focus treatment. The selected button has an `--ink` border and `--surface` background; hover also uses `--surface`. Completion labels and descriptions use `--muted`, and completed stages use the existing mint tint. Spacing uses the existing scale; the topic-browser divider uses `--rule`, with `--s12` above and `--s10` below. These tokens retain their existing light/dark behavior; this change establishes no new global visual rules.
+This surface preserves the Lunar Lab visual system and self-hosted typography: Space Grotesk headings, Inter interface text, and IBM Plex Mono data labels. The shared path container inherits `--surface`, `--rule`, and `--r-card`; its sidebar uses `--inset`. Selector buttons inherit `--r-control`, `--ink`, and the global focus treatment. The selected button has an `--ink` border and `--surface` background; hover also uses `--surface`. Difficulty labels, completion counts, and descriptions use `--muted`; completion ticks use `--mint-ink`, and completed stages use the existing mint tint. Spacing uses the existing scale; the topic-browser divider uses `--rule`, with `--s12` above and `--s10` below. These tokens retain their existing light/dark behavior; this change establishes no new global visual rules.
 
 ## Review disposition
 
 Ship, per the sidebar implementation and desktop, mobile, tablet, and dark-theme visual review. Review captures: [desktop sidebar](../review/sidebar-desktop.png), [mobile sidebar](../review/sidebar-mobile.png), [tablet sidebar](../review/sidebar-tablet.png), and [dark sidebar](../review/sidebar-dark.png). The captures show the current three-path catalog. Implementation verification reports successful type checking and build, all path selections, Enter activation, overflow checks at three viewport widths, synthetic ten-row capacity, and the no-JavaScript fallback, with no page errors. The synthetic capacity check verifies the bounded layout; it does not establish future path content or ten distinct real paths. No approved visual comp was supplied; review uses the incumbent Lunar Lab interface as its visual authority.
+
+## Completion indicators
+
+Completed lessons retain their difficulty and show a small SVG tick immediately beside the title. The same mark appears in the topic browser index and notebook library. The tick follows the existing 16px icon grid and 1.5px stroke, uses `--mint-ink`, and includes screen-reader text “Completed”; incomplete lessons hide the mark and its accessible text. The existing device progress store remains authoritative.
+
+Ship for this narrow indicator change. [Desktop](../review/completion-desktop.png) and [mobile](../review/completion-mobile.png) captures show the completed Numpy lesson with its Intermediate difficulty preserved and no disruption to the inherited composition. Source review confirms the shared indicator across all three views. Implementation verification reports type/build checks, completion on/off in all three views, reload persistence, and overflow checks without errors or new detector findings. The supplied captures show the learner-path tick; the topic browser and library behavior is supported by source review and reported browser verification. No approved comp was supplied, and this review adds no new visual direction.
