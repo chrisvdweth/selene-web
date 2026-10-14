@@ -1438,11 +1438,13 @@ p {
   stroke-dasharray: 2 6;
 }
 
-.map-svg .node-completed .node-frame {
+.map-svg .node-completed .node-frame,
+.diagram .node-completed .node-frame {
   stroke: var(--mint-ink);
 }
 
-.map-svg .node-complete-mark {
+.map-svg .node-complete-mark,
+.diagram .node-complete-mark {
   fill: none;
   stroke: var(--mint-ink);
   stroke-linecap: round;

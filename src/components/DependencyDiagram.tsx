@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { completedTopics } from "../lib/device-progress";
 import { categoryKey, type Topic } from "../lib/topics";
 
 /**
@@ -143,6 +144,20 @@ export default function DependencyDiagram({
 }) {
   const wrap = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
+  const [completed, setCompleted] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    const sync = () => setCompleted(completedTopics());
+    sync();
+    window.addEventListener("selene-progress-change", sync);
+    window.addEventListener("storage", sync);
+    window.addEventListener("pageshow", sync);
+    return () => {
+      window.removeEventListener("selene-progress-change", sync);
+      window.removeEventListener("storage", sync);
+      window.removeEventListener("pageshow", sync);
+    };
+  }, []);
   /* The node under the pointer or holding focus. Everything not wired to it
      steps back so its direct links can be read off the picture. */
   const [hot, setHot] = useState<string | null>(null);
@@ -233,12 +248,14 @@ export default function DependencyDiagram({
       const framed = grouped && tier.items.length > 1;
       const pad = framed ? GROUP_PAD : 0;
       const inner = available - pad * 2;
-      const { rows } = rowsOf(tier.items.length, inner);
+      const { perRow, rows } = rowsOf(tier.items.length, inner);
       const groupTop = rowY;
       rowY += pad;
       let index = 0;
       rows.forEach((inRow, rowIndex) => {
-        const w = Math.min(MAX_W, (inner - GAP_X * (inRow - 1)) / inRow);
+        // Nearby courses form a grid: a partial row keeps the full row's width.
+        const columns = tier.kind === "nearby" ? perRow : inRow;
+        const w = Math.min(MAX_W, (inner - GAP_X * (columns - 1)) / columns);
         const rowWidth = w * inRow + GAP_X * (inRow - 1);
         let x = x0 + pad + (inner - rowWidth) / 2;
         for (let i = 0; i < inRow; i += 1) {
@@ -492,7 +509,8 @@ export default function DependencyDiagram({
               ))}
 
             {layout.placed.map((node) => {
-              const titleBudget = Math.floor((node.w - 24) / TITLE_ADVANCE);
+              const isComplete = completed.has(node.topic.id);
+              const titleBudget = Math.floor((node.w - 24 - (isComplete ? 24 : 0)) / TITLE_ADVANCE);
               const metaBudget = Math.floor((node.w - 36) / META_ADVANCE);
               const meta = `${node.topic.difficulty} · ${node.topic.category}`;
               const line = secondLine(node.topic, node.kind);
@@ -500,7 +518,7 @@ export default function DependencyDiagram({
               return (
                 <a
                   key={node.topic.id}
-                  className={`topic-node${node.kind === "subject" ? " node-subject" : ""}${dim ? " node-dim" : ""}`}
+                  className={`topic-node${node.kind === "subject" ? " node-subject" : ""}${dim ? " node-dim" : ""}${isComplete ? " node-completed" : ""}`}
                   href={`/topics/${node.topic.id}`}
                   data-topic={node.topic.id}
                   data-topic-href={`/topics/${node.topic.id}`}
@@ -515,8 +533,9 @@ export default function DependencyDiagram({
                     onSelect(node.topic);
                   }}
                 >
-                  <title>{`${node.topic.title} — ${meta}. ${onSelect ? "Select this topic." : "Open the notebook dossier."}`}</title>
+                  <title>{`${node.topic.title} — ${meta}. ${isComplete ? "Completed. " : ""}${onSelect ? "Select this topic." : "Open the notebook dossier."}`}</title>
                   <rect className="node-frame" x={node.x} y={node.y} width={node.w} height={NODE_H} />
+                  {isComplete && <path className="node-complete-mark" d={`M${node.x + node.w - 22} ${node.y + 14}l3 3 5-6`} />}
                   <text className="node-title" x={node.x + 12} y={node.y + 24}>
                     {clip(node.topic.title, titleBudget)}
                   </text>
