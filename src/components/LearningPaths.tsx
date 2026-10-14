@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import paths from "../data/learning-paths.json";
 import { byId } from "../lib/topics";
 import { completedTopics, deviceId } from "../lib/device-progress";
@@ -10,7 +10,6 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
 
   const [activePath, setActivePath] = useState(paths[0].id);
   const [ready, setReady] = useState(false);
-  const picker = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {
     setReady(true);
@@ -19,16 +18,6 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
     sync();
     window.addEventListener("selene-progress-change", sync);
     return () => window.removeEventListener("selene-progress-change", sync);
-  }, []);
-
-  useEffect(() => {
-    const dismiss = (event: MouseEvent) => {
-      if (event.target instanceof Node && !picker.current?.contains(event.target)) {
-        picker.current?.removeAttribute("open");
-      }
-    };
-    document.addEventListener("click", dismiss);
-    return () => document.removeEventListener("click", dismiss);
   }, []);
 
   const progress = useMemo(
@@ -40,34 +29,22 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
   );
 
   return (
-    <div className={switcher ? "path-switcher" : "path-list"}>
-      {switcher && ready && <div className="path-controls">
-        <details className="path-picker" ref={picker} onKeyDown={(event) => {
-          if (event.key === "Escape") {
-            event.preventDefault();
-            picker.current?.removeAttribute("open");
-            picker.current?.querySelector("summary")?.focus();
-          }
-        }}>
-          <summary>
-            <span><span className="path-picker-label">Choose a path</span><strong>{paths.find((path) => path.id === activePath)?.title}</strong></span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
-          </summary>
-          <div className="path-options" aria-label="Available learner paths">
-            {paths.map((path) => <button type="button" key={path.id}
+    <div className={switcher && ready ? "path-switcher" : "path-list"}>
+      {switcher && ready && <aside className="path-sidebar" aria-label="Choose a learner path">
+        <div className="path-sidebar-heading"><h2>Learner paths</h2><span className="data">{paths.length}</span></div>
+        <div className="path-index">
+          {paths.map((path) => {
+            const state = progress.get(path.id)!;
+            return <button type="button" key={path.id}
               aria-pressed={activePath === path.id}
               aria-controls={path.id}
-              onClick={() => {
-                setActivePath(path.id);
-                picker.current?.removeAttribute("open");
-                picker.current?.querySelector("summary")?.focus();
-              }}>
+              onClick={() => setActivePath(path.id)}>
               <strong>{path.title}</strong>
-              <span>{path.description}</span>
-            </button>)}
-          </div>
-        </details>
-      </div>}
+              <span className="data">{state.completed} / {state.lessons.length} complete</span>
+            </button>;
+          })}
+        </div>
+      </aside>}
       {paths.map((path) => {
         const state = progress.get(path.id)!;
         return <section className="learning-path" id={path.id} key={path.id} hidden={switcher && ready && activePath !== path.id}
