@@ -2,11 +2,6 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import LearningPaths from "../components/LearningPaths";
 import Workbench from "../components/Workbench";
-import { topics, unlockedBy } from "../lib/topics";
-
-/* Open on a mapped topic so the topic browser demonstrates a path rather than an
-   empty state on first load. */
-const opening = topics.find((t) => t.prerequisites.length > 0 || unlockedBy(t.id).length > 0)?.id;
 ---
 
 <BaseLayout title="SELENE · Learn AI from notebooks">
@@ -21,6 +16,6 @@ const opening = topics.find((t) => t.prerequisites.length > 0 || unlockedBy(t.id
       <h2 id="browse-topics-heading">Explore individual topics</h2>
       <p class="lead">Find a notebook and explore how its prerequisites connect.</p>
     </div>
-    <Workbench client:load initialId={opening} />
+    <Workbench client:load rememberSelection />
   </section>
 </BaseLayout>

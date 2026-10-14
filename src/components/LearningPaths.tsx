@@ -4,6 +4,8 @@ import paths from "../data/learning-paths.json";
 import { byId } from "../lib/topics";
 import { completedTopics, deviceId } from "../lib/device-progress";
 
+const SELECTION_KEY = "selene-home-path";
+
 type LearningPathsProps = { switcher?: boolean };
 
 export default function LearningPaths({ switcher = false }: LearningPathsProps) {
@@ -13,13 +15,21 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    if (switcher) {
+      try {
+        const saved = sessionStorage.getItem(SELECTION_KEY);
+        if (paths.some((path) => path.id === saved)) setActivePath(saved!);
+      } catch {
+        // Keep the default path when session storage is unavailable.
+      }
+    }
     setReady(true);
     deviceId();
     const sync = () => setCompleted(completedTopics());
     sync();
     window.addEventListener("selene-progress-change", sync);
     return () => window.removeEventListener("selene-progress-change", sync);
-  }, []);
+  }, [switcher]);
 
   const progress = useMemo(
     () => new Map(paths.map((path) => {
@@ -39,7 +49,11 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
             return <button type="button" key={path.id}
               aria-pressed={activePath === path.id}
               aria-controls={path.id}
-              onClick={() => setActivePath(path.id)}>
+              onClick={() => {
+                setActivePath(path.id);
+                try { sessionStorage.setItem(SELECTION_KEY, path.id); }
+                catch { /* Path selection still works without session storage. */ }
+              }}>
               <strong>{path.title}</strong>
               <span className="data">{state.completed} / {state.lessons.length} complete</span>
             </button>;

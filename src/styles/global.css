@@ -1889,7 +1889,8 @@ p {
 }
 
 /* Completion is independent of lesson difficulty. */
-.completion-mark { display: inline-flex; align-items: center; margin-inline-start: var(--s2); color: var(--mint-ink); vertical-align: middle; }
+/* Keep the absolute screen-reader label inside its scrollable course row. */
+.completion-mark { position: relative; display: inline-flex; align-items: center; margin-inline-start: var(--s2); color: var(--mint-ink); vertical-align: middle; }
 .completion-mark[hidden] { display: none; }
 .completion-mark svg { flex: none; }
 .learning-path .lesson-title { min-width: 0; }
