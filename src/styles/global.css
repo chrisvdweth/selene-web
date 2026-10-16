@@ -799,11 +799,7 @@ p {
   background: var(--inset);
 }
 
-/* The index is a scroll region, not a page-length column. 82 rows laid out in
-   full would make the topic browser five screens tall and strand the schematic below
-   the fold. Basis 0 with a floor lets the list take exactly the height the
-   selected-topic column sets and scroll the rest, so the rail fills with rows
-   instead of leaving a void above its own footer. */
+/* The list fills the available rail height and scrolls independently. */
 .index-scroll {
   flex: 1 1 0;
   min-height: 220px;
@@ -892,6 +888,32 @@ p {
   gap: var(--s8);
   padding: var(--s6);
   min-width: 0;
+}
+
+/* Selection changes must not resize the desktop browser. Each column owns
+   its overflow; the diagram shares the details scrollbar instead of nesting
+   another scroll region inside it. Mobile keeps the natural stacked flow. */
+@media (min-width: 761px) {
+  .topic-browser-body {
+    height: clamp(480px, 72svh, 800px);
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .topic-browser-index,
+  .topic-browser-main {
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
+
+  .topic-browser-index .index-scroll {
+    min-height: 0;
+  }
+
+  .topic-browser-main .diagram-scroll {
+    max-height: none;
+    overflow: visible;
+  }
 }
 
 .selected-topic h2 {
@@ -1595,6 +1617,34 @@ p {
 .path-switcher .learning-path[hidden] { display: none; }
 .path-switcher .learning-path > header { flex-wrap: wrap; }
 .path-switcher .learning-path > ol > li { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); }
+/* Keep the homepage path panel steady from the empty state through every
+   selection. Scope this to the switcher so the full paths page flows normally. */
+@media (min-width: 701px) {
+  .path-switcher {
+    height: clamp(480px, 72svh, 800px);
+    grid-template-rows: minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .path-switcher .path-sidebar {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .path-switcher .path-index {
+    min-height: 0;
+    max-height: none;
+    scrollbar-gutter: stable;
+  }
+
+  .path-switcher .learning-path {
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
+}
 @media (max-width: 900px) {
   .path-switcher { grid-template-columns: 220px minmax(0, 1fr); }
   .path-switcher .learning-path > ol > li { grid-template-columns: 1fr; gap: var(--s4); }
