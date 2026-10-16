@@ -11,7 +11,7 @@ type LearningPathsProps = { switcher?: boolean };
 export default function LearningPaths({ switcher = false }: LearningPathsProps) {
   const [completed, setCompleted] = useState<Set<string>>(new Set());
 
-  const [activePath, setActivePath] = useState(paths[0].id);
+  const [activePath, setActivePath] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
         const saved = sessionStorage.getItem(SELECTION_KEY);
         if (paths.some((path) => path.id === saved)) setActivePath(saved!);
       } catch {
-        // Keep the default path when session storage is unavailable.
+        // Leave paths unselected when session storage is unavailable.
       }
     }
     setReady(true);
@@ -60,6 +60,10 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
           })}
         </div>
       </aside>}
+      {switcher && ready && !activePath && <section className="learning-path path-empty" aria-labelledby="path-empty-heading">
+        <h2 id="path-empty-heading">Select a learner path to explore</h2>
+        <p>Choose a path from the list to see its stages, lessons, and your progress.</p>
+      </section>}
       {paths.map((path) => {
         const state = progress.get(path.id)!;
         return <section className="learning-path" id={path.id} key={path.id} hidden={switcher && ready && activePath !== path.id}

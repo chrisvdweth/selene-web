@@ -1894,3 +1894,7 @@ p {
 .completion-mark[hidden] { display: none; }
 .completion-mark svg { flex: none; }
 .learning-path .lesson-title { min-width: 0; }
+
+.path-empty { align-self: stretch; padding: var(--s6); }
+.path-empty h2 { margin: 0; }
+.path-empty p { margin: var(--s2) 0 0; color: var(--muted); }
