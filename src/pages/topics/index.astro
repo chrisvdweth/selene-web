@@ -42,7 +42,6 @@ const filters: { name: string; label: string; all: string; options: string[] }[]
         aria-describedby="index-count"
       />
     </label>
-    <p class="data" id="index-count" role="status">{topics.length} of {topics.length} shown</p>
     {
       filters.map((filter) => (
         <label class="select">
@@ -99,6 +98,26 @@ const filters: { name: string; label: string; all: string; options: string[] }[]
     </div>
   </section>
 
+  <nav class="index-pagination" id="index-pagination" aria-label="Notebook pages" hidden>
+    <label class="index-page-size">
+      <span>Entries per page</span>
+      <span class="select">
+        <select id="index-page-size">
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50" selected>50</option>
+          <option value="all">All</option>
+        </select>
+      </span>
+    </label>
+    <p class="data" id="index-count" role="status">Showing {topics.length ? 1 : 0}–{topics.length} of {topics.length} entries</p>
+    <div class="index-page-controls">
+      <button class="button-ghost" id="index-previous" type="button">Previous</button>
+      <span class="data" id="index-page"></span>
+      <button class="button-ghost" id="index-next" type="button">Next</button>
+    </div>
+  </nav>
+
   <script>
     import { completedTopics } from "../../lib/device-progress";
     const syncCompletion = () => {
@@ -122,20 +141,27 @@ const filters: { name: string; label: string; all: string; options: string[] }[]
       const sections = [...document.querySelectorAll("[data-group]")];
       const rows = [...document.querySelectorAll("[data-row]")];
       const selects = [...document.querySelectorAll("select[data-filter]")];
-      const total = rows.length;
+      const pagination = document.querySelector("#index-pagination");
+      const previous = document.querySelector("#index-previous");
+      const next = document.querySelector("#index-next");
+      const pageLabel = document.querySelector("#index-page");
+      const pageSizeSelect = document.querySelector("#index-page-size");
+      let page = 1;
 
       const apply = () => {
         const needle = input.value.trim().toLowerCase();
-        let shown = 0;
-
-        for (const row of rows) {
-          const hit =
+        const matches = rows.filter((row) =>
             (!needle || row.dataset.search.includes(needle)) &&
             /* An empty value is the facet's "all" option. */
-            selects.every((select) => !select.value || row.dataset[select.dataset.filter] === select.value);
-          row.hidden = !hit;
-          if (hit) shown += 1;
-        }
+            selects.every((select) => !select.value || row.dataset[select.dataset.filter] === select.value)
+        );
+        const total = matches.length;
+        const pageSize = pageSizeSelect.value === "all" ? Math.max(1, total) : Number(pageSizeSelect.value);
+        const pageCount = Math.max(1, Math.ceil(total / pageSize));
+        page = Math.min(page, pageCount);
+        const start = (page - 1) * pageSize;
+        const visibleRows = new Set(matches.slice(start, start + pageSize));
+        for (const row of rows) row.hidden = !visibleRows.has(row);
 
         for (const section of sections) {
           const visible = [...section.querySelectorAll("[data-row]")].filter((row) => !row.hidden).length;
@@ -144,20 +170,37 @@ const filters: { name: string; label: string; all: string; options: string[] }[]
           if (label) label.textContent = String(visible);
         }
 
-        count.textContent = `${shown} of ${total} shown`;
-        empty.hidden = shown !== 0;
+        count.textContent = `Showing ${total ? start + 1 : 0}–${Math.min(start + pageSize, total)} of ${total} entries`;
+        empty.hidden = total !== 0;
+        pagination.hidden = false;
+        previous.disabled = page === 1;
+        next.disabled = page === pageCount;
+        pageLabel.textContent = `Page ${page} of ${pageCount}`;
       };
 
-      for (const select of selects) select.addEventListener("change", apply);
+      const applyFilters = () => {
+        page = 1;
+        apply();
+      };
+      for (const select of selects) select.addEventListener("change", applyFilters);
+      pageSizeSelect.addEventListener("change", applyFilters);
+      previous.addEventListener("click", () => {
+        page = Math.max(1, page - 1);
+        apply();
+      });
+      next.addEventListener("click", () => {
+        page += 1;
+        apply();
+      });
 
       reset?.addEventListener("click", () => {
         input.value = "";
         for (const select of selects) select.value = "";
-        apply();
+        applyFilters();
         input.focus();
       });
 
-      input.addEventListener("input", apply);
+      input.addEventListener("input", applyFilters);
       apply();
     })();
   </script>

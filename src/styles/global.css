@@ -1316,10 +1316,9 @@ p {
   max-width: 420px;
 }
 
-/* The count sits between the search box and the facet dropdowns, so the
-   sentence reads "search … 82 of 82 shown … narrowed by". */
-.index-bar .data {
-  margin: 0 var(--s2);
+/* Keep the current range with the pagination controls. */
+.index-pagination .data {
+  margin: 0;
   white-space: nowrap;
 }
 
@@ -1328,6 +1327,30 @@ p {
   padding: 0;
   list-style: none;
   border-top: 1px solid var(--rule);
+}
+
+.index-pagination {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  margin: var(--s2) 0 var(--s4);
+}
+
+.index-pagination[hidden] {
+  display: none;
+}
+
+.index-page-size,
+.index-page-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+
+.index-page-size {
+  margin-right: auto;
+  font-size: var(--t-ui);
 }
 
 .index-table li {
