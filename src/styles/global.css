@@ -1372,7 +1372,8 @@ p {
   background: var(--surface);
 }
 
-.index-row > span:first-child {
+.index-row > span:first-child,
+.index-row .row-meta {
   display: grid;
   gap: 2px;
   min-width: 0;
@@ -1481,14 +1482,6 @@ p {
 
 .map-svg .wire-dim {
   opacity: 0.25;
-}
-
-.index-section > h2 {
-  display: flex;
-  align-items: baseline;
-  gap: var(--s3);
-  margin: var(--s10) 0 var(--s3);
-  font-size: var(--t-title);
 }
 
 .index-empty {
@@ -1877,8 +1870,11 @@ p {
     padding: var(--s3) 0;
   }
 
-  .index-section > h2 {
-    margin-top: var(--s8);
+  .index-row .row-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s3);
   }
 
   .notebook-frame {
