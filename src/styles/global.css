@@ -1604,6 +1604,96 @@ p {
 /* 13. Prose pages -------------------------------------------------------- */
 
 /* Learner paths ---------------------------------------------------------- */
+.path-progress-actions {
+  display: grid;
+  justify-items: start;
+  gap: var(--s3);
+}
+
+.path-navigation {
+  margin-block: var(--s4);
+  padding-block: var(--s4);
+  border-block: 1px solid var(--rule);
+}
+
+.path-navigation-summary,
+.path-navigation-links,
+.path-choices li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3) var(--s4);
+}
+
+.path-navigation-summary {
+  justify-content: space-between;
+  margin-bottom: var(--s4);
+}
+
+.path-choices {
+  display: grid;
+  gap: var(--s2);
+  padding: 0;
+  margin: var(--s2) 0 0;
+  list-style: none;
+}
+
+.path-choice-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--s3);
+  margin-top: var(--s3);
+}
+
+.path-choice-field {
+  display: grid;
+  gap: var(--s2);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.path-choice-field .select,
+.path-choice-field select {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.path-choice-form [hidden] {
+  display: none;
+}
+
+.path-step {
+  display: grid;
+  gap: var(--s2);
+  flex: 1 1 14rem;
+  min-width: 0;
+  min-height: 44px;
+  padding: var(--s3);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-control);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.path-navigation-links {
+  align-items: stretch;
+}
+
+.path-step:hover:not(:disabled) {
+  background: var(--inset);
+  border-color: var(--rule-strong);
+}
+
+.path-step:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .path-switcher { display: grid; grid-template-columns: 260px minmax(0, 1fr); align-items: start; margin-top: var(--s6); border: 1px solid var(--rule); border-radius: var(--r-card); background: var(--surface); }
 .path-sidebar { position: sticky; top: 84px; min-width: 0; padding: var(--s4); background: var(--inset); border-radius: var(--r-card) 0 0 var(--r-card); }
 .path-sidebar-heading { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s3); }
@@ -1613,7 +1703,7 @@ p {
 .path-index button:hover { background: var(--surface); }
 .path-index button[aria-pressed="true"] { border-color: var(--ink); background: var(--surface); }
 .path-index button .data { color: var(--muted); }
-.path-switcher .learning-path { min-width: 0; border: 0; border-left: 1px solid var(--rule); border-radius: 0 var(--r-card) var(--r-card) 0; }
+.path-switcher .learning-path { min-width: 0; border: 0; border-left: 1px solid var(--rule); border-radius: 0 var(--r-card) var(--r-card) 0; scroll-margin-top: 84px; }
 .path-switcher .learning-path[hidden] { display: none; }
 .path-switcher .learning-path > header { flex-wrap: wrap; }
 .path-switcher .learning-path > ol > li { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); }

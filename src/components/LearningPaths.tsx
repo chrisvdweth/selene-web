@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import CompletionMark from "./CompletionMark";
+import { ArrowIcon } from "./Icon";
 import paths from "../data/learning-paths.json";
 import { byId } from "../lib/topics";
 import { completedTopics, deviceId } from "../lib/device-progress";
+import { firstUnfinished, pathLessons, pathNotebookUrl } from "../lib/learning-paths";
 
 const SELECTION_KEY = "selene-home-path";
 
@@ -16,11 +18,16 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
 
   useEffect(() => {
     if (switcher) {
-      try {
-        const saved = sessionStorage.getItem(SELECTION_KEY);
-        if (paths.some((path) => path.id === saved)) setActivePath(saved!);
-      } catch {
-        // Leave paths unselected when session storage is unavailable.
+      const linkedPath = paths.find((path) => window.location.hash === `#${path.id}`);
+      if (linkedPath) {
+        setActivePath(linkedPath.id);
+      } else {
+        try {
+          const saved = sessionStorage.getItem(SELECTION_KEY);
+          if (paths.some((path) => path.id === saved)) setActivePath(saved!);
+        } catch {
+          // Leave paths unselected when session storage is unavailable.
+        }
       }
     }
     setReady(true);
@@ -28,12 +35,35 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
     const sync = () => setCompleted(completedTopics());
     sync();
     window.addEventListener("selene-progress-change", sync);
-    return () => window.removeEventListener("selene-progress-change", sync);
+    window.addEventListener("storage", sync);
+    window.addEventListener("pageshow", sync);
+    return () => {
+      window.removeEventListener("selene-progress-change", sync);
+      window.removeEventListener("storage", sync);
+      window.removeEventListener("pageshow", sync);
+    };
   }, [switcher]);
+
+  useEffect(() => {
+    if (!switcher) return;
+    const syncHash = () => {
+      const path = paths.find((item) => window.location.hash === `#${item.id}`);
+      if (path) setActivePath(path.id);
+    };
+    window.addEventListener("hashchange", syncHash);
+    return () => window.removeEventListener("hashchange", syncHash);
+  }, [switcher]);
+
+  useEffect(() => {
+    if (!switcher || !ready || !activePath || window.location.hash !== `#${activePath}`) return;
+    // Reposition after hydration reveals the requested path and settles its layout.
+    const frame = requestAnimationFrame(() => document.getElementById(activePath)?.scrollIntoView({ block: "start" }));
+    return () => cancelAnimationFrame(frame);
+  }, [switcher, ready, activePath]);
 
   const progress = useMemo(
     () => new Map(paths.map((path) => {
-      const lessons = path.stages.flatMap((stage) => stage.lessons).filter((id) => byId[id]);
+      const lessons = pathLessons(path);
       return [path.id, { lessons, completed: lessons.filter((id) => completed.has(id)).length }];
     })),
     [completed]
@@ -66,6 +96,8 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
       </section>}
       {paths.map((path) => {
         const state = progress.get(path.id)!;
+        const resumeId = firstUnfinished(path, completed);
+        const destination = resumeId ?? state.lessons[0];
         return <section className="learning-path" id={path.id} key={path.id} hidden={switcher && ready && activePath !== path.id}
           aria-labelledby={`${path.id}-title`}>
           <header>
@@ -73,9 +105,15 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
               <h2 id={`${path.id}-title`}>{path.title}</h2>
               <p>{path.description}</p>
             </div>
-            <p className="data" aria-label={`${state.completed} of ${state.lessons.length} notebooks complete`}>
-              {state.completed} / {state.lessons.length} complete
-            </p>
+            <div className="path-progress-actions">
+              <p className="data" aria-label={`${state.completed} of ${state.lessons.length} notebooks complete`}>
+                {state.completed} / {state.lessons.length} complete
+              </p>
+              {ready && destination && <a className={resumeId ? "button-primary button-hero" : "button-ghost"} href={pathNotebookUrl(destination, path.id)}>
+                {resumeId ? "Resume path" : "Review path"}
+                {resumeId && <ArrowIcon />}
+              </a>}
+            </div>
           </header>
           <ol>
             {path.stages.map((stage, index) => {
@@ -88,7 +126,7 @@ export default function LearningPaths({ switcher = false }: LearningPathsProps) 
                 </div>
                 <ul>
                   {stage.lessons.map((id) => byId[id] && <li key={id}>
-                    <a href={`/topics/${id}`}>
+                    <a href={pathNotebookUrl(id, path.id)}>
                       <span className="lesson-title">{byId[id].title}<CompletionMark completed={completed.has(id)} /></span>
                       <span className="data">{byId[id].difficulty}</span>
                     </a>

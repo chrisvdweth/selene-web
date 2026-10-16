@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import LocalDependencies from "../../components/LocalDependencies";
 import ProgressToggle from "../../components/ProgressToggle";
+import PathNavigation from "../../components/PathNavigation.astro";
 import { ArrowIcon, DownloadIcon, ExternalIcon, SourceIcon } from "../../components/Icon";
 import {
   categoryKey,
@@ -68,6 +69,7 @@ const nearby = topics.filter((t) => t.category === topic.category && t.id !== to
 
     <div class="dossier-body">
       <div class="dossier-main">
+        <PathNavigation topicId={topic.id} />
         <section aria-labelledby="reader-heading">
           <p class="rule-label" id="reader-heading">
             The notebook
@@ -85,6 +87,7 @@ const nearby = topics.filter((t) => t.category === topic.category && t.id !== to
           </p>
           <iframe class="notebook-frame" src={renderedUrl} title={`${topic.title} notebook`} loading="lazy"></iframe>
         </section>
+        <PathNavigation topicId={topic.id} position="bottom" />
       </div>
 
       <aside class="dossier-aside" aria-labelledby="deps-heading">
@@ -107,7 +110,7 @@ const nearby = topics.filter((t) => t.category === topic.category && t.id !== to
               <LocalDependencies subject={topic} idPrefix="dossier" client:visible />
             ) : (
               <div class="diagram-note">
-                <h3>Not on a mapped path</h3>
+                <h3>No mapped dependencies</h3>
               </div>
             )
           }
