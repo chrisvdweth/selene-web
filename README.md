@@ -6,8 +6,7 @@ SELENE is a static-first learning atlas for open AI education. It indexes the up
 
 ```bash
 npm ci
-npm run notebooks:fetch
-npm run notebooks:render
+npm run notebooks:sync
 npm run dev
 ```
 
@@ -20,10 +19,10 @@ npm run notebooks:fetch                 # resolve master to a pinned SHA and dow
 npm run notebooks:fetch -- --ref master # fetch an explicit ref
 npm run notebooks:fetch -- --check      # inspect upstream without writing
 npm run notebooks:render                # refresh reading artifacts and discovery data
-npm run notebooks:sync                  # fetch then render
+npm run notebooks:sync                  # fetch, render, and update the health report
 ```
 
-`src/data/notebook-provenance.json` records the resolved commit, checksums, and original-to-standalone mapping. `.cache/notebooks/` is disposable; generated HTML is committed and reviewed. A failed fetch preserves the previous snapshot.
+`src/data/notebook-provenance.json` records the resolved commit, checksums, and original-to-standalone mapping. Commit `src/data/notebook-health.json` together with each synchronized snapshot so clean CI builds can reuse its checked results. `.cache/notebooks/` is disposable; generated HTML is committed and reviewed. A failed fetch preserves the previous snapshot.
 
 Downloads and Colab use upstream `notebooks/standalone`. Colab URLs follow:
 

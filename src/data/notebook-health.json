@@ -1,6 +1,6 @@
 {
   "repository": "chrisvdweth/selene",
-  "commit": "2c159a22b66474fcc98ca4f114550aa7613acd1e",
+  "commit": "03f845eda45218fa19da38c97cc4cbc269b33667",
   "files": [
     {
       "notebook": "adagrad_optimizer.ipynb",
@@ -16,6 +16,14 @@
       "errors": [],
       "warnings": [],
       "sha256": "63904d1a23b819a99d28858a5d74aa649999db39b5549a03a475a9f8a765cc98",
+      "reused": true
+    },
+    {
+      "notebook": "ai_agents_overview.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "bf2ba2c0d565f20529472c134ede8824539beb37d149c796a041703cf9295c9e",
       "reused": true
     },
     {
@@ -152,6 +160,22 @@
       "errors": [],
       "warnings": [],
       "sha256": "33faaa7ad9bea77ed2d3d761c4dd50b869bd88c9f6349fe7dc683506517747d2",
+      "reused": true
+    },
+    {
+      "notebook": "convolutional_neural_networks_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "aa77bc2ce91716ff409af7faa9197629c824c94f93cb23403052a5b1a37c38c6",
+      "reused": true
+    },
+    {
+      "notebook": "convolutional_neural_networks_tutorial_cifar10.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "1d6e69c58f8f23648acae921ecc237d786be215d326e22ae5b3efc60c6f35e10",
       "reused": true
     },
     {
@@ -692,13 +716,13 @@
     }
   ],
   "summary": {
-    "passed": 86,
+    "passed": 89,
     "warning": 0,
     "failed": 0,
-    "reused": 86
+    "reused": 89
   },
   "assets": {
-    "available": 272,
+    "available": 295,
     "missing": []
   }
 }

@@ -7,7 +7,7 @@
     "dev": "npm run notebooks:verify && astro dev",
     "notebooks:fetch": "node scripts/fetch-notebooks.mjs",
     "notebooks:render": "node scripts/render-notebooks.mjs",
-    "notebooks:sync": "npm run notebooks:fetch && npm run notebooks:render",
+    "notebooks:sync": "npm run notebooks:fetch && npm run notebooks:render && npm run notebooks:health",
     "notebooks:verify": "node scripts/verify-notebooks.mjs",
     "notebooks:health": "node scripts/check-notebook-health.mjs",
     "generate:notebooks": "npm run notebooks:render",

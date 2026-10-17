@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 const provenance = JSON.parse(await readFile("src/data/notebook-provenance.json", "utf8"));
 const previous = JSON.parse(await readFile("src/data/notebook-health.json", "utf8").catch(() => "{\"files\":[]}"));
 const previousByHash = new Map(previous.files?.map((file) => [file.sha256, file]) ?? []);
-const assetHealth = JSON.parse(await readFile(resolve(".cache/notebooks", provenance.commit, "asset-health.json"), "utf8").catch(() => "{\"assets\":[]}"));
+const assetHealth = JSON.parse(await readFile(resolve(".cache/notebooks", provenance.commit, "asset-health.json"), "utf8").catch(() => "{\"assets\":null}"));
 
 const allowedCells = new Set(["code", "markdown", "raw"]);
 const allowedOutputs = new Set(["execute_result", "display_data", "stream", "error"]);
@@ -34,7 +34,7 @@ function checkNotebook(notebook, document) {
 const files = [];
 for (const entry of provenance.entries) {
   const cached = previousByHash.get(entry.sha256);
-  if (cached) {
+  if (cached && cached.status !== "failed") {
     files.push({ ...cached, notebook: entry.notebook, sha256: entry.sha256, reused: true });
     continue;
   }
@@ -57,8 +57,13 @@ const report = {
   commit: provenance.commit,
   files,
   summary,
-  assets: { available: (assetHealth.assets?.length ?? 0) - missingAssets.length, missing: missingAssets },
+  assets: assetHealth.assets
+    ? { available: assetHealth.assets.length - missingAssets.length, missing: missingAssets }
+    : previous.commit === provenance.commit ? previous.assets ?? { available: 0, missing: [] } : { available: 0, missing: [] },
 };
 await writeFile("src/data/notebook-health.json", `${JSON.stringify(report, null, 2)}\n`);
-if (summary.failed) throw new Error(`${summary.failed} notebook health check${summary.failed === 1 ? "" : "s"} failed`);
+if (summary.failed) {
+  const details = files.filter((file) => file.status === "failed").map((file) => `${file.notebook}: ${file.errors.join("; ")}`).join("\n");
+  throw new Error(`${summary.failed} notebook health check${summary.failed === 1 ? "" : "s"} failed.\n${details}\nRun npm run notebooks:sync and commit the updated health report with the notebook snapshot.`);
+}
 console.log(`Checked ${files.length - summary.reused} changed notebook${files.length - summary.reused === 1 ? "" : "s"}; reused ${summary.reused}.`);
