@@ -1,3 +1,4 @@
+import CompletionMark from "./CompletionMark";
 import { useCallback, useEffect, useMemo, useState, type MouseEvent } from "react";
 import DependencyDiagram, { type Tier } from "./DependencyDiagram";
 import { localTiers } from "./LocalDependencies";
@@ -157,8 +158,11 @@ export default function Workbench({
   initialId,
   scope: initialScope = "local",
   withHead = false,
+  rememberSelection = false,
 }: {
   initialId?: string;
+  /** Keep the homepage choice when navigating between site sections in this tab. */
+  rememberSelection?: boolean;
   scope?: Scope;
   /** Render the page heading for the active scope, on the standalone graph pages. */
   withHead?: boolean;
@@ -167,11 +171,24 @@ export default function Workbench({
   const [category, setCategory] = useState("All");
   const [scope, setScope] = useState<Scope>(initialScope);
   const [selectedId, setSelectedId] = useState(
-    initialId && byId[initialId] ? initialId : topics[0]?.id
+    initialId && byId[initialId] ? initialId : undefined
   );
   const [completed, setCompleted] = useState<Set<string>>(new Set());
 
-  const selected = byId[selectedId] ?? topics[0];
+  const selected = selectedId ? byId[selectedId] : undefined;
+
+  useEffect(() => {
+    if (!rememberSelection) return;
+    try {
+      const saved = JSON.parse(sessionStorage.getItem("selene-home-selection") ?? "null");
+      if (saved && typeof saved.id === "string" && Object.hasOwn(byId, saved.id)) {
+        setSelectedId(saved.id);
+        setScope(SCOPES.some((item) => item.id === saved.scope) ? saved.scope : "local");
+      }
+    } catch {
+      // Storage may be unavailable or stale; the index remains usable.
+    }
+  }, [rememberSelection]);
 
   useEffect(() => {
     deviceId();
@@ -188,10 +205,14 @@ export default function Workbench({
   const show = useCallback((id: string, next: Scope, push = true) => {
     setSelectedId(id);
     setScope(next);
+    if (rememberSelection) {
+      try { sessionStorage.setItem("selene-home-selection", JSON.stringify({ id, scope: next })); }
+      catch { /* Selection still works when storage is unavailable. */ }
+    }
     if (!push || typeof window === "undefined" || !window.location.pathname.startsWith("/graph/")) return;
     const route = SCOPES.find((s) => s.id === next)?.route ?? "show";
     window.history.pushState({ id, scope: next }, "", `/graph/${route}/${id}`);
-  }, []);
+  }, [rememberSelection]);
 
   const select = useCallback((topic: Topic) => show(topic.id, scope), [show, scope]);
 
@@ -227,15 +248,15 @@ export default function Workbench({
   /* The filter is for finding a notebook in the index. The diagram always
      shows the whole neighbourhood of the selected topic — a wire hidden
      by a search box would be a missing prerequisite, not a narrower view. */
-  const tiers = useMemo(() => tiersFor(scope, selected, () => true), [scope, selected]);
+  const tiers = useMemo(() => selected ? tiersFor(scope, selected, () => true) : [], [scope, selected]);
 
   const neighbours = tiers.reduce((n, tier) => n + (tier.kind === "subject" ? 0 : tier.items.length), 0);
-  const onPath = requiredBy(selected.id).length + unlockedBy(selected.id).length > 0;
-  const curated = curatedIds.has(selected.id);
+  const onPath = selected ? requiredBy(selected.id).length + unlockedBy(selected.id).length > 0 : false;
+  const curated = selected ? curatedIds.has(selected.id) : false;
   const activeScope = SCOPES.find((s) => s.id === scope) ?? SCOPES[0];
 
   useEffect(() => {
-    if (withHead) document.title = `${activeScope.title} · ${selected.title}`;
+    if (withHead && selected) document.title = `${activeScope.title} · ${selected.title}`;
   }, [withHead, activeScope, selected]);
 
   return (
@@ -288,10 +309,10 @@ export default function Workbench({
                       <li key={topic.id}>
                         <button
                           type="button"
-                          aria-pressed={topic.id === selected.id}
+                          aria-pressed={topic.id === selected?.id}
                           onClick={() => show(topic.id, scope)}
                         >
-                          <b>{topic.title}</b>
+                          <b>{topic.title}<CompletionMark completed={completed.has(topic.id)} /></b>
                           <span className="data">{topic.difficulty}</span>
                         </button>
                       </li>
@@ -329,6 +350,7 @@ export default function Workbench({
         </nav>
 
         <div className="topic-browser-main">
+          {selected ? <>
           <article className="selected-topic">
             <p className="rule-label">Selected topic</p>
             <p className="data">Progress on this device · {completed.size} of {topics.length} completed</p>
@@ -418,16 +440,13 @@ export default function Workbench({
             {neighbours === 0 && (scope === "nearby" || !onPath) && (
               <div className="diagram-note">
                 <h3>{scope === "nearby" ? `Nothing else in ${selected.category} yet` : "Not on a path yet"}</h3>
-                {scope !== "nearby" && (
-                  <div className="actions">
-                    <a className="button-ghost" href="/paths">
-                      View learner paths
-                    </a>
-                  </div>
-                )}
               </div>
             )}
           </section>
+          </> : <div className="empty">
+            <h2>Select a topic to explore</h2>
+            <p>Choose a notebook from the list to see its overview, prerequisites, and completion status.</p>
+          </div>}
         </div>
       </div>
     </section>

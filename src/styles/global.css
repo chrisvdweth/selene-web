@@ -799,11 +799,7 @@ p {
   background: var(--inset);
 }
 
-/* The index is a scroll region, not a page-length column. 82 rows laid out in
-   full would make the topic browser five screens tall and strand the schematic below
-   the fold. Basis 0 with a floor lets the list take exactly the height the
-   selected-topic column sets and scroll the rest, so the rail fills with rows
-   instead of leaving a void above its own footer. */
+/* The list fills the available rail height and scrolls independently. */
 .index-scroll {
   flex: 1 1 0;
   min-height: 220px;
@@ -892,6 +888,32 @@ p {
   gap: var(--s8);
   padding: var(--s6);
   min-width: 0;
+}
+
+/* Selection changes must not resize the desktop browser. Each column owns
+   its overflow; the diagram shares the details scrollbar instead of nesting
+   another scroll region inside it. Mobile keeps the natural stacked flow. */
+@media (min-width: 761px) {
+  .topic-browser-body {
+    height: clamp(480px, 72svh, 800px);
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .topic-browser-index,
+  .topic-browser-main {
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
+
+  .topic-browser-index .index-scroll {
+    min-height: 0;
+  }
+
+  .topic-browser-main .diagram-scroll {
+    max-height: none;
+    overflow: visible;
+  }
 }
 
 .selected-topic h2 {
@@ -1316,10 +1338,9 @@ p {
   max-width: 420px;
 }
 
-/* The count sits between the search box and the facet dropdowns, so the
-   sentence reads "search … 82 of 82 shown … narrowed by". */
-.index-bar .data {
-  margin: 0 var(--s2);
+/* Keep the current range with the pagination controls. */
+.index-pagination .data {
+  margin: 0;
   white-space: nowrap;
 }
 
@@ -1328,6 +1349,30 @@ p {
   padding: 0;
   list-style: none;
   border-top: 1px solid var(--rule);
+}
+
+.index-pagination {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  margin: var(--s2) 0 var(--s4);
+}
+
+.index-pagination[hidden] {
+  display: none;
+}
+
+.index-page-size,
+.index-page-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+
+.index-page-size {
+  margin-right: auto;
+  font-size: var(--t-ui);
 }
 
 .index-table li {
@@ -1349,7 +1394,8 @@ p {
   background: var(--surface);
 }
 
-.index-row > span:first-child {
+.index-row > span:first-child,
+.index-row .row-meta {
   display: grid;
   gap: 2px;
   min-width: 0;
@@ -1438,11 +1484,13 @@ p {
   stroke-dasharray: 2 6;
 }
 
-.map-svg .node-completed .node-frame {
+.map-svg .node-completed .node-frame,
+.diagram .node-completed .node-frame {
   stroke: var(--mint-ink);
 }
 
-.map-svg .node-complete-mark {
+.map-svg .node-complete-mark,
+.diagram .node-complete-mark {
   fill: none;
   stroke: var(--mint-ink);
   stroke-linecap: round;
@@ -1456,14 +1504,6 @@ p {
 
 .map-svg .wire-dim {
   opacity: 0.25;
-}
-
-.index-section > h2 {
-  display: flex;
-  align-items: baseline;
-  gap: var(--s3);
-  margin: var(--s10) 0 var(--s3);
-  font-size: var(--t-title);
 }
 
 .index-empty {
@@ -1564,17 +1604,195 @@ p {
 /* 13. Prose pages -------------------------------------------------------- */
 
 /* Learner paths ---------------------------------------------------------- */
-.path-overview { margin: var(--s4) 0 var(--s10); padding: var(--s6) 0 0; border-top: 1px solid var(--rule); }
-.path-overview-heading { display: flex; align-items: end; justify-content: space-between; gap: var(--s4); margin-bottom: var(--s4); }
-.path-overview-heading p { margin-top: var(--s2); max-width: var(--measure); color: var(--muted); }
-.path-overview ul { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
-.path-overview li { border-bottom: 1px solid var(--rule); }
-.path-overview li a { display: flex; align-items: center; justify-content: space-between; gap: var(--s4); min-height: 72px; padding: var(--s3) 0; text-decoration: none; }
-.path-overview li a:hover b { color: var(--blue-ink); }
-.path-overview li a > span:first-child { display: grid; gap: 2px; min-width: 0; }
-.path-overview li b { font-size: var(--t-ui); font-weight: 600; }
-.path-overview li a > span:first-child span { font-size: var(--t-meta); color: var(--muted); }
-.path-overview li > a > .data { flex: 0 0 auto; }
+.path-progress-actions {
+  display: grid;
+  justify-items: start;
+  gap: var(--s3);
+}
+
+.path-navigation {
+  margin-block: var(--s4);
+  padding-block: var(--s4);
+  border-block: 1px solid var(--rule);
+}
+
+.path-navigation-summary,
+.path-navigation-links,
+.path-choices li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3) var(--s4);
+}
+
+.path-navigation-summary {
+  justify-content: space-between;
+  margin-bottom: var(--s4);
+}
+
+.path-choices {
+  display: grid;
+  gap: var(--s2);
+  padding: 0;
+  margin: var(--s2) 0 0;
+  list-style: none;
+}
+
+.path-choice-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--s3);
+  margin-top: var(--s3);
+}
+
+.path-choice-field {
+  display: grid;
+  gap: var(--s2);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.path-choice-field .select,
+.path-choice-field select {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.path-choice-form [hidden] {
+  display: none;
+}
+
+.path-step {
+  display: grid;
+  gap: var(--s2);
+  flex: 1 1 14rem;
+  min-width: 0;
+  min-height: 44px;
+  padding: var(--s3);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-control);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.path-navigation-links {
+  align-items: stretch;
+}
+
+.path-step:hover:not(:disabled) {
+  background: var(--inset);
+  border-color: var(--rule-strong);
+}
+
+.path-step:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.path-switcher { display: grid; grid-template-columns: 260px minmax(0, 1fr); align-items: start; gap: var(--s6); margin-top: var(--s6); }
+.path-sidebar { position: sticky; top: 84px; min-width: 0; padding: var(--s2) 0; }
+.path-sidebar-heading { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s3); }
+.path-sidebar-heading h2 { margin: 0; font-family: var(--f-ui); font-size: var(--t-ui); font-weight: 600; }
+.path-index { display: grid; gap: var(--s1); max-height: calc(100dvh - 180px); overflow-y: auto; overscroll-behavior: contain; padding: var(--s1); margin: calc(-1 * var(--s1)); }
+.path-index button { display: grid; gap: var(--s2); width: 100%; min-height: 64px; padding: var(--s3); border: 1px solid transparent; border-radius: var(--r-control); background: transparent; color: var(--ink); font: inherit; font-size: var(--t-ui); text-align: left; cursor: pointer; }
+.path-index button:hover { background: var(--surface); }
+.path-index button[aria-pressed="true"] { background: var(--inset); color: var(--blue-ink); }
+.path-index button .data { color: var(--muted); }
+.path-switcher .learning-path { min-width: 0; border: 0; border-radius: 0; background: transparent; scroll-margin-top: 84px; }
+.path-switcher .learning-path[hidden] { display: none; }
+.path-switcher .learning-path > header { flex-wrap: wrap; padding: var(--s2) var(--s4) var(--s5); }
+.path-switcher .learning-path > ol > li { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); padding: var(--s5) var(--s4); }
+.path-switcher .learning-path ul li { border: 0; }
+/* Keep the homepage path panel steady from the empty state through every
+   selection. Scope this to the switcher so the full paths page flows normally. */
+@media (min-width: 701px) {
+  .path-switcher {
+    height: clamp(480px, 72svh, 800px);
+    grid-template-rows: minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .path-switcher .path-sidebar {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .path-switcher .path-index {
+    min-height: 0;
+    max-height: none;
+    scrollbar-gutter: stable;
+  }
+
+  .path-switcher .learning-path {
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+  }
+}
+@media (max-width: 900px) {
+  .path-switcher { grid-template-columns: 220px minmax(0, 1fr); }
+  .path-switcher .learning-path > ol > li { grid-template-columns: 1fr; gap: var(--s4); }
+}
+@media (max-width: 700px) {
+  .path-switcher { grid-template-columns: minmax(0, 1fr); }
+  .path-sidebar { position: static; }
+  .path-index { max-height: 16rem; }
+  .path-switcher .learning-path > header,
+  .path-switcher .learning-path > ol > li { padding-inline: 0; }
+}
+.home-topic-browser { margin-top: var(--s12); padding-top: var(--s10); border-top: 1px solid var(--rule); }
+/* Homepage browsers share the page canvas. Spacing separates their columns;
+   subtle selection fills and section rules retain the useful structure. */
+.home-topic-browser .topic-browser {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+.path-switcher,
+.home-topic-browser .topic-browser {
+  border: 1px solid color-mix(in srgb, var(--rule) 65%, transparent);
+  border-radius: var(--r-card);
+  padding: var(--s3);
+}
+
+.home-topic-browser .topic-browser-bar {
+  padding-inline: 0;
+  background: transparent;
+}
+
+.home-topic-browser .topic-browser-body {
+  gap: var(--s6);
+}
+
+.home-topic-browser .topic-browser-index {
+  padding-inline: 0;
+  border: 0;
+  background: transparent;
+}
+
+.home-topic-browser .topic-browser-main {
+  padding-inline: var(--s4);
+}
+
+.home-topic-browser .index-group {
+  background: var(--canvas);
+}
+
+.home-topic-browser .index-list button[aria-pressed="true"] {
+  border-color: transparent;
+  background: var(--inset);
+  color: var(--blue-ink);
+}
+
 .path-list { display: grid; gap: var(--s8); }
 .learning-path { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r-card); overflow: hidden; }
 .learning-path > header { display: flex; align-items: start; justify-content: space-between; gap: var(--s4); padding: var(--s6); border-bottom: 1px solid var(--rule); }
@@ -1589,7 +1807,7 @@ p {
 .learning-path ul a { display: flex; justify-content: space-between; gap: var(--s3); padding: var(--s3) 0; text-decoration: none; font-weight: 600; }
 .learning-path ul a:hover { color: var(--blue-ink); }
 .learning-path > ol > li.is-complete { background: color-mix(in srgb, var(--mint) 8%, transparent); }
-@media (max-width: 700px) { .path-overview-heading { display: grid; align-items: start; } .path-overview li a { align-items: start; flex-direction: column; gap: var(--s2); padding: var(--s4) 0; } .learning-path > header { display: grid; } .learning-path > ol > li { grid-template-columns: 1fr; gap: var(--s4); } }
+@media (max-width: 700px) { .learning-path > header { display: grid; } .learning-path > ol > li { grid-template-columns: 1fr; gap: var(--s4); } }
 .prose-layout {
   display: grid;
   grid-template-columns: minmax(0, var(--measure)) 240px;
@@ -1839,8 +2057,11 @@ p {
     padding: var(--s3) 0;
   }
 
-  .index-section > h2 {
-    margin-top: var(--s8);
+  .index-row .row-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s3);
   }
 
   .notebook-frame {
@@ -1872,3 +2093,14 @@ p {
     animation-duration: 1ms !important;
   }
 }
+
+/* Completion is independent of lesson difficulty. */
+/* Keep the absolute screen-reader label inside its scrollable course row. */
+.completion-mark { position: relative; display: inline-flex; align-items: center; margin-inline-start: var(--s2); color: var(--mint-ink); vertical-align: middle; }
+.completion-mark[hidden] { display: none; }
+.completion-mark svg { flex: none; }
+.learning-path .lesson-title { min-width: 0; }
+
+.path-empty { align-self: stretch; padding: var(--s6); }
+.path-empty h2 { margin: 0; }
+.path-empty p { margin: var(--s2) 0 0; color: var(--muted); }

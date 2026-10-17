@@ -1,7 +1,7 @@
 {
   "repository": "chrisvdweth/selene",
   "branch": "master",
-  "commit": "2c159a22b66474fcc98ca4f114550aa7613acd1e",
+  "commit": "03f845eda45218fa19da38c97cc4cbc269b33667",
   "entries": [
     {
       "notebook": "adagrad_optimizer.ipynb",
@@ -12,6 +12,11 @@
       "notebook": "adam_optimizer.ipynb",
       "standalone": "adam_optimizer_standalone.ipynb",
       "sha256": "63904d1a23b819a99d28858a5d74aa649999db39b5549a03a475a9f8a765cc98"
+    },
+    {
+      "notebook": "ai_agents_overview.ipynb",
+      "standalone": "ai_agents_overview_standalone.ipynb",
+      "sha256": "bf2ba2c0d565f20529472c134ede8824539beb37d149c796a041703cf9295c9e"
     },
     {
       "notebook": "ann_from_scratch_numpy_only.ipynb",
@@ -97,6 +102,16 @@
       "notebook": "clustering_kmeans_basics.ipynb",
       "standalone": "clustering_kmeans_basics_standalone.ipynb",
       "sha256": "33faaa7ad9bea77ed2d3d761c4dd50b869bd88c9f6349fe7dc683506517747d2"
+    },
+    {
+      "notebook": "convolutional_neural_networks_basics.ipynb",
+      "standalone": "convolutional_neural_networks_basics_standalone.ipynb",
+      "sha256": "aa77bc2ce91716ff409af7faa9197629c824c94f93cb23403052a5b1a37c38c6"
+    },
+    {
+      "notebook": "convolutional_neural_networks_tutorial_cifar10.ipynb",
+      "standalone": "convolutional_neural_networks_tutorial_cifar10_standalone.ipynb",
+      "sha256": "1d6e69c58f8f23648acae921ecc237d786be215d326e22ae5b3efc60c6f35e10"
     },
     {
       "notebook": "curse_of_dimensionality.ipynb",

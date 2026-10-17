@@ -1,0 +1,115 @@
+---
+import { pathsForTopic, pathContext, pathNotebookUrl } from "../lib/learning-paths";
+import { byId } from "../lib/topics";
+
+const { topicId, position = "top" } = Astro.props as { topicId: string; position?: "top" | "bottom" };
+const memberships = pathsForTopic(topicId);
+---
+
+{memberships.length > 0 && <div class="path-navigation" data-path-navigation hidden={position === "bottom"}>
+  {position === "top" && <div data-path-choices>
+    {memberships.length === 1 ? <>
+      <p>Part of this learner path:</p>
+      <ul class="path-choices">
+        <li>
+          <span>{memberships[0].title}</span>
+          <form action={`/topics/${topicId}`} method="get">
+            <input type="hidden" name="path" value={memberships[0].id} />
+            <button class="button-primary" type="submit">Continue in this path</button>
+          </form>
+        </li>
+      </ul>
+    </> : <>
+      <p>Available in {memberships.length} learning paths</p>
+      <form class="path-choice-form" action={`/topics/${topicId}`} method="get" data-path-form>
+        <label class="path-choice-field">
+          <span>Choose a learning path</span>
+          <span class="select">
+            <select name="path" required data-path-select>
+              <option value="">Choose a path</option>
+              {memberships.map((path) => <option value={path.id}>{path.title}</option>)}
+            </select>
+          </span>
+        </label>
+        <button class="button-primary" type="submit" data-path-continue>Continue in this path</button>
+        <button class="button-ghost" type="button" data-path-cancel hidden>Cancel</button>
+      </form>
+    </>}
+  </div>}
+  {memberships.map((path) => {
+    const context = pathContext(topicId, path.id)!;
+    return <nav data-path-context={path.id} aria-label={`Learning path navigation ${position === "top" ? "above" : "below"} notebook`} hidden>
+      <div class="path-navigation-summary">
+        <a href={`/#${path.id}`}>{path.title}</a>
+        <span class="data">Notebook {context.index + 1} of {context.total}</span>
+        {memberships.length > 1 && <button class="button-ghost" type="button" data-change-path>Change path</button>}
+      </div>
+      <div class="path-navigation-links">
+        {context.previous ? <a class="path-step" href={pathNotebookUrl(context.previous, path.id)}>
+          <span class="data">Previous notebook</span>
+          <strong>{byId[context.previous].title}</strong>
+        </a> : <button class="path-step" type="button" disabled>
+          <span class="data">Previous notebook</span>
+          <strong>First notebook in this path</strong>
+        </button>}
+        {context.next ? <a class="path-step path-step-next" href={pathNotebookUrl(context.next, path.id)}>
+          <span class="data">Next notebook</span>
+          <strong>{byId[context.next].title}</strong>
+        </a> : <button class="path-step path-step-next" type="button" disabled>
+          <span class="data">Next notebook</span>
+          <strong>Last notebook in this path</strong>
+        </button>}
+      </div>
+    </nav>;
+  })}
+</div>}
+
+<script>
+  let choosingPath = false;
+  const syncPathNavigation = () => {
+    const selectedPath = new URLSearchParams(window.location.search).get("path");
+    document.querySelectorAll<HTMLElement>("[data-path-navigation]").forEach((container) => {
+      const choices = container.querySelector<HTMLElement>("[data-path-choices]");
+      let active = false;
+      container.querySelectorAll<HTMLElement>("[data-path-context]").forEach((nav) => {
+        const matches = nav.dataset.pathContext === selectedPath;
+        nav.hidden = choosingPath || !matches;
+        active ||= matches;
+      });
+      if (choices) choices.hidden = active && !choosingPath;
+      const cancel = container.querySelector<HTMLButtonElement>("[data-path-cancel]");
+      if (cancel) cancel.hidden = !active;
+      container.hidden = !choices && (!active || choosingPath);
+    });
+  };
+  const form = document.querySelector<HTMLFormElement>("[data-path-form]");
+  const select = form?.querySelector<HTMLSelectElement>("[data-path-select]");
+  const submit = form?.querySelector<HTMLButtonElement>("[data-path-continue]");
+  const syncSubmit = () => {
+    if (submit && select) submit.disabled = !select.value;
+  };
+  select?.addEventListener("change", syncSubmit);
+  document.querySelectorAll<HTMLButtonElement>("[data-change-path]").forEach((button) => {
+    button.addEventListener("click", () => {
+      choosingPath = true;
+      form?.reset();
+      syncSubmit();
+      syncPathNavigation();
+      select?.focus();
+    });
+  });
+  form?.querySelector<HTMLButtonElement>("[data-path-cancel]")?.addEventListener("click", () => {
+    choosingPath = false;
+    syncPathNavigation();
+    document.querySelector<HTMLButtonElement>("[data-path-context]:not([hidden]) [data-change-path]")?.focus();
+  });
+  const restoreNavigation = () => {
+    choosingPath = false;
+    syncSubmit();
+    syncPathNavigation();
+  };
+  syncSubmit();
+  syncPathNavigation();
+  window.addEventListener("pageshow", restoreNavigation);
+  window.addEventListener("popstate", restoreNavigation);
+</script>
