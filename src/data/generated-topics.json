@@ -20,6 +20,16 @@
     "prerequisites": []
   },
   {
+    "id": "ai-agents-overview",
+    "title": "Ai Agents Overview",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "AI Agents — An Introduction AI agents have become an important practical approach for building systems that can do more than generate isolated responses. Instead of merely answering a question, an agent can interpret a…",
+    "notebook": "ai_agents_overview.ipynb",
+    "prerequisites": []
+  },
+  {
     "id": "ann-from-scratch-numpy-only",
     "title": "Ann From Scratch Numpy Only",
     "category": "Foundations",
@@ -187,6 +197,26 @@
     "difficulty": "Beginner",
     "intro": "K-Means K-Means is one of the most widely used clustering algorithms in machine learning and data analysis. It is designed to find structure in unlabeled data by grouping similar data points together into clusters…",
     "notebook": "clustering_kmeans_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "convolutional-neural-networks-basics",
+    "title": "Convolutional Neural Networks Basics",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Beginner",
+    "intro": "Convolutional Neural Networks — An Introduction Images are an important source of information for many machine learning tasks, including image classification, object detection, and semantic segmentation. However, images…",
+    "notebook": "convolutional_neural_networks_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "convolutional-neural-networks-tutorial-cifar10",
+    "title": "Convolutional Neural Networks Tutorial Cifar10",
+    "category": "Deep Learning",
+    "subtopic": "Neural systems",
+    "difficulty": "Intermediate",
+    "intro": "Tutorial: Training a CNN Image Classifier (CIFAR-10) Convolutional Neural Networks (CNNs) are widely used for image classification because they can learn useful patterns while taking the spatial structure of images into…",
+    "notebook": "convolutional_neural_networks_tutorial_cifar10.ipynb",
     "prerequisites": []
   },
   {
