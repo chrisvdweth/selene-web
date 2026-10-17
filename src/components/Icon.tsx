@@ -91,3 +91,7 @@ export function ArrowIcon({ size = 14, className }: IconProps) {
     </svg>
   );
 }
+
+export function CheckIcon({ size = 16, className }: IconProps) {
+  return <svg {...base(size)} className={className}><path d="m3 8 3 3 7-7" /></svg>;
+}
