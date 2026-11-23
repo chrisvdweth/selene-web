@@ -1,6 +1,6 @@
 {
   "repository": "chrisvdweth/selene",
-  "commit": "03f845eda45218fa19da38c97cc4cbc269b33667",
+  "commit": "d4c0aaf12dc283b1ea16c969f97501685f00ab54",
   "files": [
     {
       "notebook": "adagrad_optimizer.ipynb",
@@ -16,6 +16,22 @@
       "errors": [],
       "warnings": [],
       "sha256": "63904d1a23b819a99d28858a5d74aa649999db39b5549a03a475a9f8a765cc98",
+      "reused": true
+    },
+    {
+      "notebook": "ai_agents_building_ai_agent_from_scratch.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "06e216754de137bb8158a1d7b39d34f34bda933b1144ed5a15c9612f92e39f47",
+      "reused": true
+    },
+    {
+      "notebook": "ai_agents_building_plan_react_agent_from_scratch.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "dae2911a5ac8c07507f25a60a09ee08fceba17736bac2e4e8a09ee215d0c2580",
       "reused": true
     },
     {
@@ -104,6 +120,30 @@
       "errors": [],
       "warnings": [],
       "sha256": "c52ee2a7eed4fbdad40850350ae970f701b4fbfa1dfcc4779a5484265eb4f571",
+      "reused": true
+    },
+    {
+      "notebook": "bert_basics.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "ddfce86f5fcc9b2b117182694f530ba4c3fcfee050061b84a95c3ec4e8509672",
+      "reused": true
+    },
+    {
+      "notebook": "bert_finetuning_ner.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "5a518c8a7545c0872b624e6e048394b821452992494196b7cef5eab378cf7ad6",
+      "reused": true
+    },
+    {
+      "notebook": "bert_training_from_scratch.ipynb",
+      "status": "passed",
+      "errors": [],
+      "warnings": [],
+      "sha256": "cbb5d7bb0fef39db09cbfeb70fa95ace189b61e5c9a00d3f333f3c481f9975d4",
       "reused": true
     },
     {
@@ -716,10 +756,10 @@
     }
   ],
   "summary": {
-    "passed": 89,
+    "passed": 94,
     "warning": 0,
     "failed": 0,
-    "reused": 89
+    "reused": 94
   },
   "assets": {
     "available": 295,

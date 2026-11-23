@@ -20,6 +20,26 @@
     "prerequisites": []
   },
   {
+    "id": "ai-agents-building-ai-agent-from-scratch",
+    "title": "Ai Agents Building Ai Agent From Scratch",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Advanced",
+    "intro": "Building an AI Agent from Scratch AI agents have quickly become one of the most talked-about applications of large language models (LLMs). Frameworks and libraries make it easy to spin one up in a few lines of code, but…",
+    "notebook": "ai_agents_building_ai_agent_from_scratch.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "ai-agents-building-plan-react-agent-from-scratch",
+    "title": "Ai Agents Building Plan React Agent From Scratch",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Advanced",
+    "intro": "Bulding a Plan-then-ReAct AI Agent from Scratch AI agents are often presented as something almost magical: systems that reason, plan, use tools, and pursue goals on their own. In practice, they are built from a small…",
+    "notebook": "ai_agents_building_plan_react_agent_from_scratch.ipynb",
+    "prerequisites": []
+  },
+  {
     "id": "ai-agents-overview",
     "title": "Ai Agents Overview",
     "category": "Foundations",
@@ -127,6 +147,36 @@
     "difficulty": "Intermediate",
     "intro": "Working with Batches for Sequence Tasks When working with sequential data in neural networks, such as recurrent neural networks (RNNs) and convolutional neural networks (CNNs), one major problem arises when processing…",
     "notebook": "batch_processing_sequence_tasks.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "bert-basics",
+    "title": "Bert Basics",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Beginner",
+    "intro": "BERT — Basics BERT (Bidirectional Encoder Representations from Transformers) is a language model introduced by Google in 2018. It is built from a stack of Transformer encoder layers and pre-trained on large amounts of…",
+    "notebook": "bert_basics.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "bert-finetuning-ner",
+    "title": "Bert Finetuning Ner",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Intermediate",
+    "intro": "Fine-Tuning BERT for Named Entity Recognition This notebook shows how to fine-tune a pretrained BERT model for Named Entity Recognition (NER), which serves as a representative example of a sequence labeling task, where…",
+    "notebook": "bert_finetuning_ner.ipynb",
+    "prerequisites": []
+  },
+  {
+    "id": "bert-training-from-scratch",
+    "title": "Bert Training From Scratch",
+    "category": "Foundations",
+    "subtopic": "Machine learning",
+    "difficulty": "Advanced",
+    "intro": "Training BERT from Scratch This notebook walks through the core steps of training a BERT model from scratch: preparing the training data, defining the model architecture, and running the actual training loop…",
+    "notebook": "bert_training_from_scratch.ipynb",
     "prerequisites": []
   },
   {

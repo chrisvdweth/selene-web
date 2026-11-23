@@ -1,7 +1,7 @@
 {
   "repository": "chrisvdweth/selene",
   "branch": "master",
-  "commit": "03f845eda45218fa19da38c97cc4cbc269b33667",
+  "commit": "d4c0aaf12dc283b1ea16c969f97501685f00ab54",
   "entries": [
     {
       "notebook": "adagrad_optimizer.ipynb",
@@ -12,6 +12,16 @@
       "notebook": "adam_optimizer.ipynb",
       "standalone": "adam_optimizer_standalone.ipynb",
       "sha256": "63904d1a23b819a99d28858a5d74aa649999db39b5549a03a475a9f8a765cc98"
+    },
+    {
+      "notebook": "ai_agents_building_ai_agent_from_scratch.ipynb",
+      "standalone": "ai_agents_building_ai_agent_from_scratch_standalone.ipynb",
+      "sha256": "06e216754de137bb8158a1d7b39d34f34bda933b1144ed5a15c9612f92e39f47"
+    },
+    {
+      "notebook": "ai_agents_building_plan_react_agent_from_scratch.ipynb",
+      "standalone": "ai_agents_building_plan_react_agent_from_scratch_standalone.ipynb",
+      "sha256": "dae2911a5ac8c07507f25a60a09ee08fceba17736bac2e4e8a09ee215d0c2580"
     },
     {
       "notebook": "ai_agents_overview.ipynb",
@@ -67,6 +77,21 @@
       "notebook": "batch_processing_sequence_tasks.ipynb",
       "standalone": "batch_processing_sequence_tasks_standalone.ipynb",
       "sha256": "c52ee2a7eed4fbdad40850350ae970f701b4fbfa1dfcc4779a5484265eb4f571"
+    },
+    {
+      "notebook": "bert_basics.ipynb",
+      "standalone": "bert_basics_standalone.ipynb",
+      "sha256": "ddfce86f5fcc9b2b117182694f530ba4c3fcfee050061b84a95c3ec4e8509672"
+    },
+    {
+      "notebook": "bert_finetuning_ner.ipynb",
+      "standalone": "bert_finetuning_ner_standalone.ipynb",
+      "sha256": "5a518c8a7545c0872b624e6e048394b821452992494196b7cef5eab378cf7ad6"
+    },
+    {
+      "notebook": "bert_training_from_scratch.ipynb",
+      "standalone": "bert_training_from_scratch_standalone.ipynb",
+      "sha256": "cbb5d7bb0fef39db09cbfeb70fa95ace189b61e5c9a00d3f333f3c481f9975d4"
     },
     {
       "notebook": "bias_variance_ml_basics.ipynb",
